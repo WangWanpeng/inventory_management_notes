@@ -1,0 +1,91 @@
+
+\section{todo}
+\label{sec:todo}
+
+\begin{itemize}
+\item Bring laptop to the first tutorial
+\item Check steps for the tutorial as mentioned in the slides of Jan.
+\item Check questions on the slides of Jan.
+\item include sections to read, of e.g., think stats, in the notes.
+\item How do our 4 stages and LP formulations fit together? Demand is
+  data, cost in the objective, production and item characteristics in
+  the constraints, policy choice is decision variable.
+\end{itemize}
+
+
+
+\section{Organization}
+\label{sec:organization}
+
+
+lecture 1, why inventories?
+
+\begin{enumerate}
+\item demostrate approach in excel
+\end{enumerate}
+
+2:demand characterization
+\begin{enumerate}
+\item newsvendor model
+\item give demand profile, cdf, pmf, distribution fitting, (log)normal distribution
+\item show that profit for the newsvendor is not very sensitive to
+  forecast errors, value of perfect info is not super high. 
+\item KPI's to determine the quality of the demand forecast: MSE, RMSE\ldots
+\item demand forecasting is not a goal per se,
+\item moving average, exp smooth
+\item holt winters
+\item demand during leadtime, leadtime variability, $\sigma^2 = l d + d^2 \sigma_L^2$.
+\item Intermittend demand and compound Poisson
+\item autoregression?
+\item autocorrelation function
+\item Graphical analysis of the quality of the forecast.
+\item Can demand be backlogged or not? Lost or not, partially lost?
+  How long can it be backlogged? How to prevent backlogging and loss
+  (with building up inventories)
+\end{enumerate}
+
+3: Characteristics of Production, ordering, and items.
+\begin{enumerate}
+\item EOQ, epq
+\item quantity discounts
+\item lot sizing
+\item basestock
+\item q,r model
+\item s,S 
+\item LP formulations
+\item multi-item
+\item ABC characterization
+\item Ordering strategies
+\item Period/continous time review.
+\item Impact of bucksize, choice of review period length in case of periodic review.
+\item Should the ordering moments coincide with the review moments?
+\item Perishability? 
+\item inventory loss due to theft and so on?
+\item yield loss?
+\item Power of 2 ordering interval.
+\end{enumerate}
+
+4: cost characterization, KPI's
+\begin{itemize}
+\item make  trade-offs clear and explicit.
+\item OTIF
+\item How to evaluate the (relevance of the) quality of the demand and cost data? 
+\end{itemize}
+
+
+5: policy choice and optimization
+\begin{enumerate}
+\item How to choose a control policy?
+\item How to optimize it?  Determine good policy parameters
+\item Sensitivity analysis
+\item Robustness
+\item Tuning of holt-winters demand parameters?
+\end{enumerate}
+
+6: reviewing an article
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

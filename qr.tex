@@ -1,0 +1,116 @@
+
+\subsection{$(Q,r)$ Model}
+
+\subsubsection{Computing the service level}
+
+The service level is
+\begin{equation}
+  \label{eq:5}
+  \begin{split}
+   S(Q,r) 
+   &= \frac1Q \sum_{i=r}^{r+Q-1} S(i) \\
+   &= \frac1Q \sum_{i=r}^{r+Q-1} G(i),
+  \end{split}
+\end{equation}
+where $S(i)$ is the service level of the basestock model with reorder
+level $i$, i.e. $S(i)=G(i)$ is given by \ref{eq:13}.  To verify that
+the summation should start at $r$, and not at $r+1$ (as I have found
+somewhere), we can take $Q=1$, as then the $(Q,r)$ model reduces to
+the basestock model. The above formula then gives $S(1,r)= G(r)$, and
+this is the same formula as found for the basestock model, i.e.,
+\ref{eq:13}.
+
+
+Factory Physics mentions also the following formula:
+\begin{equation}
+  \label{eq:1}
+   S(Q,r) = 1- \frac1Q [B(r-1) - B(r+Q-1)],
+\end{equation}
+where $B(r)$ can be computed according to \ref{eq:12}.  I find
+expression \ref{eq:5} conceptually more important than \ref{eq:1}. It
+appears that in Eq. 2.70 of FP, edition 3, are is off by one. To see
+this, we prove that \ref{eq:1} is indeed the same as \ref{eq:5}. It
+follows from \ref{eq:1} and \ref{eq:5} that
+\begin{equation*}
+  \begin{split}
+   B(r-1) - B(r+Q-1) 
+   &= Q - Q S(Q,r) \\
+   &= Q - \sum_{i=r}^{r+Q-1} S(i) \\
+   &= \sum_{i=r}^{r+Q-1}(1- S(i)) \\
+   &= \sum_{i=r}^{r+Q-1}(1- G(i)),
+  \end{split}
+\end{equation*}
+since $\sum_{i=r}^{r+Q-1} 1 = Q$. From \ref{eq:13} we see that $S(i)
+= G(i)$. With \ref{eq:18} this becomes
+\begin{equation*}
+  \begin{split}
+    B(r-1) - B(r+Q-1)
+    &= \sum_{i=r}^{r+Q-1}(1- G(i))\\
+    &= \sum_{i=r}^{r+Q-1} \bar G(i)\\
+    &= \sum_{i=r}^{\infty} \bar G(i) -\sum_{i=r+Q}^\infty \bar G(i).
+  \end{split}
+\end{equation*}
+From \ref{eq:19} it follows that $B(r-1)=\sum_{i=r}^{\infty} \bar
+G(i)$, and likewise for $B(r-1+Q)$. We are done.
+
+\subsubsection{Computing  backorders}
+
+The expected number of back-orders is 
+\begin{equation}
+  \label{eq:14}
+   B(Q,r) = \frac1Q \sum_{i=r}^{r+Q-1} B(i),
+\end{equation}
+where $B(i)$ is defined in \ref{eq:12}. To convince ourselves
+that the summation has to start at $r$, observe that for
+$Q=1$, we get \ref{eq:12} of the basestock model.
+
+
+\subsubsection{Expected Inventory Level}
+
+The expected inventory level can be found as follows. Let $I(r)$
+be the long-run time average inventory level, i.e., \ref{eq:6}. Then,
+
+\begin{equation*}
+  \begin{split}
+   I(Q,r)
+   &= \frac1Q\sum_{i=r}^{r+Q-1} I(i) \\
+   &= \frac1Q\sum_{i=r}^{r+Q-1} (i+1 - \theta + B(r)) \\
+   &= \frac1Q\sum_{i=r}^{r+Q-1} (i + 1)  - \theta + \frac1Q\sum_{i=r}^{r+Q-1} B(r) \\
+   &= \frac{Q+1}2 + r - \theta + B(Q,r), 
+  \end{split}
+\end{equation*}
+where we use \ref{eq:14}. What do you get when \ref{Q=1}?
+
+Formulas to skip (in edition 3): 2.38, 2.41, 2.42, 2.43.
+
+
+\subsubsection{Simulation of the basestock inventory model}
+
+Consider a periodic-time model so that the inventory position $\IP_i$
+is the inventory position at the end of period $i$. Then the sequence
+$\{\IP_i\}$ must satisfy the recursion:
+\begin{equation}
+  \IP_i = \IP_{i-1} - X_i + Q 1\{\IP_{i-1} - X_i\leq r\}.
+\end{equation}
+To see this, observe that under the $(Q,r)$ policy the inventory
+position is always kept above level $r$. Thus, if the inventory
+position at the end of period $i-1$ minus the demand $X_i$ during
+period $i$ is less than $r+1$, we need to place a replenishment
+reorder of size $Q$.  Note that we assume here that $X_i\leq Q$ always.
+
+When the leadtime $L$ is one period or more, the replenishments do not
+arrive right away but $L$ periods later. The consequences of the
+inventory level are that
+\begin{equation}
+  \IL_i = \IL_{i-1} - X_i + Q1\{\IP_{i-1-L} - X_{i-L}\leq r\}.
+\end{equation}
+Compare~(\ref{eq:21}) of the basestock model.
+
+The performance measures are the same as for the basestock model discussed in Section~\ref{sec:simul-basest-invent}.
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "notes_all"
+%%% End:

@@ -1,0 +1,217 @@
+\subsection{Two-Stage Newsvendor Model}
+
+Let us consider a case where we have a two-period planning horizon, rather than one -- as it were the case for the newsvendor problem. Here, at the beginning of both periods, we observe first observe the current inventory level and then decide upon an order quantity. This case can be seen as an extension of the newsvendor model where you have an extra ordering moment in the middle of the day. 
+
+For convenience, we use the same notation that we used for the single-period newsvendor model. However, we add a period index to buying and selling prices as well as the demand distribution (i.e. $p_{bn}$, $p_{sn}$, and $g_n(\cdot)$ where $n\in\{1,2\}$), as these can be different in the morning and in the afternoon.
+
+\begin{exercise}
+Suppose the afternoon demand is $X_2\in \{0,1,2\}$ and $g_2(0)=g_2(1)=g_2(2)=1/3$, and consider the cases where you end up with 0, 1, and 2 items at the end of morning. What would be the best number of items $Q_2$ to make in the afternoon for each of these cases?
+
+\begin{comment}
+	It is obvious that we do not need more than 2 items in the afternoon. 
+	
+	\begin{itemize}
+	
+	\item In the first case, our options are ordering 0, 1, or 2 items. The profit of the choice $Q_2=0$ is 0. The profit of the choice $Q_2=1$ is 
+    \begin{equation*}
+    -p_{b2} 1 + p_{s2} \cdot 2/3 + p_e \cdot 1/3. 
+  \end{equation*}
+Finally, the profit for choice $Q_2=2$ is 
+    \begin{align*}
+    & -p_{b2} 2 + p_{s2} 2 \cdot 1/3 + (p_{s2} + p_e) \cdot 1/3 + p_e 2 \cdot 1/3 \\
+  = & -p_{b2} 2 + p_{s2} + p_e
+  \end{align*}
+  
+
+	\item In the second case, our options are ordering 0 or 1 items. The profit of the choice $Q_2=0$ is 
+    \begin{equation*}
+    p_{s2} \cdot 2/3 + p_e \cdot 1/3. 
+  	\end{equation*}
+The profit of the choice $Q_2=1$ is
+    \begin{align*}
+    & -p_{b2} 1 + p_{s2} 2 \cdot 1/3 + (p_{s2} + p_e) \cdot 1/3 + p_e 2 \cdot 1/3 \\
+  = & -p_{b2} 1 + p_{s2} + p_e
+  \end{align*}
+  
+  \item In the third case, there is no decision to make. We already have the maximum amount of items that we might possibly need. So the only choice is $Q_2=0$ and its profit can be written as
+    \begin{align*}
+    & p_{s2} 2 \cdot 1/3 + (p_{s2} + p_e) \cdot 1/3 + p_e 2 \cdot 1/3 \\
+  = & p_{s2} + p_e
+  \end{align*}  
+	\end{itemize}
+\end{comment}
+\end{exercise}
+
+\begin{exercise}
+Explain why the decision on how many items to make in the afternoon depends on the number of items that is left from the morning. 
+
+\begin{comment}
+The items that are left from the morning contributes to the profit in the afternoon. That is due to two reasons: (1) there is no purchasing cost for leftovers, and (2) if leftovers are more than what is actually needed, there is no incentive to make new items. 
+\end{comment}
+\end{exercise}
+
+
+\begin{exercise}
+Suppose the morning demand is $X_1\in \{0,1,2\}$ and $g_1(0)=g_1(1)=1/4$, $g_1(2)=1/2$; and the afternoon demand is $X_2\in \{0,1\}$ and $g_2(0)=g_2(1)=1/2$. It is not possible to backlog demands. That is, those demands not satisfied in the morning are lost. Also, we have that $p_{b1}=10$, $p_{b2}=12$, $p_{s2}=p_{s2}=20$, and $p_e=5$. Now, assume that we make 2 items in the morning. What is the expected total profit in the morning and in the afternoon?
+\begin{comment}
+TBD.
+
+%Let us start with the afternoon. The following are the expected profits (disregarding the purchasing costs) in the afternoon, if the inventory level after making new items is 0, 1, 2, respectively:
+%\begin{align*}
+%    \text{(start with $0$ item)} \quad  & 0 & = 0 \\
+%    \text{(start with $1$ item)} \quad  & p_{s2} \cdot 1/2 + p_e \cdot 1/2 & = 12.5 \\
+% 	\text{(start with $2$ items)} \quad  & p_{s2} \cdot 1/2 + p_e \cdot 3/2 & = 17.5
+%\end{align*}  
+%
+%If we make 2 items in the morning, then at the end of the morning 
+%\begin{itemize}
+%\item with probability $\P(X_1=2)=1/2$ we sell 2 items, make a profit of $-p_{b1} 2 + p_{s1} 2$, and end up with $2-2=0$ items
+%\item with probability $\P(X_1=1)=1/4$ we sell 1 item, make a profit of $-p_{b1} 2 + p_{s1} 2$
+%
+%\end{itemize}
+%
+%
+%
+%
+%,  we end up with $2-1=1$ items, and with probability $\P(X_1=0)=1/4$ we end up with $2-0=0$ items. 
+%
+%
+%the probability of ending up with 0, 1, 2 items at the end of the morning are: $\P(2-X_1=0)=\P(2-X_1=0)$
+
+\end{comment}
+
+\end{exercise}
+
+\begin{exercise}
+Let $U(A)$ be a function that returns the expected profit in the afternoon, given that the inventory level after making new items is $A$. What are the general terms that make up this function?
+   \begin{comment}
+     TBD.
+   \end{comment}
+\end{exercise}
+
+\begin{exercise}
+How can one make use of $U(A)$ when deciding the number of items $Q_2$ to make in the afternoon?
+   \begin{comment}
+     TBD.
+   \end{comment}
+\end{exercise}
+
+\begin{exercise}
+Let $V(I)$ be a function that returns the expected profit in the afternoon, given that the inventory level after before making new items is $I$. What are the general terms that make up this function?
+   \begin{comment}
+     TBD.
+   \end{comment}
+\end{exercise}
+
+\begin{exercise}
+Write $U(A)$ and $V(I)$ in terms of probabilities $g_2(i)=\P(X_2=i)$
+   \begin{comment}
+     TBD.
+   \end{comment}
+\end{exercise}
+
+\begin{exercise}
+Let $Z(Q_1)$ be a function that returns the expected profit over the whole day given $Q_1$ items are produced in the morning is $I$. What are the general terms that make up this function?
+   \begin{comment}
+     TBD.
+   \end{comment}
+\end{exercise}
+
+\begin{exercise}
+Write $Z(Q)$ in terms of probabilities $g_1(i)=\P(X_1=i)$
+   \begin{comment}
+     TBD.
+   \end{comment}
+\end{exercise}
+
+\begin{exercise}
+We have so far assumed that the sequence of events over the day were as follows: (1) decide $Q_1$, (2) observe $X_1$, (3) decide $Q_2$, (4) observe $X_2$. How would we set order quantities if the sequence of events were as follows (1) decide $Q_1$ and $Q_2$, (2) observe $X_1$, (3) observe $X_2$.
+   \begin{comment}
+     TBD.
+   \end{comment}
+\end{exercise}
+
+\begin{exercise}
+What is the financial value of having an second ordering moment in the middle of the day, after observing the demand in the morning?
+   \begin{comment}
+     TBD.
+   \end{comment}
+\end{exercise}
+
+\begin{exercise}
+We have thus far considered profit functions $U(A)$, $V(I)$, and $Z(Q_1)$. Can you devise cost functions for the same two-period newsvendor problem?
+   \begin{comment}
+     TBD.
+   \end{comment}
+\end{exercise}
+
+\begin{exercise}
+We have thus far considered profit functions $U(A)$, $V(I)$, and $Z(Q_1)$. Can you devise cost functions for the same two-period newsvendor problem?
+   \begin{comment}
+     TBD.
+   \end{comment}
+\end{exercise}
+
+\begin{exercise} A Case to  Get rich in \st{one day} two days. 
+
+  \begin{itemize}
+  \item You plan to sell Napoleons tomorrow and the next day just outside of the Duisenberg building.
+  \item How much money can you make? 
+  \item How many Napoleons would you order for each day if you can sell left Napoleons from the first day in the second one?
+  \end{itemize}
+
+   \includegraphics[scale = 1.0]{250px-Mille-feuille_20100916}
+   \includegraphics[scale = 1.0]{250px-Mille-feuille_20100916}
+
+%   \begin{comment}
+%Here are the steps.
+%  \begin{itemize}
+%  \item Let's first assume that demand is normally distributed. Then
+%    we know from FP that $Q$ should be such that
+%    $G(Q) = c_s/(c_s+c_o)$.
+%  \item We make some assumptions about the prices. Take $p_s=0.75$,
+%    $p_b = 0.25$. $p_e=0$. Hence, $c_o = 0.25$, and $c_s = 0.5$.
+%  \item Thus, the critical fraction is $c_s/(c_s+c_o)=0.5/0.75 = 2/3$.
+%  \item Now compute $z$ with $\Phi(z)=2/3.$. Hence $z=0.43$.
+%  \item We also need some idea about the demand. How to get this?
+%  \item For Napoleons, we don't have yesterday's demand \ldots
+%  \item Can we use demand data of similar products?  I don't know what
+%    data to use. I have never tried to sell napoleons.
+%  \item Can we ask our sales force?  no. We don't have a sales force. 
+%  \item Last resort: make an educated guess; use powers of ten
+%    trick. Under this price model, I expect to sell more 1 napoleon,
+%    also more than 10, 100 might be, 1000 is too much. So, take
+%    $\mu=100$ as an estimate. Since I am not sure, $\sigma=30$ seems
+%    reasonable.
+%  \item If $\mu = 100$ and $\sigma = 30$, then $Q=0.43\sigma + \mu \approx 112$.
+%  \item Finally, what is the profit $Z(Q)$?
+%\item With the above formulas you can compute $Z(Q)$,  but let's use handwaving for a quick estimate. 
+%\item Note that $\min\{Q, X\} \leq X$, hence
+%  $\E \min\{X, Q\} \leq \E X= \mu$. If $\E \min\{X, Q\}\approx 95$,
+%  then $Z(112) \approx 95r - 100 c = 95\cdot 0.75 - 100 \cdot 0.25$.
+%  Since $95f\approx100$, use this to simplify yet more:
+%  $Z(112) \approx 100(0.75-0.25) = 50$ Euro.
+%\item There are easier ways to make money!
+%  \end{itemize}
+%\end{comment}
+\end{exercise}
+
+\begin{exercise}
+Can you generalize the two-period newsvendor case to an arbitrary number of periods?
+   \begin{comment}
+     TBD.
+   \end{comment}
+\end{exercise}
+
+\begin{exercise}
+Can you generalize the two-period newsvendor case to an infinite number of periods?
+   \begin{comment}
+     TBD.
+   \end{comment}
+\end{exercise}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
