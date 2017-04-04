@@ -18,10 +18,6 @@ much clearer eventually, and will help you implement the models that
 we are going to develop in excel, or some more useful programming
 environment.
 
-Modeling errors have, typically, much more influence on the
-reliability of the insights that errors in data estimations. Realize
-that the world is pretty complex \ldots TBD.
-
 
 As a guide to the solving the exercises, note that they are not meant
 to be easy (otherwise we could have asked you to check that
@@ -45,30 +41,32 @@ Recommended reading:
 \subsection{Inventory Modeling}
 \label{sec:inventory-modeling}
 
-\begin{exercise}\label{ex:1}
+\begin{question}\label{ex:1}
   Recall the EOQ formula:
   \begin{equation*}
     Q^* = \sqrt{\frac{ 2 A D}{h}}.
   \end{equation*}
 What are the underlying assumptions of the inventory system that lead to this equation?
-\begin{comment}
+\begin{solution}
 \begin{itemize}
 \item Demand is constant and deterministic
 \item Lead time is zero
-\item Any amount necessary can be ordered
-\item There is a cost associated to ordering, no joint-ordering advantages.
-\item There is a cost associated to holding inventory
+\item Any amount of items necessary to replenish the inventory can be
+  ordered
+\item There is a cost associated with ordering, no joint-ordering advantages.
+\item There is a cost associated with holding inventory
 \item Inventory is not perishable.
 \item There is no substitution effect with other item types.
 \end{itemize}
 See also FP.
-\end{comment}
-\end{exercise}
+\end{solution}
+\end{question}
 
-\begin{exercise}
+
+\begin{question}
   Can you summarize the assumptions of the EOQ in four steps by which
   a generic inventory system can be characterized?
-  \begin{comment}
+  \begin{solution}
 If we dissect the EOQ model we see that we made modeling decision regarding:
 \begin{enumerate}
 \item Characteristics of the  demand:  constant, or deterministic, stochastic, trends, seasonality?
@@ -98,12 +96,12 @@ If we dissect the EOQ model we see that we made modeling decision regarding:
 \item A specification of the policy parameters and a sensitivity
   analysis of the EOQ formula (see FP).
 \end{enumerate}
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   Why is it important to make a model of an inventory system?
-  \begin{comment}
+  \begin{solution}
     \begin{itemize}
     \item With a model it becomes possible to actually manage an
       inventory system. The model included the basic, and most
@@ -135,8 +133,8 @@ If we dissect the EOQ model we see that we made modeling decision regarding:
       try to understand how we can avoid ending up in a certain
       situation we never want to enter in reality.)
     \end{itemize}
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 Hopefully the above questions and answers provide sufficient
 motivation for the next few lectures in which we develop
@@ -158,9 +156,9 @@ asking (relevant) questions.  The most basic question is actually:
 `Why do we need inventory at all?', so that question will be our point
 of departure.
 
-\begin{exercise}
+\begin{question}
   When are inventory systems actually not necessary?
-\begin{comment}
+\begin{solution}
   In a sense, in business it comes down to matching supply and
   demand. When capacity can be modulated at will and free of cost,
   there is not need for inventory. Any demand size be produced or
@@ -168,14 +166,14 @@ of departure.
 
   The problem is of course that these two conditions are (nearly)
   never met in real systems.
-\end{comment}
-\end{exercise}
+\end{solution}
+\end{question}
 
 
 
-\begin{exercise}
+\begin{question}
 When, then, are inventories necessary?
-  \begin{comment}
+  \begin{solution}
     In real systems there are many constraints imposed on replenishing
     the inventory which makes matching supply and demand
     complicated.
@@ -212,27 +210,27 @@ When, then, are inventories necessary?
     demand perfectly, there may be very high costs associated with the
     achieving this perfect match. Thus, in such cases, inventories are
     also used  to lower costs.
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 
-\begin{exercise}
+\begin{question}
 Thus, all-in-all, what is the goal of the inventory system?
-  \begin{comment}
+  \begin{solution}
     Inventory systems exist out of economic necessity. They are meant
     to reduce the cost of operations. 
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 
-\begin{exercise}
+\begin{question}
   So, taking the idea of the previous exercise seriously, i.e.,
   inventory systems are meant to lower the cost of operations of the
   firm, we like to know how to do this. This brings us to the idea of
   making a model of an inventory system to characterize the demand,
   replenishments, items and the cost structure. Try to formulate a
   sort of checklist which can help to carry out this modeling step.
-  \begin{comment}
+  \begin{solution}
     In effect, the problem is to come up with a guide to making
     inventory models.  A useful starting point is formed by the four
     stages of our inventory analysis scheme.  For each stage we
@@ -304,7 +302,7 @@ Thus, all-in-all, what is the goal of the inventory system?
         each other?
       \end{itemize}
     \end{enumerate}
-  \end{comment}
+  \end{solution}
 
 
 
@@ -318,23 +316,23 @@ See Figure~\ref{fig:costs} for a visual overview.
 \end{figure}
 
 
-\end{exercise}
+\end{question}
 
 
 
-\begin{exercise}
+\begin{question}
   Clearly, to make decisions it is important to have a good understanding
   of the relevant trade-offs. Interestingly, all these trade-offs can
   be reduced to three types of buffer. What buffers can that be?
-  \begin{comment}
+  \begin{solution}
     Time, inventory, capacity, the three buffers. We urge you to read
     Section 6.2 and 6.3 of FP (edition 3) really critically. The ideas
     behind Figure 6.6 are very useful, and you can try to apply the
     underlying ideas to your case too when you have to make a choice
     for an inventory control policy, determine the policy parameter
     and do the sensitivity analysis.
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 
 
@@ -367,16 +365,16 @@ solving we want you to learn.
 
 \subsubsection{Systems with Backlog but without Inventory on hand}
 
-\begin{exercise}
+\begin{question}
   Consider a production situation, a  machine for instance, that has a
   production capacity of  $c$ per day, e.g. $c=10$.  The daily demand,
   $d_i$ for day $i$, is always less then $c$. Is there a need for inventory?
-  \begin{comment}
+  \begin{solution}
 No, since $c\geq d_i$, the daily demand can be covered by production every day again.     
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   Let's assume that the machine can be switched on or off.  If on, it
   has capacity for $c$ jobs, if off it produces nothing.  Just to show
   the impact of the cost structure on the policy you would use to
@@ -384,20 +382,20 @@ No, since $c\geq d_i$, the daily demand can be covered by production every day a
   $p$ per job, i.e., you only have to pay for the jobs you really
   processed. What what you do, that is, how would you control the
   machine?
-  \begin{comment}
+  \begin{solution}
     Well, since it only costs money per job served, and we want to
     serve the jobs anyway, we can just switch on the machine whenever
     there is a job. In fact, we can leave it on always, for there is
     no penalty to have it switched on (or a reward for switching it
     off).
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   Henceforth we assume that it costs $p$ Euro per day, for instance
   $p=100$ euro, just to have the machine switched on, whether you use
   the capacity or not. What would you do now? When is such cost structure reasonable?
-  \begin{comment}
+  \begin{solution}
     If $d_i=c$, i.e., the daily demand is always the same as the daily
     capacity, then there is not much you can do. However, if the
     demand is typically less than $c$, then it might be interesting to
@@ -408,15 +406,15 @@ No, since $c\geq d_i$, the daily demand can be covered by production every day a
     If you have to hire or assign personel to operate the machine, you
     are typically confronted with a daily cost, whether the machine
     actually works or not.
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 
 
-\begin{exercise}
+\begin{question}
   Try to make a model for this case.  Use the check list to see what
   modeling choices you can (and have to) make.
-  \begin{comment}
+  \begin{solution}
     Assume that customers are willing to wait for free.  Assume also
     that we want to serve all demand. (Note that this is a business
     decision. It might be profitable to reject some demand. ) Finally,
@@ -431,14 +429,14 @@ No, since $c\geq d_i$, the daily demand can be covered by production every day a
     a day.  Thus, if $d_1=2, d_2 = 5, d_3 = 4$, then take the capacity
     $c_1$ for day 1 equal to 0, and likewise for day 2. However,
     $c_3 =10$. 
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 
-\begin{exercise}
+\begin{question}
   Implement the model in excel, and compute the total cost for the
   following demand process: $d = 2, 5, 4, 5, 0, 2, 3, 8, 9, 1, 1, 3$.
-\begin{comment}
+\begin{solution}
   Take $c_i$ as the capacity of day $i$. In our case $c_i=c=10$ if
   production is on, and $c_i=0$ if production is off.  Realize that
   any unfilled demand is transferred to the next period. To keep track
@@ -470,18 +468,18 @@ Finally, observe that in the above we assume that when the machine is
 on at day $i$, the capacity $c_i \leq B_{i-1}+d_i$, because otherwise
 the $B_i<0$, and it is impossible to have a negative number of
 customers in queue/backlog.
-\end{comment}
-\end{exercise}
+\end{solution}
+\end{question}
 
 
-\begin{exercise}
+\begin{question}
   Now we have to make a subtle choice. It might not be possible to use
   the capacity on day $i$ to handle the demand $d_i$ that arrives on
   day $i$. Of course, it also might be possible. In general it depends
   on the actual characteristics of the system which of the two
   assumptions is the more appropriate.  How would you absorb these
   choices into your model?
-  \begin{comment}
+  \begin{solution}
     Suppose that the demand that arrives at day $i$ can also be covered by the machine in day $i$. It that case we only need to require that 
     \begin{equation*}
     B_i = \max\{B_{i-1} + d_i - c_i, 0\}.
@@ -498,15 +496,15 @@ Otherwise, if the demand on day $i$ has to wait at least until day $i+1$, then
     implement it in excel to see what happens.  Start doing all kinds
     of experiments. How sensitive is the result to changes in $c$, for
     instance? What is a good rule to switch on and off the machine?
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
  
 
 
-\begin{exercise}
+\begin{question}
   Can you find a set of formulas by which we can track the behavior of the backlog? 
-  \begin{comment}
+  \begin{solution}
     Lets say that $S_i$ is the amount of demand sold/covered on day $i$. Henceforth we also assume that the demand on day $i$ \emph{can} be processed on day $i$. In this case, the amount sold is 
     \begin{equation*}
       S_i = \min\{B_{i-1}+d_i, c_i\},
@@ -516,14 +514,14 @@ Otherwise, if the demand on day $i$ has to wait at least until day $i+1$, then
 \begin{equation*}
   B_i = B_{i-1}+d_i - S_i.
 \end{equation*}
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   Suppose that we would decide to switch on the machine independently
   of the amount of jobs. Can you find a formula, to be implemented in
   excel, to compute the amount of capacity lost?
-  \begin{comment}
+  \begin{solution}
 The unused capacity $U_i$ is then
 \begin{equation*}
   U_i = c_i - S_i,
@@ -540,23 +538,23 @@ It is very important to memorize this scheme. Hence, once again:
 Note that this scheme is quite simple in the sense that we have to
 consider taking a minimum only once. 
 
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 
 
-\begin{exercise}
+\begin{question}
   For the rest of the course we need some important notation. What is the meaning of $\sum_{i=1}^j x_i$, and why is $h \sum_{i=1}^j x_i = \sum_{i=1}^j (hx_i)?$
-  \begin{comment}
+  \begin{solution}
     \begin{align*}
       \sum_{i=1}^3 x_i &= x_1 + x_2 + x_3 \\
       \sum_{i=1}^j x_i &= x_1 + x_2 + \cdots +x_j \\
      h \sum_{i=1}^j x_i &= h(x_1 + x_2 + \cdots +x_j) = hx_1 + \cdots+hx_j = \sum_{i=1}^j h x_i.
     \end{align*}
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   Realize that in the previous problem we tacitly assumed that there
   is no cost associated with waiting.  In this case, we of course only
   switch on the machine when there is sufficient demand in
@@ -566,7 +564,7 @@ consider taking a minimum only once.
   only switch on the machine when the demand is sufficiently high to
   prevent lost capacity. Can you find an expression for the cost of
   keeping demand waiting and switching on the machine?
-  \begin{comment}
+  \begin{solution}
     In excel we can build something really useful, the indicator
     function. It is 1 if $c_i>0$ and $0$ when $c_i=0$. Mathematically
     we write it like $1\{c_i>0\}$.  
@@ -578,13 +576,13 @@ consider taking a minimum only once.
       b\sum_{i=1}^j B_j + p \sum_{i=1}^j 1\{c_i > 0\}.
     \end{equation*}
 
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   Assume next that we get a profit $r$ per unit demand sold/produced, then
 formulate the reward structure.
-  \begin{comment}
+  \begin{solution}
     The profit function up to time $j$ is
     \begin{equation*}
      r \sum_{i=1}^j S_j - b \sum_{i=1}^j B_j - p \sum_{i=1}^j 1\{c_i>0\}, 
@@ -593,47 +591,47 @@ formulate the reward structure.
     the cost of switching on the machine (recall $c_i = 0$ is the
     machine is off and $c_i = 10$ if on.).
 
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   It might be that the business context requires that the amount of
   backlogged demand should not exceed some critical level $a$ say too
   often. Can you find an expression to estimate how often such an
   event occurs with excel for a given set of demands?
-  \begin{comment}
+  \begin{solution}
     When $B_i>a$ we are `in trouble. Thus, to count how often this happen, we can compute
     \begin{equation*}
       \sum_{i=1}^j 1 \{B_i > a\}.
     \end{equation*}
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   Observe that in the previous exercise we only counted the number of
   periods in which the backlogged demand exceeded some level $a$. It
   might also be of interested to compute the total amount of
 excess  backlogged demand. What can be an appropriate formula for this? 
-\begin{comment}
+\begin{solution}
     When $B_i>a$, the amount in excess is $B_i$. Thus, 
     \begin{equation*}
       \sum_{i=1}^j B_i 1 \{B_i > a\},
     \end{equation*}
   is the amount we want to compute. 
-\end{comment}
-\end{exercise}
+\end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   What is the total amount of demand backlogged? 
-  \begin{comment}
+  \begin{solution}
     In the previous expression set $a=0$. 
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   If you like, you can try to formulate an optimization problem for
   the problem on how much to produce. .
-  \begin{comment}
+  \begin{solution}
 
     TBD = to be done = unfinished. You can always skip exercises that
     are marked as TBD.
@@ -653,41 +651,41 @@ problem in excel for \emph{given} demand, i.e., if we know the
 demands.  If we don't know the demands, then things become quite a bit
 different.
 
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 
 
 \subsection{Systems with Inventories}
 \label{sec:inventories}
 
-\begin{exercise}
+\begin{question}
   In the previous problem we tacitly assumed that customers are
   prepared to wait.  What if this is not the case, i.e., you serve
   them right away, or they leave. Suppose we don't want demand to
   leave. What can you do about this?
-  \begin{comment}
+  \begin{solution}
     We assumed that demand arriving on a day cannot be covered/served
     on that same day. If we don't have inventories, all demand will be
     lost. Thus, the only way out seems to be to start keeping real
     inventories. (Realize that up to now we only considered backlogged
     demand, which is, in a sense, negative inventory.) 
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   So, let us assume for the remainder that it is possible to invest in
   inventory. How much inventory do we need? Assume that the production
   of the machine can be used to satisfy the demand for that day. 
-  \begin{comment}
+  \begin{solution}
     If we don't want to lose any demand, and if demand is capped by
     some number, e.g.  $\bar d$ is such that $d_i \leq \bar d$ for all
     $i$, then we are always safe by keeping $\bar d$ items on hand,
     i.e., $\bar d-c$ on shelf at the start of the day
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   Write $I_i$ for the inventory at the end of day $i$.  
 % We now need to
 %   make an assumption about how $\bar d$ compares to the maximal
@@ -695,7 +693,7 @@ different.
   Let us also we assume that $\bar d \leq c$ (that is, the machine can
   always produce more than the maximal demand).  Use this to come up
   with a rule to decide when to switch on the machine.
-  \begin{comment}
+  \begin{solution}
     We need at the start of the day an inventory of $\bar d$ to cover
     the demand. Realize that the inventory at the start of the day is
     the same as the inventory at the end of the previous
@@ -715,29 +713,29 @@ All in all,
       c_i &= c1\{I_{i-1}< 2\bar d\}, \\
       I_i &= I_{i-1} -d_i + c_i. 
     \end{align*}
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   Try to make a cost model. Assume that we charge for inventory at the
   end of the day.  There is a cost $h$ to have one item on hand at the
   end of the day.
-  \begin{comment}
+  \begin{solution}
     The cost of inventory is $\sum_{i=1}^j h I_{i}$ and the cost of
     production has been given before: $p\sum_{i=1}^j 1\{c_i>0\}$.
 
     Observer there is no backlog, and also no lost demand. Hence,
     these terms do not add to the cost.
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   If, however, $c< \bar d$, the situation changes quite
   dramatically. Suddenly, to prevent loss we need more than $\bar d$
   of inventory at the start of the day, because if the inventory
   becomes below $\bar d$, we might not be able to replenish it
   sufficiently for the next day. What would you do?
-  \begin{comment}
+  \begin{solution}
     First of all, we observe that it is impossible to prevent lost
     sales under all circumstances if demand is stochastic. It can
     happen that we have 10 days in row, say, that the maximal demand
@@ -757,40 +755,40 @@ All in all,
     next. 
 
 
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   What would happen if there is a number of periods between the moment
   the items are produced and that the items become available for
   sale.  How would you organize your production plan, i.e., the periods in which to to decice to switch on the machine? 
-  \begin{comment}
+  \begin{solution}
     TBD.
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   Can you relate the production of the machine to a situation in which
   inventory is replenished by a supplier?
-  \begin{comment}
+  \begin{solution}
     The production amount $c$ is equivalent to a constraint on the
     amount that can be ordered from a supplier. The time between
     deciding to produce and the moment an item is available for
     customers is equivalent to a lead-time between ordering a
     replenishment order and receiving the replenishment.
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 \subsection{Systems with loss}
 \label{sec:real-that-prev}
 
-\begin{exercise}
+\begin{question}
   Lets step back a bit\ldots In fact, we do not need to keep at least
   $\bar d$ items of on hand inventory. What if we would carry less
   inventory, and accept a bit of loss?  After all, the cost may
   decrease if we allow for this situation. Can you make a model for
   this situation, that is, a model that can cope with loss?
-  \begin{comment}
+  \begin{solution}
     This is an interesting situation. First assume there is no
     loss. Then the total amount we produce is the same as the total
     demand. The production cost, i.e., cost to switch on the machine
@@ -817,22 +815,22 @@ Observe also that our sales $S_i$ in day $i$ may need not be equal to the demand
     where $L_i$ is the lost demand. Note that as $S_i \leq d_i$,
     $L_i \geq 0$ (i.e., we don't run into the trouble of negative lost
     demand).
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   What would be the cost of this situation, assuming that it costs $k$
   per unit of demand lost? 
-\begin{comment}
+\begin{solution}
   \begin{equation*}
     \sum_{i=1}^j \left(h I_{i} + k L_i + p1\{c_i>0\}\right).
   \end{equation*}
-\end{comment}
-\end{exercise}
+\end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   How would you use the results of the previous two exercises to tackle the case in which the machine capacity is less than $\bar d$?
-  \begin{comment}
+  \begin{solution}
     As a matter of fact, we don't have to change anything. We can use
     the results right away. Observe that the control parameter is $r$,
     i.e., the re-order level. By trying different choices for $r$ we
@@ -841,14 +839,14 @@ Observe also that our sales $S_i$ in day $i$ may need not be equal to the demand
 
     Realize that, formaly, it is not necessary that $c$ is larger than
     the mean demand. If it is less, simply more loss will occur.
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 
-\begin{exercise}
+\begin{question}
   Use the numbers $\{L_i\}$ and $\{S_i\}$ to estimate the fill rate,
   the loss rate, and the service cycle level.
-\begin{comment}
+\begin{solution}
 The total demand is
 \begin{equation*}
  \sum_{i=1}^j d_i, 
@@ -868,12 +866,12 @@ The service cycle level is the fraction of periods in which loss did not occur:
 i.e., the average number of days in which the system did not run out of stock.
 
 Note that these two KPI's are not the same. 
-\end{comment}
-\end{exercise}
+\end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   Is the service cycle level a good measure for the  amount of loss?
-  \begin{comment}
+  \begin{solution}
     No, not really. It might be that a small shortage occurs nearly
     every period. Then the fraction of periods without loss, i.e., the
     cycle service level, is very low. However, since only a small
@@ -885,12 +883,12 @@ Note that these two KPI's are not the same.
     managers in particular, tend to understand cycle service level
     better, and cycle service level is easy to compute. The fill rate
     is just a bit more complicated. 
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   How long does demand spend in backlog on average?
-  \begin{comment}
+  \begin{solution}
     We can use Little's law to get an approximate value for this, but
     it takes some time to see how to do it. So, let's review Little's
     law. Consider some input-output system---it doesn't quite matter
@@ -965,17 +963,17 @@ Note that these two KPI's are not the same.
     only valid asymptotically (taking an infinite amount of time), the
     above relations can only be approximately correct.
     
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 \subsection{Systems with full backlogging}
 \label{sec:systems-with-backlog}
 
-\begin{exercise}
+\begin{question}
   Assume that, in case of demand cannot be covered by on-hand
   inventory, (i.e., the stock is empty), it is backlogged. Make a
   model of the behavior of the system and a cost function.
-  \begin{comment}
+  \begin{solution}
     First of all, observe that we can absorb on-hand inventory and
     backlog into one concept. We write $I_i$ for the on-hand inventory
     at the end of the day if the on-hand inventory is positive and we
@@ -1014,16 +1012,16 @@ c_i &= c 1\{I_{i-1} \leq r\}.
     We leave it to you to consider other interesting cases and adapt
     the above models to your settings.
 
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 
-\begin{exercise}
+\begin{question}
   We have not yet discussed models with positive lead times. 
-  \begin{comment}
+  \begin{solution}
     TBD.
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 
 %%% Local Variables:

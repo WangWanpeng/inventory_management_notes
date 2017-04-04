@@ -1,17 +1,28 @@
+\documentclass[a4paper,11pt]{scrartcl}
+%\documentclass{article}
 
-\documentclass{article}
+\usepackage{preamble}
 
-\input{preamble}
-\usepackage{pdflscape}
-\usepackage{fullpage}
-%\newenvironment{hint}{~\newline\indent\textbf{Hint:}}{\qed}
-%\renewenvironment{comment}{~\newline\indent\textbf{Answer:}}{\qed}
+\SetupExSheets{
+  headings = runin,
+  question/print = true,
+  %question/pre-hook=\noindent\rule{\textwidth}{0.4pt},
+  %solution/pre-hook=\vspace{3cm},
+  solution/print = false,
+  %counter-format = se.qu
+  %counter-within = section,
+}
+
+
 
 \title{Notes on Inventory Management, exercises}
+\author{dr O.A. Kilic\\
+dr N.D. van Foreest}
+
+
 
 \begin{document}
 \maketitle
-\setcounter{tocdepth}{2}
 \tableofcontents
 
 \input{main}
@@ -23,5 +34,5 @@
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "notes_all"
+%%% TeX-master: t
 %%% End:
