@@ -4,10 +4,10 @@ Let us consider a case where we have a two-period planning horizon, rather than 
 
 For convenience, we use the same notation that we used for the single-period newsvendor model. However, we add a period index to buying and selling prices as well as the demand distribution (i.e. $p_{bn}$, $p_{sn}$, and $g_n(\cdot)$ where $n\in\{1,2\}$), as these can be different in the morning and in the afternoon.
 
-\begin{exercise}
+\begin{question}
 Suppose the afternoon demand is $X_2\in \{0,1,2\}$ and $g_2(0)=g_2(1)=g_2(2)=1/3$, and consider the cases where you end up with 0, 1, and 2 items at the end of morning. What would be the best number of items $Q_2$ to make in the afternoon for each of these cases?
 
-\begin{comment}
+\begin{solution}
 	It is obvious that we do not need more than 2 items in the afternoon. 
 	
 	\begin{itemize}
@@ -39,21 +39,21 @@ The profit of the choice $Q_2=1$ is
   = & p_{s2} + p_e
   \end{align*}  
 	\end{itemize}
-\end{comment}
-\end{exercise}
+\end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
 Explain why the decision on how many items to make in the afternoon depends on the number of items that is left from the morning. 
 
-\begin{comment}
+\begin{solution}
 The items that are left from the morning contributes to the profit in the afternoon. That is due to two reasons: (1) there is no purchasing cost for leftovers, and (2) if leftovers are more than what is actually needed, there is no incentive to make new items. 
-\end{comment}
-\end{exercise}
+\end{solution}
+\end{question}
 
 
-\begin{exercise}
+\begin{question}
 Suppose the morning demand is $X_1\in \{0,1,2\}$ and $g_1(0)=g_1(1)=1/4$, $g_1(2)=1/2$; and the afternoon demand is $X_2\in \{0,1\}$ and $g_2(0)=g_2(1)=1/2$. It is not possible to backlog demands. That is, those demands not satisfied in the morning are lost. Also, we have that $p_{b1}=10$, $p_{b2}=12$, $p_{s2}=p_{s2}=20$, and $p_e=5$. Now, assume that we make 2 items in the morning. What is the expected total profit in the morning and in the afternoon?
-\begin{comment}
+\begin{solution}
 TBD.
 
 %Let us start with the afternoon. The following are the expected profits (disregarding the purchasing costs) in the afternoon, if the inventory level after making new items is 0, 1, 2, respectively:
@@ -78,81 +78,81 @@ TBD.
 %
 %the probability of ending up with 0, 1, 2 items at the end of the morning are: $\P(2-X_1=0)=\P(2-X_1=0)$
 
-\end{comment}
+\end{solution}
 
-\end{exercise}
+\end{question}
 
-\begin{exercise}
+\begin{question}
 Let $U(A)$ be a function that returns the expected profit in the afternoon, given that the inventory level after making new items is $A$. What are the general terms that make up this function?
-   \begin{comment}
+   \begin{solution}
      TBD.
-   \end{comment}
-\end{exercise}
+   \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
 How can one make use of $U(A)$ when deciding the number of items $Q_2$ to make in the afternoon?
-   \begin{comment}
+   \begin{solution}
      TBD.
-   \end{comment}
-\end{exercise}
+   \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
 Let $V(I)$ be a function that returns the expected profit in the afternoon, given that the inventory level after before making new items is $I$. What are the general terms that make up this function?
-   \begin{comment}
+   \begin{solution}
      TBD.
-   \end{comment}
-\end{exercise}
+   \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
 Write $U(A)$ and $V(I)$ in terms of probabilities $g_2(i)=\P(X_2=i)$
-   \begin{comment}
+   \begin{solution}
      TBD.
-   \end{comment}
-\end{exercise}
+   \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
 Let $Z(Q_1)$ be a function that returns the expected profit over the whole day given $Q_1$ items are produced in the morning is $I$. What are the general terms that make up this function?
-   \begin{comment}
+   \begin{solution}
      TBD.
-   \end{comment}
-\end{exercise}
+   \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
 Write $Z(Q)$ in terms of probabilities $g_1(i)=\P(X_1=i)$
-   \begin{comment}
+   \begin{solution}
      TBD.
-   \end{comment}
-\end{exercise}
+   \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
 We have so far assumed that the sequence of events over the day were as follows: (1) decide $Q_1$, (2) observe $X_1$, (3) decide $Q_2$, (4) observe $X_2$. How would we set order quantities if the sequence of events were as follows (1) decide $Q_1$ and $Q_2$, (2) observe $X_1$, (3) observe $X_2$.
-   \begin{comment}
+   \begin{solution}
      TBD.
-   \end{comment}
-\end{exercise}
+   \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
 What is the financial value of having an second ordering moment in the middle of the day, after observing the demand in the morning?
-   \begin{comment}
+   \begin{solution}
      TBD.
-   \end{comment}
-\end{exercise}
+   \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
 We have thus far considered profit functions $U(A)$, $V(I)$, and $Z(Q_1)$. Can you devise cost functions for the same two-period newsvendor problem?
-   \begin{comment}
+   \begin{solution}
      TBD.
-   \end{comment}
-\end{exercise}
+   \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
 We have thus far considered profit functions $U(A)$, $V(I)$, and $Z(Q_1)$. Can you devise cost functions for the same two-period newsvendor problem?
-   \begin{comment}
+   \begin{solution}
      TBD.
-   \end{comment}
-\end{exercise}
+   \end{solution}
+\end{question}
 
-\begin{exercise} A Case to  Get rich in \st{one day} two days. 
+\begin{question} A Case to  Get rich in \st{one day} two days. 
 
   \begin{itemize}
   \item You plan to sell Napoleons tomorrow and the next day just outside of the Duisenberg building.
@@ -163,7 +163,7 @@ We have thus far considered profit functions $U(A)$, $V(I)$, and $Z(Q_1)$. Can y
    \includegraphics[scale = 1.0]{figures/mille-feuille}
    %\includegraphics[scale = 1.0]{250px-Mille-feuille_20100916}
 
-%   \begin{comment}
+%   \begin{solution}
 %Here are the steps.
 %  \begin{itemize}
 %  \item Let's first assume that demand is normally distributed. Then
@@ -193,22 +193,22 @@ We have thus far considered profit functions $U(A)$, $V(I)$, and $Z(Q_1)$. Can y
 %  $Z(112) \approx 100(0.75-0.25) = 50$ Euro.
 %\item There are easier ways to make money!
 %  \end{itemize}
-%\end{comment}
-\end{exercise}
+%\end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
 Can you generalize the two-period newsvendor case to an arbitrary number of periods?
-   \begin{comment}
+   \begin{solution}
      TBD.
-   \end{comment}
-\end{exercise}
+   \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
 Can you generalize the two-period newsvendor case to an infinite number of periods?
-   \begin{comment}
+   \begin{solution}
      TBD.
-   \end{comment}
-\end{exercise}
+   \end{solution}
+\end{question}
 
 
 %%% Local Variables:

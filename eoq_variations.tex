@@ -1,15 +1,12 @@
-
-\section{Choosing Inventory Policies}
-
 \subsection{Variations on the EOQ model}
 \label{sec:variations-eoq-model}
 
-\begin{exercise}
+\begin{question}
   When choosing an inventory policy, i.e., a policy that decides when
   and how much to order, we need to understand the environment first
   in which the policy is going to operate. Can you use
-  Exercise~\ref{ex:1} to come up with a characterization of the environment? 
-  \begin{comment}
+  Question~\ref{ex:1} to come up with a characterization of the environment? 
+  \begin{solution}
     A simple starting point is provided by this table.
     \begin{table}[h]
       \centering
@@ -33,13 +30,13 @@ Demand & variability &deterministic/constant & Stochastic \\
     \caption{(Incomplete) characterization of the environment of inventory policies}
       \label{tab:environment}
     \end{table}
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   Characterize the EOQ model by means of the table of the previous
-  exercise.
-  \begin{comment}
+  question.
+  \begin{solution}
     \begin{table}[h]
       \centering
     \begin{tabular}{l|l|l|l}
@@ -62,15 +59,15 @@ Demand & variability &\boxed{deterministic/constant} & Stochastic \\
     \caption{EOQ model }
       \label{tab:environment}
     \end{table}
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
-  In the next set of exercises we are going to modify the assumptions
+\begin{question}
+  In the next set of questions we are going to modify the assumptions
   of the EOQ model with the aim to investigate how the environment
   affects the inventory policy. For the sake of comparison, sketch how the inventory behaves over time for the EOQ model and write down the cost function.
 
-  \begin{comment}
+  \begin{solution}
 \begin{center}
 \begin{tikzpicture}[x=0.75cm,y=0.015cm]
 \small
@@ -124,15 +121,15 @@ The average cost per unit time is this total cost divided by the duration of one
 \end{tikzpicture}
 \end{center}
 
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   It is very important to memorize that the total inventory cost for
   the EOQ model is quite insensitive to the actual order quantity
   $Q$. Show this for the case with $A=100$, $h=0.2$, and $D=20$. What
   happens to the total cost if $Q=60, 80, \ldots 200$?
-  \begin{comment}
+  \begin{solution}
 From the EOQ formula
 \begin{itemize}
 \item $Q^{*} \approx 141.42$ units
@@ -156,16 +153,16 @@ $Q$     & $AD/Q$  &  $hQ/2$  & $f(Q)$ \\
 \bottomrule
 \end{tabular}
 \end{center}
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   As a first variation, what would you change/do if the lead time $L$
   is no longer 0, but becomes positive? (Thus, all the other
   assumptions of the EOQ model stay the same, only the lead time
   becomes positive.)  In other words, how would you change the EOQ
   policy, and determine when and how to order?
-  \begin{comment}
+  \begin{solution}
     Since the backlog costs are infinite, backlogging is not
     desirable, hence we order early. See the graph: 
 \begin{center}
@@ -203,25 +200,25 @@ i.e., the lead time $L$ times the demand $D$, we should order
 $Q$. During the lead time $L$ the demand will be met from on-hand
 stock. When the replenishment arrives a lead time $L$ later, it
 arrives just in time to meet the demand again .
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
 
 How can we decompose leadtime?
 
-\begin{comment}
+\begin{solution}
 TBD
-\end{comment}
+\end{solution}
 
-\end{exercise}
+\end{question}
 
 
 
-\begin{exercise}
+\begin{question}
   What would happen if it is allowed to backorder demand, in other
   words $b>0$, but $\pi = 0$? (We set $L=0$ again.)
-  \begin{comment}
+  \begin{solution}
 \begin{center}
 \begin{tikzpicture}[x=1cm,y=0.01cm]
 \small
@@ -278,13 +275,13 @@ Thus, the time average cost is the total cost divided by the cycle lenght $Q/D$:
   \end{split}
 \end{equation*}
 Check that by setting $B=0$ you get the old EOQ result.
-\end{comment}
-\end{exercise}
+\end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   What happens to the optimal cost if you allow for backorders?  What
   will happen to the optimal order quantity $Q$, will it become larger or smaller? 
-  \begin{comment}
+  \begin{solution}
     The cost must become lower, since we remove a constraint. 
 
     Let's see by how much.  This is not so simple, however, because we
@@ -356,12 +353,12 @@ for the EOQ model, we can lower the cost a bit.
 % \end{axis}
 % \end{tikzpicture}
 
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   What would you do if $b=0$, $\pi > 0$ and $h>0$? 
-  \begin{comment}
+  \begin{solution}
 
 TBD. 
     We have two alternatives. If we decide to keep no inventory, we
@@ -369,14 +366,14 @@ TBD.
 
     Demand needs to enter in discrete amounts, for otherwise paying
     $\pi$ per demand becomes a bit strange.
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}We can also decide to reject demand rather than
+\begin{question}We can also decide to reject demand rather than
   backlog it. Can you sketch the consequences on the behavior of the
   inventory level?  What happens to the order quantity $Q$?  What are
   the consequences in terms of cost, does it become lower or higher?
-  \begin{comment}
+  \begin{solution}
     The influence on the cost is qualitatively easy. Once again we
     relax a constraint, hence it must be possible to reduce the
     average cost. Again, we are trying to find out by how much. 
@@ -570,16 +567,16 @@ everything changes.
 
 
 
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 
-\begin{exercise}
-  Continuing on the above exercise, it might be that items or ordering
+\begin{question}
+  Continuing on the above question, it might be that items or ordering
   costs are so high that it is better not to `enter the business' at
   all. Can you find a condition to decide whether to keep inventories
   and satisfy demand or reject all demand and have no inventories?
-  \begin{comment}
+  \begin{solution}
     The cost rate of dropping all demand is $kD$. The cost rate of keeping inventories is, under the EOQ model,  and using that the optimal order quantity $Q^* = \sqrt{2AD/h}$, 
     \begin{equation*}
       \begin{split}
@@ -602,13 +599,13 @@ We can simplity this a bit to $k^2D^2 < 2AhD$, from which we get
 \end{equation*}
 Thus, when the demand is really small, or the reject cost $k$ is
 small, we reject demand. 
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 
-\begin{exercise}
+\begin{question}
   What if we have quantity discounts? What would you do?  
-  \begin{comment}
+  \begin{solution}
 We would need to analyze various alternatives, one alternative for each `ordering regime', since now the ordering cost depends on  the amount we are going to order.
 
 \paragraph{All-unit discounts}
@@ -854,22 +851,22 @@ Optimization:
 \begin{itemize}
 \item global optimum $\rightarrow$ check breakpoints and local minimums and compare average total costs
 \end{itemize}
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 
 
-\begin{exercise}
+\begin{question}
 EOQ with joint ordering
-  \begin{comment}
+  \begin{solution}
     TBD
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   Consider the setting of the EOQ model but now with batchsize
   constraints, that is, the order quantity is in multiples of some number $q$, say. Can you make a formula for the cost, and find the minimum?
-  \begin{comment}
+  \begin{solution}
 This is, in fact, really easy. Suppose we order $n$ times the minimal order quantity $q$. Then, for a yearly demand $D$, ordering cost $A$, and inventory cost $h$, we pay per year
 \begin{equation*}
   A \frac{D}{nq} + h\frac{nq}2 = A\frac{D/q}n + hq\frac{n}2.
@@ -882,56 +879,56 @@ Hence, the optimal $n$ expressed in the EOQ quantity $Q^*$ is
 \begin{equation*}
   n = \sqrt{\frac{2AD}{h}}\frac1q=\frac{Q^*}q.
 \end{equation*}
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 
-\begin{exercise}
+\begin{question}
 EOQ with yield loss
-  \begin{comment}
+  \begin{solution}
     TBD
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
 EOQ with lower salvage value
-  \begin{comment}
+  \begin{solution}
     TBD
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 
-\begin{exercise}
+\begin{question}
 EOQ with constraints on cycle length
 
 EOQ under periodic review rather than continuous review.
 
 Constraints on when to order, order moment.
 
-  \begin{comment}
+  \begin{solution}
     TBD
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 
-\begin{exercise}
+\begin{question}
   EOQ with positive replenishment lead time and variance in the lead
   time.
 
-  \begin{comment}
+  \begin{solution}
     TBD
 
 Suddenly we have to deal with safety stock!
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   Suppose that the delivery rate of the items we order is not
   `infinite', as it is in the EOQ setting (recall, in the EOQ we
   assume instantaneous deliveries). If we have a machine that
   replenishes the FGI we have to take into account the production
   rate, $r$ say. If it costs $K$ to switch on the machine, when do you switch the machine on or off?
-  \begin{comment}
+  \begin{solution}
     An easy policy is to switch the machine on when the FGI level hits
     some level $Q$, and switch it off when the level is $0$. Of course
     we need to assume that $D<r$, i.e., the production rate is larger
@@ -962,79 +959,79 @@ This is similar to the EOQ model with $h'=h(r-D)$ and $A=K/r$. But then the opti
 \begin{equation*}
   T = \sqrt{\frac{2AD}{h'}} = \sqrt{\frac{2DK/r}{h(r-D)}}=\sqrt{\frac{2DK}{hr(r-D)}}.
 \end{equation*}
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 
-\begin{exercise}
+\begin{question}
 EOQ with variable demand.
-  \begin{comment}
+  \begin{solution}
     TBD
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
 Wagner Whitin
-  \begin{comment}
+  \begin{solution}
     TBD
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
 Silver meal
-  \begin{comment}
+  \begin{solution}
     TBD
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
 Where to put the I/O interface? For what product/item?
-  \begin{comment}
+  \begin{solution}
     TBD
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   What is the difference between continuous and period review? Why/when to prefer one over the other?
-  \begin{comment}
+  \begin{solution}
     TBD
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   What is the difference between fixed order and order-up-to policies?
   Why/when to prefer one over the other?
-  \begin{comment}
+  \begin{solution}
     TBD
 
 Order quantities
 
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   What  different type of service level can you define?
   Why/when to prefer one over the other?
-  \begin{comment}
+  \begin{solution}
     TBD
 
 e.g. cycle service level.
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   Why to use safefy stock? What is it? 
-  \begin{comment}
+  \begin{solution}
     TBD
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   Are lead times typically (approximately) constant ore variable?
-  \begin{comment}
+  \begin{solution}
     TBD
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 
 
@@ -1053,7 +1050,7 @@ depends on the order size $Q$.
   \end{itemize}
 The problem is to determine how much to order.
 
-\begin{exercise}
+\begin{question}
   \begin{itemize}
   \item Include your own storage cost, i.e., packages need to be
     stored as your raw materials inventory.  Suppose the
@@ -1061,12 +1058,12 @@ The problem is to determine how much to order.
     inventory cost?  Assume that $D = 12000$ units per year.
   \item Include transportation cost.  Assume that $A = 50$ Euro.
   \end{itemize}
-\end{exercise}
+\end{question}
 
-\begin{exercise}
+\begin{question}
 Every so often government regulations change. As a result, the entire
 stock becomes obsolete. What now?
-\begin{comment}
+\begin{solution}
   \begin{itemize}
   \item Use data to make assumptions on the probability that the
     remaining stock will be affected by a regulation change.
@@ -1077,31 +1074,31 @@ stock becomes obsolete. What now?
   \end{itemize}
 Challenge: Can you compute the optimal order quantity in this situation? 
 
-  \begin{minted}{python}
-A = 50.
-D = 12000
-h = 0.2
+%   \begin{lstlisting}%{python}
+% A = 50.
+% D = 12000
+% h = 0.2
 
-def C(Q, p): # return average yearly inventory cost
-    # p is price per unit, so that
-    # p*h is the inventory cost per unit per year
-    cost = A*D/Q + h*p*Q/2.
-    return cost
+% def C(Q, p): # return average yearly inventory cost
+%     # p is price per unit, so that
+%     # p*h is the inventory cost per unit per year
+%     cost = A*D/Q + h*p*Q/2.
+%     return cost
 
-def output(Q, p, period):
-    print("Yearly inventory costs %s: %3.2f; price of a batch: %3.2f"%(period, C(Q, p), Q*p))
+% def output(Q, p, period):
+%     print("Yearly inventory costs %s: %3.2f; price of a batch: %3.2f"%(period, C(Q, p), Q*p))
 
-output(D/24, 1.15, "2 weeks")
-#Likewise for the other cases.
-  \end{minted}
+% output(D/24, 1.15, "2 weeks")
+% #Likewise for the other cases.
+%   \end{lstlisting}
 
-  \begin{minted}{python}
-Yearly costs 2 weeks: 1257.50; batch price: 575.00
-Yearly costs 1 month: 700.00; batch price: 1000.00
-Yearly costs 2 months: 490.00; batch price: 1900.00
-Yearly costs 3 months: 470.00; batch price: 2700.00
-Yearly costs 6 months: 610.00; batch price: 5100.00
-  \end{minted}
+%   \begin{minted}{python}
+% Yearly costs 2 weeks: 1257.50; batch price: 575.00
+% Yearly costs 1 month: 700.00; batch price: 1000.00
+% Yearly costs 2 months: 490.00; batch price: 1900.00
+% Yearly costs 3 months: 470.00; batch price: 2700.00
+% Yearly costs 6 months: 610.00; batch price: 5100.00
+%   \end{minted}
 
 What are the consequences?
 
@@ -1117,21 +1114,5 @@ What are the consequences?
     \item Short and predictable lead times can be achieved with conwip
       and a order prioritization (priority queues)
   \end{itemize}
-\end{comment}
-\end{exercise}
-
-\input{newsvendor}
-\input{two_stage_news_vendor}
-
-
-\input{basestock}
-
-\input{qr}
-
-\input{joint_ordering}
-
-
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: "notes_all"
-%%% End:
+\end{solution}
+\end{question}

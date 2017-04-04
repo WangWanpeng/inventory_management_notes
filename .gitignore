@@ -1,0 +1,11 @@
+auto/
+*.blg
+*.out
+*.rel
+*.aux
+*.log
+*.gz
+*.toc
+*.pdf
+tmp/
+make_pdf

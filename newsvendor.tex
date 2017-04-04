@@ -25,39 +25,39 @@ denote the number of units ordered.  I assume that
 $g_i = \P\{ X = i\}$ is given.
 
 
-\begin{exercise}
+\begin{question}
   Can you express $c_o$ and $c_s$ in terms of the other cost parameters?
-  \begin{comment}
+  \begin{solution}
     $c_o = p_b-p_e$ and $c_s = p_s-p_b$. 
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 
-\begin{exercise}
+\begin{question}
 Suppose the daily demand is $X\in \{0,1\}$ and $g(0) = \P(X=0)=1/2 = g(1)$. What would be the best number of items $Q$ to make? 
-\begin{comment}
+\begin{solution}
   The profit of the choice $Q=0$ is 0. Now consider $Q=1$. What is the profit?  We pay for one unit, and sell it perhaps. If we don't sell it, we get the salvage value, if we sell it, we get the sales price. Thus, the profit is
   \begin{equation*}
     -p_b 1 + p_s\cdot 1/2 + p_e\cdot 1/2. 
   \end{equation*}
-\end{comment}
-\end{exercise}
+\end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
 Suppose the daily demand is $X\in \{0,1\}$ and $g(0) = \P(X=0)=1/3 = 1- g(1)$. What would be the best number of items $Q$ to make? 
-\begin{comment}
+\begin{solution}
 If $Q=1$ we make as a profit:
   \begin{equation*}
     -p_b 1 + p_s\cdot 2/3 + p_e\cdot 1/3 = -5 + 20/3 + 1> 0
   \end{equation*}
 So, ordering $Q$ leads to a higher profit than ordering $Q=0$.
-\end{comment}
-\end{exercise}
+\end{solution}
+\end{question}
 
 
-\begin{exercise}
+\begin{question}
   What are the general terms that make up the profit function $Z(Q)$ if you were to order $Q$? 
-  \begin{comment}
+  \begin{solution}
 If you would order an amount $Q$, the profit consist of three terms: 
   \begin{itemize}
   \item expected number sold
@@ -81,23 +81,23 @@ The expected number of items over is $Q$ minus the expected sales:
 \begin{equation*}
 Z(Q)=  -p_bQ+p_s\E(\min\{Q,X\}) + p_e\E(Q-\min\{Q,X\}).
 \end{equation*}
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   Write $\E(X)$, i.e., the expected demand in terms of a summation.
-  \begin{comment}
+  \begin{solution}
 Recall that $\E(X)$ is just a short-hand for
     \begin{equation*}
       \E(X) = \sum_{i=0}^\infty i g(i).
     \end{equation*}
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   Can you write $\E(\min\{X,Q\}$ in terms of probabilities $g(i) = \P(X=i)$?
-  \begin{comment}
-From the previous exercise,
+  \begin{solution}
+From the previous question,
 \begin{equation*}
   \E(\min\{(X,Q\})) = \sum_{i=0}^\infty \min(i,Q)g(i) = \sum_{i=0}^Q i g(i) + \sum_{i=Q+1}^\infty Q g(i).
 \end{equation*}
@@ -105,14 +105,14 @@ Observe that $\sum_{i=Q+1}^\infty g(i)=\P(X\geq Q+1)$, thus we can simplify the 
 \begin{equation*}
   \E(\min\{(X,Q\})) = \sum_{i=0}^Q i g(i) + Q\P(X\geq Q+1).
 \end{equation*}
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   Suppose for our example that the daily demand is $X\in \{0,1,2\}$
   and $g(0) = \P(X=0)=1/4$, $g(1)=1/3$, $g(2)=5/12$. What would be the
   best number of items $Q$ to make?
-\begin{comment}
+\begin{solution}
   Now we need to consider three different $Q$'s, $Q=0, 1,$ or $2$.
   Suppose that $Q=1$, then
 \begin{equation*}
@@ -130,28 +130,28 @@ is the expected profit per day of buying $Q=1$ at the start of the day.
 
 Once you implement this in excel, it is easy to experiment with
 different values of $Q$ and see what is the best choice for $Q$. 
-\end{comment}
-\end{exercise}
+\end{solution}
+\end{question}
 
 
-\begin{exercise}
+\begin{question}
 If the demand can be quite big, e.g., $X\in\{0,1,\ldots, 1000\}$, what is the slope of $Z(Q)$ for $Q$ small? What is the slope if $Q$ is big, i.e., near 1000? Assume that the demand distribution is something reasonable.
-\begin{comment}
+\begin{solution}
   If $Q=1$ it is very unlikely that the item will not be sold. In fact, we are nearly sure it will be sold, hence, the slope of $Z$ for small $Q$ must be $p_s$. If $Q$ is very large, we are pretty sure the `last item' will not be sold, hence, the slope must be $-p_e$. 
-\end{comment}
-\end{exercise}
+\end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   Suppose there would be a setup cost which you have to pay to order any positive amount $Q>1$. What is then the profit? 
-  \begin{comment}
+  \begin{solution}
     This is a no-brainer. If the setup cost is $s$, then just subtract
     $s$ from the profit function $Z(Q)$.
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
 Suppose we would set a certain service level, what is the profit under such a service level? Before we tackle this, what type of service level can we consider? 
-\begin{comment}
+\begin{solution}
   Cycle service level $P_1$, i.e., the probability that there are more
   items than demand, i.e., the fraction of periods/days that the shop
   does not run out of stock:
@@ -164,12 +164,12 @@ Another interesting service level is the fraction of demand that is met, i.e., t
 \E(\min\{Q, X\})/ \E(X) \geq P_2
 \end{equation*}
 Realize that $\E(\min\{Q, X\})$ is the expected sales, while $\E(X)$ is the expected demand. The average amount of demand met is the sales divided by the demand.
-\end{comment}
-\end{exercise}
+\end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   Now we can consider the profit under setting a certain performance level. How would you compute this?
-  \begin{comment}
+  \begin{solution}
     If we want to focus on fill rate, first determine $Q$ such that
     $\E(\min\{Q, X\})/ \E(X) \geq P_2$, where $P_2=90\%$ or so. Call
     this $Q_2$. Then compute $Z(Q_2)$ to get the profit. 
@@ -177,21 +177,21 @@ Realize that $\E(\min\{Q, X\})$ is the expected sales, while $\E(X)$ is the expe
     If we want to focus on cycle service level rate, first determine
     $Q$ such that $\P(X\leq Q) \geq P_1$, where $P_1=80\%$ or so. Call
     this quantity $Q_1$. Compute now $Z(Q_1$ to get the profit.
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 We next  discuss a few expressions that simplify the implementation of the profit function in excel.
 
-\begin{exercise}
+\begin{question}
   Explain that $\E( \max\{Q-X, 0\})$ is another expression for the expected number of items over.
-  \begin{comment}
+  \begin{solution}
     If $Q>X$, we have $Q-X$ over, if $Q\leq X$ we don't have items over. 
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   Write $\E (\max\{Q-X, 0\}) $ as a summation, so that you can implement this in excel.
-  \begin{comment}
+  \begin{solution}
 \begin{equation*}
   \begin{split}
   \E( \max\{Q-X, 0\} )
@@ -203,20 +203,20 @@ We next  discuss a few expressions that simplify the implementation of the profi
   &= \sum_{i=0}^{Q-1} (Q-i) g_i.
   \end{split}
 \end{equation*}
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 
-\begin{exercise}
+\begin{question}
   Why is $ \E( \max\{X-Q, 0\})$ the expected number of items short?
-  \begin{comment}
+  \begin{solution}
     If there is a shortage of items, it must be that $X>Q$. The amount short is $X-Q$.
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   Write $\E (\max\{X-Q, 0\}) $ as a summation.
-  \begin{comment}
+  \begin{solution}
 \begin{equation*}
 \begin{split}
      \E (\max\{X-Q, 0\} )
@@ -225,38 +225,38 @@ We next  discuss a few expressions that simplify the implementation of the profi
    &= \sum_{i=Q+1}^\infty (i-Q) g_i.
 \end{split}
 \end{equation*}
-\end{comment}
-\end{exercise}
+\end{solution}
+\end{question}
 
 
-\begin{exercise}
+\begin{question}
   Let $Q=3$ and $g_1=g_2\ldots=g_5 = 1/5$. Compute $\theta = \E(X)$, i.e., the expected demand, the expected lost sales and the expected number over.
-  \begin{comment}
+  \begin{solution}
     \begin{align*}
       \E( X) &= \sum_{i=1}^5 i g_i = 1/5+2/5+\cdots+5/5 = 3, \\
       \E (\max\{X-Q,0\}) &= \sum_{i=Q+1}^5 (i-Q) g_i = (4-3)/5 + (5-3)/5,\\
       \E (\max\{Q-X,0\}) &= \sum_{i=1}^{Q-1} (Q-i) g_i = (3-1)/5 + (3-2)/5.
     \end{align*}
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   Up to now we considered the profit function $Z(Q)$.  Can you
   establish a cost function of the newsvendor problem?
-  \begin{comment}
+  \begin{solution}
 The expected cost resulting from ordering an amount $Q$ follows
 from combining the above formulas:
 \begin{equation*}
      Y(Q) = c_o  \E( \max\{Q-X, 0\})  +   c_s \E( \max\{X-Q, 0\}) - c_s\E(X).
 \end{equation*}
 Note that the expected `cost' of selling $\E(X)$ of items should be subtracted from the cost. Since this term does not depend on the decision variable $Q$, it is often left out of the cost function, but formally it should be there.
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 
-\begin{exercise}
+\begin{question}
   Show that the profit is minus the the cost, i.e., $Z(Q) = -Y(Q)$.
-  \begin{comment}
+  \begin{solution}
     Here we go:
     \begin{equation*}
       \begin{split}
@@ -272,45 +272,45 @@ Note that the expected `cost' of selling $\E(X)$ of items should be subtracted f
       \end{split}
     \end{equation*}
 Ensure you understand the last two steps. 
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
 Reproduce the results of the Christmas Lights Example of Factory Physics.
-\begin{comment}
+\begin{solution}
   First the data. We also use a library to handle the computations for
   the normal distribution. 
 
 
-\begin{minted}[mathescape, fontsize=\small, xleftmargin=0.5em]{python}
-from scipy.stats import norm
-c_o = 5 - 2.5
-c_s = 10 - 5
-mu = 10000
-sigma = 1000
-X = norm(loc=mu, scale=sigma) # demand
-\end{minted}
+% \begin{minted}[mathescape, fontsize=\small, xleftmargin=0.5em]{python}
+% from scipy.stats import norm
+% c_o = 5 - 2.5
+% c_s = 10 - 5
+% mu = 10000
+% sigma = 1000
+% X = norm(loc=mu, scale=sigma) # demand
+% \end{minted}
 
 
 The result of the book is easy to produce. 
 
 
-\begin{minted}[fontsize=\footnotesize, xleftmargin=0.5em, mathescape]{python}
->>> critical_fractile = c_s / (c_o + c_s)
->>>
->>> Q_star = X.ppf(critical_fractile)
->>> Q_star
-10430.727299295457
+% \begin{minted}[fontsize=\footnotesize, xleftmargin=0.5em, mathescape]{python}
+% >>> critical_fractile = c_s / (c_o + c_s)
+% >>>
+% >>> Q_star = X.ppf(critical_fractile)
+% >>> Q_star
+% 10430.727299295457
 
-\end{minted}
+% \end{minted}
 
-\end{comment}
-\end{exercise}
+\end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
   In this christmas light example, 
 do you think that $\sigma = 1000$ is reasonable? 
-  \begin{comment}
+  \begin{solution}
     In all honesty, I think it is way too small. I would say that
     $\sigma=5000$ is much more reasonable. The problem is that if you
     would use this larger value, i.e., $\sigma=5000$, in the normal
@@ -323,11 +323,11 @@ do you think that $\sigma = 1000$ is reasonable?
     to showcase the simple methods developed in the book. However, as
     soon you have to do something real, the simple tricks all of a
     sudden don't work anymore. 
-  \end{comment}
-\end{exercise}
+  \end{solution}
+\end{question}
 
 
-\begin{exercise} A Case to  Get rich in one day. 
+\begin{question} A Case to  Get rich in one day. 
 
   \begin{itemize}
   \item You plan to sell Napoleons tomorrow just outside of the
@@ -340,7 +340,7 @@ do you think that $\sigma = 1000$ is reasonable?
 
    \includegraphics[scale = 1.0]{figures/mille-feuille}
 
-   \begin{comment}
+   \begin{solution}
 Here are the steps.
   \begin{itemize}
   \item Let's first assume that demand is normally distributed. Then
@@ -370,14 +370,14 @@ Here are the steps.
   $Z(112) \approx 100(0.75-0.25) = 50$ Euro.
 \item There are easier ways to make money!
   \end{itemize}
-\end{comment}
-\end{exercise}
+\end{solution}
+\end{question}
 
-\begin{exercise}
+\begin{question}
    Summarize the approach we took to some insight into this napoleon
    case, even though, initially, we had no idea about what profit we
    could make.
-   \begin{comment}
+   \begin{solution}
 Conclusion.
   \begin{itemize}
   \item Determine/estimate relation between demand (distribution) and sales price
@@ -387,8 +387,8 @@ Conclusion.
     is a \emph{delusion}.
   \item Be aware that salesforce may predict too high demand. They get insentives to sell much, but they are not responsible for overage cost!
   \end{itemize}
-   \end{comment}
- \end{exercise}
+   \end{solution}
+ \end{question}
 
 
 %%% Local Variables:
