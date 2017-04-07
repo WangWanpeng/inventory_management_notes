@@ -17,7 +17,7 @@ we are going to develop in excel, or some more useful programming
 environment.
 
 
-As a guide to the solving the exercises, note that they are not meant
+As a guide to  solving the exercises, note that they are not meant
 to be easy (otherwise we could have asked you to check that
 $11+22=33$\ldots). Thus, it is not a real problem if you can't solve
 an exercise right away, in other words, it is not a `failure' if you
@@ -36,7 +36,7 @@ Recommended reading:
 \item Factory Physics: Section 2.1, 6.3 and  16.2. 
 \end{itemize}
 
-\subsection{Inventory Modeling}
+\subsection{Why Maken Inventory Models?}
 \label{sec:inventory-modeling}
 
 \begin{question}\label{ex:1}
@@ -45,6 +45,12 @@ Recommended reading:
     Q^* = \sqrt{\frac{ 2 A D}{h}}.
   \end{equation*}
 What are the underlying assumptions of the inventory system that lead to this equation?
+
+This question is relevant because in the inventory case you have to
+solve, you also have to make numerous assumptions to simplify the
+case. Thus, you should have a number of relevant assumptions in the
+back of your mind.  This question is meant to refresh your knowledge
+of inventory systems.)
 \begin{solution}
 \begin{itemize}
 \item Demand is constant and deterministic
@@ -64,8 +70,14 @@ See also FP.
 \begin{question}
   Can you summarize the assumptions of the EOQ in four steps by which
   a generic inventory system can be characterized?
+
+  This question will help you with making useful models of inventory
+  systems. The four steps you have to think about are applicable to
+  many inventory systems, hence very useful to organize the concepts
+  and the steps you have to take to analyse such systems.
+
   \begin{solution}
-If we dissect the EOQ model we see that we made modeling decision regarding:
+If we dissect the EOQ model we see that we made modeling decisions regarding:
 \begin{enumerate}
 \item Characteristics of the  demand:  constant, or deterministic, stochastic, trends, seasonality?
 \item Models: 
@@ -99,10 +111,21 @@ If we dissect the EOQ model we see that we made modeling decision regarding:
 
 \begin{question}
   Why is it important to make a model of an inventory system?
+
+
+  This question should provide you with sufficient motivation for the
+  lectures in which we develop:
+\begin{enumerate}
+ \item models of inventory systems  and policies. 
+ \item models to characterize demand and make forecasts of demand
+\end{enumerate}
+Mind that you also have to carry out these steps in the group
+assignment.
+
   \begin{solution}
     \begin{itemize}
     \item With a model it becomes possible to actually manage an
-      inventory system. The model included the basic, and most
+      inventory system. The model should include the basic, and most
       revelation, relations between the different parts of the system.
     \item A model can help with consistency checks. For instance,
       suppose we order in quantities of $Q$, e.g., 100 items, what is
@@ -116,13 +139,13 @@ If we dissect the EOQ model we see that we made modeling decision regarding:
       evaluate the consequences of using certain types of control
       policies, when to order, and how much to order.
     \item With models we can carry out sensitivity analysis. How
-      sensitive is our policy with respect to changed in the cost
+      sensitive is our policy with respect to changes in the cost
       parameters, demand, and so on? Suppose it turns out that the
-      costs are very sensitive, it is important to monitor the
+      costs are very sensitive, then it is important to monitor the
       inventory levels/positions closely, for instance, continuous
       review may be necessary. if it is not so sensitive, periodic
       review can be OK.
-    \item Finally, we can use models for what if scenarios.  We can
+    \item Finally, we can use models for what-if scenarios.  We can
       investigate what happens if we change (some of) the assumptions
       underlying the model and develop methods to assess inventory
       control policies. With a model we can also analyze hypothetical
@@ -134,14 +157,6 @@ If we dissect the EOQ model we see that we made modeling decision regarding:
   \end{solution}
 \end{question}
 
-Hopefully the above questions and answers provide sufficient
-motivation for the next few lectures in which we develop
-\begin{enumerate}
- \item models of inventory systems  and policies. 
- \item models to characterize demand and make forecasts of demand
-\end{enumerate}
-Mind that you also have to carry out these steps in the group
-assignment.
 
 
 \subsection{Analyzing Inventory Systems}
@@ -158,7 +173,7 @@ of departure.
   When are inventory systems actually not necessary?
 \begin{solution}
   In a sense, in business it comes down to matching supply and
-  demand. When capacity can be modulated at will and free of cost,
+  demand. When production capacity can be modulated at will and free of cost,
   there is not need for inventory. Any demand size be produced or
   ordered without any problem and without any financial consequence.
 
@@ -325,7 +340,7 @@ See Figure~\ref{fig:costs} for a visual overview.
   \begin{solution}
     Time, inventory, capacity, the three buffers. We urge you to read
     Section 6.2 and 6.3 of FP (edition 3) really critically. The ideas
-    behind Figure 6.6 are very useful, and you can try to apply the
+    behind Figure 6.6 of FP are very useful, and you can try to apply the
     underlying ideas to your case too when you have to make a choice
     for an inventory control policy, determine the policy parameter
     and do the sensitivity analysis.
@@ -344,7 +359,7 @@ model and the documentation. Once we have a complete model we can
 build it in excel and start simulating the system and evaluate
 policies. Thus, the aim of the examples is to show you how to apply
 the check lists to design and evaluate complete models. Note that
-modeling is an art; as a consequence check lists can never be
+modeling is an art; as a consequence, check lists can never be
 complete, and there is also not one simple recipe to make a good
 model. In that sense, the development of models is always somewhat
 ad-hoc and unstructured, in fact, the development of the model helps
@@ -565,13 +580,13 @@ consider taking a minimum only once.
   \begin{solution}
     In excel we can build something really useful, the indicator
     function. It is 1 if $c_i>0$ and $0$ when $c_i=0$. Mathematically
-    we write it like $1\{c_i>0\}$.  
+    we write it like $\1{c_i>0}$.  
 
     With this it is easy to compute the total cost up to some day
     $j$. On day $i$ we pay $b B_i$ if there are $B_j$ units of demand
-    in backlog, and we pay $p 1\{c_i>0\}$ for the production. Thus,  the total cost up to time $j$ must be 
+    in backlog, and we pay $p \1{c_i>0}$ for the production. Thus,  the total cost up to time $j$ must be 
     \begin{equation*}
-      b\sum_{i=1}^j B_j + p \sum_{i=1}^j 1\{c_i > 0\}.
+      b\sum_{i=1}^j B_j + p \sum_{i=1}^j \1{c_i > 0}.
     \end{equation*}
 
   \end{solution}
@@ -583,7 +598,7 @@ formulate the reward structure.
   \begin{solution}
     The profit function up to time $j$ is
     \begin{equation*}
-     r \sum_{i=1}^j S_j - b \sum_{i=1}^j B_j - p \sum_{i=1}^j 1\{c_i>0\}, 
+     r \sum_{i=1}^j S_j - b \sum_{i=1}^j B_j - p \sum_{i=1}^j \1{c_i>0}, 
     \end{equation*}
     i.e., the sum of the total profit minus the cost of backlog minus
     the cost of switching on the machine (recall $c_i = 0$ is the
@@ -598,9 +613,9 @@ formulate the reward structure.
   often. Can you find an expression to estimate how often such an
   event occurs with excel for a given set of demands?
   \begin{solution}
-    When $B_i>a$ we are `in trouble. Thus, to count how often this happen, we can compute
+    When $B_i>a$ we are `in trouble'. Thus, to count how often this happen, we can compute
     \begin{equation*}
-      \sum_{i=1}^j 1 \{B_i > a\}.
+      \sum_{i=1}^j \1{B_i > a}.
     \end{equation*}
   \end{solution}
 \end{question}
@@ -613,7 +628,7 @@ excess  backlogged demand. What can be an appropriate formula for this?
 \begin{solution}
     When $B_i>a$, the amount in excess is $B_i$. Thus, 
     \begin{equation*}
-      \sum_{i=1}^j B_i 1 \{B_i > a\},
+      \sum_{i=1}^j B_i \1{B_i > a},
     \end{equation*}
   is the amount we want to compute. 
 \end{solution}
@@ -626,9 +641,9 @@ excess  backlogged demand. What can be an appropriate formula for this?
   \end{solution}
 \end{question}
 
-\begin{question}
+\begin{question}[use=false]
   If you like, you can try to formulate an optimization problem for
-  the problem on how much to produce. .
+  the problem on how much to produce. 
   \begin{solution}
 
     TBD = to be done = unfinished. You can always skip exercises that
@@ -720,10 +735,9 @@ All in all,
   end of the day.
   \begin{solution}
     The cost of inventory is $\sum_{i=1}^j h I_{i}$ and the cost of
-    production has been given before: $p\sum_{i=1}^j 1\{c_i>0\}$.
-
-    Observer there is no backlog, and also no lost demand. Hence,
-    these terms do not add to the cost.
+    production has been given before: $p\sum_{i=1}^j \1{c_i>0}$.
+    Observe there is no backlog, and also no lost demand. Hence,
+    backlogging cost and lost sales do not add to the cost.
   \end{solution}
 \end{question}
 
@@ -792,8 +806,10 @@ All in all,
     demand. The production cost, i.e., cost to switch on the machine
     is relatively simple. It is just the total demand divided by the
     daily production capacity $c$ and then times the production cost
-    $p$ per day, in other words, the total cost of production is
-    $p\sum_{i=1}^j d_i/c$.
+    $p$ per day, in other words, the total cost of production up to period $j$ is
+    \begin{equation*}
+    \frac{p}c\sum_{i=1}^j d_i.
+    \end{equation*}
 
     If there is loss, however, we need to produce less (because some
     demand is lost) and we also can keep lower inventories. Thus,
@@ -805,7 +821,7 @@ All in all,
 
 Observe also that our sales $S_i$ in day $i$ may need not be equal to the demand $d_i$,  as we cannot sell more than what we have on stock. Thus,
     \begin{align*}
-      c_i &= c 1\{I_{i-1} \leq r\}, \\
+      c_i &= c \1{I_{i-1} \leq r}, \\
       S_i &= \min\{d_i, I_{i-1}\}, \\
       L_i &= d_i - S_i, \\
       I_i &= I_{i-1} -S_i + c_i, 
@@ -821,7 +837,7 @@ Observe also that our sales $S_i$ in day $i$ may need not be equal to the demand
   per unit of demand lost? 
 \begin{solution}
   \begin{equation*}
-    \sum_{i=1}^j \left(h I_{i} + k L_i + p1\{c_i>0\}\right).
+    \sum_{i=1}^j \left(h I_{i} + k L_i + p\1{c_i>0}\right).
   \end{equation*}
 \end{solution}
 \end{question}
@@ -859,7 +875,7 @@ Hence, the fill rate is given by
 \end{equation*}
 The service cycle level is the fraction of periods in which loss did not occur:
 \begin{equation*}
-  \frac 1 j \sum_{i=1}^j 1\{L_i=0\}, 
+  \frac 1 j \sum_{i=1}^j \1{L_i=0}, 
 \end{equation*}
 i.e., the average number of days in which the system did not run out of stock.
 
@@ -922,7 +938,7 @@ Note that these two KPI's are not the same.
     `system' that is entered only by the backlogged customers.  So,
     how much demand enters this system?  A first guess is all the demand that leaves backlog behind:
     \begin{equation*}
-      \sum_{i=1}^j d_i 1\{B_i > 0\}.
+      \sum_{i=1}^j d_i \1{B_i > 0}.
     \end{equation*} 
  
 
@@ -930,7 +946,7 @@ Note that these two KPI's are not the same.
     $B_{i} = 8+7-10 = 5$. Thus, assuming FIFO service of backlogged
     demand, of the 7 demands entering, only 5 will be backlogged, the
     rest, i.e., 2, will be served on day $i$ itself. That means that
-    $d_i 1\{B_i>0\}$ must overcount the amount of demand that is
+    $d_i \1{B_i>0}$ must overcount the amount of demand that is
     backlogged. Another example might help to get the right number. If
     $B_{i-1}=10$, the $B_i=7$, hence all demand on day $i$ is
     backlogged. But if $B_{i-1}=2$, then $B_i = 0$ and no demand is
@@ -942,7 +958,7 @@ Note that these two KPI's are not the same.
     gets backlogged. The rate of  backlogged demand is then
     \begin{equation*}
       r_{a,b} =
-      frac 1 n \sum_{i=1}^j d_{i,b} = frac 1 n \sum_{i=1}^j \min\{d_i, B_i\}.
+      \frac 1 n \sum_{i=1}^j d_{i,b} = \frac 1 n \sum_{i=1}^j \min\{d_i, B_i\}.
     \end{equation*}
     With this we see that the average time backlogged demand stays in
     backlog must be
@@ -988,7 +1004,7 @@ Note that these two KPI's are not the same.
     the amount produced:
     \begin{align*}
       I_i &= I_{i-1}-d_i + c_i \\
-c_i &= c 1\{I_{i-1} \leq r\}.
+c_i &= c \1{I_{i-1} \leq r}.
     \end{align*}
 
     For the revenues we can also make at least two choices: do we get
@@ -1024,5 +1040,5 @@ c_i &= c 1\{I_{i-1} \leq r\}.
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "notes_all"
+%%% TeX-master: "notes_test"
 %%% End:
