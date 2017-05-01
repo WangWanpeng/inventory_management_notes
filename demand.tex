@@ -105,10 +105,15 @@ respectively. Because, $Q^*$ is the optimal order quantity when demand is $D(1+\
 \begin{align*}
 C & = C^*\frac{1}{2}\left(\frac{1}{\sqrt{1+\Delta}}+\sqrt{1+\Delta}\right)
 \end{align*}
-\item We observe that if demand is underestimated by 50\%, the cost error is 6\%; and if it is overestimated by 50\%, the cost error is 2\%. The cost penalty does not look that serious on the overall.
-\begin{center}
+\item See Figure~\ref{fig:costerror}. We observe that if demand is underestimated by 50\%, the cost error is 6\%; and if it is overestimated by 50\%, the cost error is 2\%. The cost penalty does not look that serious on the overall.
+
+\begin{figure}
+\centering
 \includegraphics[width=.5\linewidth]{figures/Figure_1.pdf}
-\end{center}
+\caption{Cost error}
+\label{fig:costerror}
+\end{figure}
+
 \item The EOQ cost is rather insensitive to the demand for which the order quantity is based upon. As such, a highly accurate forecast, although preferable, is not necessary. 
 \end{enumerate}
     
@@ -373,7 +378,7 @@ The first step in developing a forecast model is to plot the data. Any factor th
 
 
 \begin{question} \label{plots} 
-Attached you will find plots for four sets of time-series demand data: Series 1, 2, 3, and 4. In each of these sets, there are three data plots each of which originates from a different product. First, visually analyze these plots and solution on how data presented in different sets of plots as well as the plots within the same set differ from each other. Then, for each of these plots, discuss which time-series forecasting model better suits the underlying demand and solution on how responsive (emphasis on more recent data points) this forecasting model should be.
+In Figure~\ref{fig:plots} you will find plots for four sets of time-series demand data: Series 1, 2, 3, and 4. In each of these sets, there are three data plots each of which originates from a different product. First, visually analyze these plots and solution on how data presented in different sets of plots as well as the plots within the same set differ from each other. Then, for each of these plots, discuss which time-series forecasting model better suits the underlying demand and solution on how responsive (emphasis on more recent data points) this forecasting model should be.
 
 \end{question}
 
@@ -590,13 +595,15 @@ It is plausible to use a classical smoothing model for (1), a smoothing model wi
 
 
 \begin{landscape}
-\let\thefootnote\relax\footnotetext{\textbf{Exercise~\ref{plots}}}
-\begin{center}
+\begin{figure}
+\centering
 \includegraphics[width=.4\linewidth]{figures/Patterns_1.pdf}
 \includegraphics[width=.4\linewidth]{figures/Patterns_2.pdf} \\
 \includegraphics[width=.4\linewidth]{figures/Patterns_3.pdf}
 \includegraphics[width=.4\linewidth]{figures/Patterns_4.pdf}
-\end{center}
+\caption{Exercise~\ref{plots} plots}
+\label{fig:plots}
+\end{figure}
 \end{landscape}
 \newpage
 
