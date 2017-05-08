@@ -8,7 +8,7 @@ The demand is never known in advance. If so, what is the use of a deterministic 
 \begin{solution}
 Indeed almost all inventory management environments demand is not known in advance. But there are many cases where the variability of the demand is so low that the uncertainty can be ignored. Also, it is not uncommon to have ``advance demand information'' in some industries where customers place their order before they actually want it to be delivered. If this is the case, then one can safely assume that the demand is known with certainty over some interval of time. 
 
-From a theoretical point of view, these models can be used as a point of reference as well as better understanding certain trade-offs. The EOQ model has very restrictive assumptions with respect to demand, yet it is one of the most well-known models by both academics and practitioners. Finally, deterministic models -- to a certain extent -- can be adapted to account for stochastic demands and used as heuristic approaches. We will see many examples of this in this course.  
+From a theoretical point of view, these models can be used as points of reference while helping you to better understanding certain trade-offs. The EOQ model has very restrictive assumptions with respect to demand, yet it is one of the most well-known models by both academics and practitioners. Finally, deterministic models -- to a certain extent -- can be adapted to account for stochastic demands and used as heuristic approaches. We will see many examples of this in this course.  
 \end{solution}
 
 \begin{question}
@@ -424,7 +424,7 @@ If we put together this with our previous observation; we can conclude that a sm
 For arbitrary values of $b$ the constant will be smaller than 1. Therefore, we can conclude that the optimal average cost will be higher as compared to the no-stock-out case and the difference will be larger for smaller values of $b$. 
 \end{enumerate}
 
-Let's numerically analyze these effects. We know for the no-stockout case that if we plug in the parameters we obtain from the EOQ formula that $Q^{*} \approx 141.42$ units and $f(Q^{*}) \approx \mathdollar 48.28$. For different values of $b$ we obtain the following. 
+Let's numerically analyze these effects. We know for the no-stockout case that if we plug in the parameters we obtain from the EOQ formula that $Q^{*} \approx 141.42$ units and $f(Q^{*}) \approx \mathdollar 48.28$. For different values of $b$ we obtain the results in Table~\ref{tab:effect_backorder}. 
 
 \begin{table}[h]
   \centering
@@ -464,7 +464,7 @@ Note that all numbers are in line with our expectations. For instance, for incre
 
 
 \begin{question}
-Explain the inventory policy behind the EOQ model withb acklogging. What are its parameters? How does it work?
+Explain the inventory policy behind the EOQ model with backlogging. What are its parameters? How does it work?
 \end{question}
 
   \begin{solution}
@@ -494,7 +494,7 @@ In many practical environments, there is economies of scale in ordering due to q
 \end{question}
 
 \begin{solution}
-In presence of quantity discounts, we have an incentive to order more since the unit procurement cost decreases with the order size. This can be conceptualized by re-writing procurement cost as a function of the order quantity. There is also an interesting point relates to the holding costs. It is often assumed that the unit holding cost is a fraction of the unit procurement cost. For instance, the holding cost per year is 30\% of the procurement cost. In case of quantity discounts, this implies that the holding cost is also a function of the order quantity. 
+In presence of quantity discounts, we have an incentive to order more since the unit procurement cost decreases with the order size. This can be conceptualized by re-writing procurement cost as a function of the order quantity. There is also an interesting point that relates to the holding costs. It is often assumed that the unit holding cost is a fraction of the unit procurement cost. For instance, the holding cost per year is 30\% of the procurement cost. In case of quantity discounts, this implies that the holding cost is also a function of the order quantity. 
 \end{solution}
 
 \begin{question}
@@ -591,7 +591,7 @@ f_2(Q) = \frac{2000}{Q} + 16 + 0.08 Q & \text{if } 100 \leq Q < 200 \\
 f_3(Q) = \frac{2000}{Q} + 12 + 0.06 Q & \text{if } 200 \leq Q 
 \end{cases}
 \end{equation*}
-and also we know $Q^*_1\approx 141.42$, $Q^*_2\approx 158.11$, and $Q^*_3\approx 182.57$. 
+and we also know $Q^*_1\approx 141.42$, $Q^*_2\approx 158.11$, and $Q^*_3\approx 182.57$. 
 
 In the Figure~\ref{fig:avgcost_allunit} we draw all these functions.
 
@@ -654,7 +654,7 @@ What we observe here is the following.
 
 Based on these observations, we can conclude that the minimum average cost per unit time we can attain is \$34. To achieve that, our order quantity should be 200 units.
 
-Here we followed a simple procedure to find the optimal order quantity. We first devised a cost function for each discount interval. Then, we evaluated the global optimums of these functions and assesses whether those optimal points fall into the associated intervals and based on that we characterized the best order quantity for each discount interval. Finally, we compared the costs of the optimal points of all functions and found out which one is the best. This procedure can be used to find the optimal order quantity for any problem instance. 
+Here we followed a simple procedure to find the optimal order quantity. We first devised a cost function for each discount interval. Then, we evaluated the global optimums of these functions and assessed whether those optimal points fall into the associated intervals, and based on that we characterized the best order quantity for each discount interval. Finally, we compared the costs of the optimal points of all functions and found out which one is the best. This procedure can be used to find the optimal order quantity for any problem instance. 
 
 \paragraph{Incremental discounts}
 
@@ -712,7 +712,7 @@ f_2(Q) = \frac{2400}{Q} + 18 + 0.08 Q & \text{if } Q_1 \leq Q < Q_2 \\
 f_3(Q) = \frac{3200}{Q} + 18 + 0.06 Q & \text{if } Q_{2} \leq Q 
 \end{cases}
 \end{equation*}
-and also we know $Q^*_1\approx 141.42$, $Q^*_2\approx 173.21$, and $Q^*_3\approx 230.94$. 
+and we also know $Q^*_1\approx 141.42$, $Q^*_2\approx 173.21$, and $Q^*_3\approx 230.94$. 
 
 In Figure~\ref{fig:avgcost_incremental} we draw all these functions.
 
@@ -833,7 +833,7 @@ See Figure~\ref{fig:EPQ}.
 \end{figure}
 
 
-It is important to observe that the inventory behaves differently when production is on and off. If production is on, then the inventory increases with the rate $P-D$. Here $P$ stands for the production rate i.e. number of items produced in unit time. Note that $P$ is supposed to be larger than $D$, as it would otherwise be impossible to cover the demand. If production is off, the inventory process is the same with the classical model where it decreases with rate $D$. The production quantity in one cycle be $Q$. At the beginning of each cycle production is switched on, and it is switched off once $Q$ items have been produced. Because the inventories increase with rate $P-D$ during that time, we end up with $H=Q(1-\frac{D}{P})$ units once the machine has been turned off. Then production remains off until the inventory level drops down to zero, and then another cycle starts.
+It is important to observe that the inventory behaves differently when production is on and off. If production is on, then the inventory increases with the rate $P-D$. Here $P$ stands for the production rate i.e. number of items produced in unit time. Note that $P$ is supposed to be larger than $D$, as it would otherwise be impossible to cover the demand. If production is off, the inventory process is the same with the classical model where it decreases with rate $D$. The production quantity in one cycle is $Q$. At the beginning of each cycle, production is switched on and it is switched off once $Q$ items have been produced. Because the inventories increase with rate $P-D$ during that time, we end up with $H=Q(1-\frac{D}{P})$ units once the machine has been turned off. Then production remains off until the inventory level drops down to zero, and then another cycle starts.
 
 The total cost for one cycle is the sum of ordering cost, procurement cost, and inventory (holding) cost. The fixed setup cost (rather than fixed ordering) is $A$ per cycle as we switch on the machine only once in each cycle. The production cost (rather than procurement) equals the unit production cost times the order quantity $cQ$, i.e. we produce just enough to satisfy all the demand in each cycle. The inventory cost per cycle is the total area of the triangle times $h$, i.e. 
 \begin{equation*}
@@ -850,7 +850,7 @@ This expression gives us the average cost as a function of the order quantity:
 f(Q) = \frac{AD}{Q}+cD+\left(1-\frac{D}{P}\right)\frac{hQ}{2}.
 \end{equation*}
 
-It is easy to observe at this point that we can derive the average cost function of the EPQ model simply by revising the holding cost $h$ of the EOQ model as $h'=h \left(1-\frac{D}{P}\right)$. All relevant results, such as expressions of the optimal order quantity and cost then immediately follows. For instance, the optimal production quantity $Q^*=\sqrt{\frac{2AD}{h'}}$ and optimal average cost per unit time $f(Q^*)=\sqrt{2ADh'}+cD$. The intuition behind is as follows. Let assume that we are using the same $Q$ for the EOQ and EPQ models. Then the average stock level and thus the holding costs of the EPQ model will be $1-\frac{D}{P}$ times the average stock level of the EOQ model, and all other costs will be the same.  
+It is easy to observe at this point that we can derive the average cost function of the EPQ model simply by revising the holding cost $h$ of the EOQ model as $h'=h \left(1-\frac{D}{P}\right)$. All relevant results, such as expressions of the optimal order quantity and cost then immediately follows. For instance, the optimal production quantity $Q^*=\sqrt{\frac{2AD}{h'}}$ and optimal average cost per unit time $f(Q^*)=\sqrt{2ADh'}+cD$. The intuition behind is as follows. Let us assume that we are using the same $Q$ for the EOQ and EPQ models. Then the average stock level and thus the holding costs of the EPQ model will be $1-\frac{D}{P}$ times the average stock level of the EOQ model, and all other costs will be the same.  
 \end{solution}
 
 \begin{question}
@@ -871,7 +871,7 @@ How does the production rate affect the optimal production quantity and the aver
 \begin{solution}
 Let us consider the optimal production quantity $Q^*=\sqrt{\frac{2AD}{h'}}$ and corresponding optimal average cost per unit time $f(Q^*)=\sqrt{2ADh'}+cD$ where $h'=h\left(1-\frac{D}{P}\right)$. It is clear that the smaller the $P$ the smaller the adapted holding cost $h$. Then it is easy to see that a higher production rate leads to a smaller $Q^*$ and a higher $f(Q^*)$. 
 
-We know that the production rate should be larger than the demand rate to be able to cover demand over time. Thus, the lowest feasible production rate is the demand rate itself. In this case we have $P=D$ and therefore $h'=h\left(1-\frac{D}{D}\right)=0$. The mathematics of this particular case is ill-defined to the division by 0. Nevertheless, it is easy to see what is going on. Because the production rate equals the demand rate; we simply have is no inventory! We witch on the machine and leave it switched on all the time. Thus we have neither fixed setup cost nor holding cost. All we need to pay is the production cost which is $cD$ per unit time.
+We know that the production rate should be larger than the demand rate to be able to cover demand over time. Thus, the lowest feasible production rate is the demand rate itself. In this case we have $P=D$ and therefore $h'=h\left(1-\frac{D}{D}\right)=0$. The mathematics of this particular case is ill-defined to the division by 0. Nevertheless, it is easy to see what is going on. Because the production rate equals the demand rate; we simply have is no inventory! We switch on the machine and leave it switched on all the time. Thus we have neither fixed setup cost nor holding cost. All we need to pay is the production cost which is $cD$ per unit time.
 \end{solution}
 
 \begin{question}
@@ -893,9 +893,9 @@ We know that often in real-life the demand change over time. How can we capture 
 \end{question}
 
 \begin{solution}
-We need to use an approach to explain how demand evolve over time. For instance, let $D(t)$ be the demand at time $t$ and assume that the process starts with no demand, i.e. $D(0)=0$, and then it increases over time with some rate $a$ per unit time. Then we can write $D(t)=at$. However, this way of modeling demand is not very handy with respect to inventory management as mathematics to compute costs would involve nasty integrals. 
+We need to use an approach to explain how demand evolve over time. For instance, let $D(t)$ be the demand at time $t$ and assume that the process starts with no demand, i.e. $D(0)=0$, and then it increases over time with some rate $a$ per unit time. Then we can write $D(t)=at$. However, this way of modeling demand is not very handy with respect to inventory management as the mathematics to compute costs would involve nasty integrals. 
 
-A practical alternative is to approach time in a discrete fashion, i.e. to count time as a discrete entity such as days, weeks, or months. This allows us to express the demand in period $n$ as a scalar such as $D_n$. Because time is now discrete, the way that the costs are accounted for should be different. The conventional approach is to do the cost accounting at the end of the periods. Here, the sequence of events in a period are as follows: (1) we observe the inventory level from the previous period, (2) we make a replenishment decision and (if applicable) pay the fixed ordering and procurement costs, (3) if an order is placed then it is received (assuming no lead time -- otherwise we receive the order from $L$ period before), (4) demand is realized, and (5) inventory costs are charged for the inventories at the end of the period. Observe that This is different than the continuous-time cost accounting. In discrete time cost accounting, in each period holding costs are charged only once. In continuous time cost accounting, holding cost are charged at all times. Long story short, we do not have the triangles any more! We rather have a bar for each period! 
+A practical alternative is to approach time in a discrete fashion, i.e. to count time as a discrete entity such as days, weeks, or months. This allows us to express the demand in period $n$ as a scalar such as $D_n$. Because time is now discrete, the way that the costs are accounted for should be different. The conventional approach is to do the cost accounting at the end of the periods. Here, the sequence of events in a period are as follows: (1) we observe the inventory level from the previous period, (2) we make a replenishment decision and (if applicable) pay the fixed ordering and procurement costs, (3) if an order is placed then it is received (assuming no lead time -- otherwise we receive the order from $L$ period before), (4) demand is realized, and (5) inventory costs are charged for the inventories at the end of the period. Observe that this is different than the continuous-time cost accounting. In discrete time cost accounting, in each period holding costs are charged only once. In continuous time cost accounting, holding cost are charged at all times. Long story short, we do not have the triangles any more! We rather have a bar for each period! 
 \end{solution}
 
 \begin{question}
@@ -911,7 +911,7 @@ How can we devise an inventory model if time is modeled as discrete periods and 
 \end{question}
 
 \begin{solution}
-First, we need to devise an inventory model. To begin with, we assume that stock-outs are not permitted and total costs are comprised of fixed replenishment costs procurement costs, and holding costs. We will devise a model to compute the total cost over a finite planning horizon.
+To begin with, we assume that stock-outs are not permitted and total costs are comprised of fixed replenishment costs procurement costs, and holding costs. We will devise a model to compute the total cost over a finite planning horizon.
 
 We begin with inventory dynamics. Let $Q_n$ be the order quantity in period $n$ and $I_n$ be the inventory level at the end of period $n$. Then we immediately have $I_n=I_{n-1}+Q_n-D_n$. Here, if $Q_n=0$ then we do not place an order. In this case, we only have the holding cost in period $n$. This can be written as $h\cdot I_n$. Note that the unit holding cost $h$ should be scaled for the time period. That is, if we count time in days, then $h$ should be the unit holding cost per day. If $Q_n>0$ then we place an order. In this case, we have fixed ordering and procurement costs as well as the holding cost in period $n$. This can be written as $A+c\cdot Q_n+h\cdot I_n$.
 
@@ -926,7 +926,7 @@ How can we implement the DLS model? Illustrate through an example where $A=54$ a
 \end{question}
 
 \begin{solution}
-This model can easily be implemented in a spreadsheet. Let us consider an example The inventories and costs associated with each period are provided in Figure~\ref{fig:3300}. The total cost of this replenishment policy is \$2412.8.
+This model can easily be implemented in a spreadsheet. The inventories and costs associated with each period are provided in Figure~\ref{fig:3300}. The total cost of this replenishment policy is \$2412.8.
 
 \begin{figure}[htbp]
 \begin{subfigure}[b]{0.5\textwidth}
@@ -986,7 +986,7 @@ It appears from the resulting cost figures that it may not be the best option to
 \end{question}
 
 \begin{solution}
-Yes. There is no incentive in the DLS model to carry inventories from one replenishment cycle to the next. This is often referred to as the 'zero-inventory' property. Let us revise our order quantities in the previous example to account for this property. That is, we still order every three periods, but this time the order we place will be exactly sufficient to cover demands in the next four periods. The inventories and costs associated with each period are provided in Figure~\ref{fig:3just}. Notice that the inventory level drops down to zero in every three periods. The total cost of this replenishment policy is \$1863.2. This is much better than the previous example.
+Yes. There is no incentive in the DLS model to carry inventories from one replenishment cycle to the next. This is often referred to as the 'zero-inventory' property. Let us revise our order quantities in the previous example to account for this property. That is, we still order every three periods, but this time the order we place will be exactly sufficient to cover demands in the next three periods. The inventories and costs associated with each period are provided in Figure~\ref{fig:3just}. Notice that the inventory level drops down to zero in every three periods. The total cost of this replenishment policy is \$1863.2. This is much better than the previous example.
 \end{solution}
 
 \begin{question}
@@ -1006,11 +1006,11 @@ Another approach is to model and solve the problem as a MIP (Mixed Integer Progr
 	& I_0 = 0 \\
 	& y_n \in \{0,1\}, Q_n, I_n \in \mathbb{R}_+ \quad n\in 1,\ldots,T
 \end{align*}
-Here, we have three sets of decision variables; $y_n$ is an binary (zero-one) variable that indicates whether an order is placed in period $n$, and $Q_n$ and $I_n$ are continuous (non-negative) variables that stand for the order quantity and inventory level in period $n$. The objective function sums total costs over the planning horizon. The costs are comprised of the fixed ordering cost $Ay_n$ (if $y_n=0$ there is no ordering cost, otherwise it is $A$) and holding costs $hI_n$. The first constraint specifies inventory conservation over periods. The second constraint makes sure that $Q_n$ can only be non-zero if $y_n=1$. Here, $M$ is a sufficiently large constant (say total demand over the planning horizon). It constitutes an upper bound on the order quantity. The constraint simply states that if $y_n=0$ then $Q_n=0$ as well. The third constraint specifies the inventory level at the beginning of the planning horizon. Here it is assumed to be zero, but it can be replaced with any other inventory level. The fourth constraint specifies the domains of the decision variables.
+Here, we have three sets of decision variables; $y_n$ is a binary (zero-one) variable that indicates whether an order is placed in period $n$, and $Q_n$ and $I_n$ are continuous and non-negative variables that stand for the order quantity and inventory level in period $n$. The objective function sums total costs over the planning horizon. The costs are comprised of the fixed ordering cost $Ay_n$ (if $y_n=0$ there is no ordering cost, otherwise it is $A$) and holding costs $hI_n$. The first constraint specifies inventory conservation over periods. The second constraint makes sure that $Q_n$ can only be non-zero if $y_n=1$. Here, $M$ is a sufficiently large constant (say total demand over the planning horizon). It constitutes an upper bound on the order quantity. The constraint simply states that if $y_n=0$ then $Q_n=0$ as well. The third constraint specifies the inventory level at the beginning of the planning horizon. Here it is assumed to be zero, but it can be replaced with any other inventory level. The fourth constraint specifies the domains of decision variables.
 
 It is important to note that the cost parameters such as fixed ordering cost $A$, procurement cost $c$, and holding cost $h$ can also be time-varying, i.e. $A_n,c_n.h_n$. These can easily be embedded into the model above.
 
-The MIP model can be easily implemented in a spreadsheet. If we use this model for the running example, we obtain the inventories and costs provided in Figure~\ref{fig:LS_opt}. The total cost of this replenishment policy is \$1701.2. This is the minimum cost that can possible be attained for this example.
+The MIP model can be easily implemented in a spreadsheet. If we use this model for the running example, we obtain the inventories and costs provided in Figure~\ref{fig:LS_opt}. The total cost of this replenishment policy is \$1701.2. This is the minimum cost that can possibly be attained for this example.
 
 \begin{figure}[htbp]
 \begin{subfigure}[b]{0.5\textwidth}
@@ -1074,7 +1074,7 @@ There are many different MIP formulations in the literature designed to solve th
 
 There are also good heuristic approaches. One that definitely needs mentioning is the Silver-Meal heuristic. This is a myopic heuristic in the sense that it requires only a few periods of demand information to make a replenishment decision in the actual period. It is based on the idea of finding replenishment cycles with the least cost per period. 
 
-Let $f(i,j)$ be the average cost per period over periods $\{n,n+1,\ldots,n+a\}$ if an order is placed in period $n$ to cover the demand in these periods, i.e. next replenishment will take place in period $n+a+1$. This can be computed as
+Let $f(n,a)$ be the average cost per period over periods $\{n,n+1,\ldots,n+a\}$ if an order is placed in period $n$ to cover the demand in these periods, i.e. next replenishment will take place in period $n+a+1$. This can be computed as
 \begin{align*}
 f(n,a) 
 & = \frac{A + (c+0\cdot h) \cdot D_{n} + (c+1\cdot h)\cdot D_{n+1} + (c+2\cdot h)\cdot D_{n+2} + \ldots + (c+a\cdot h)\cdot D_{n+a}}{a+1} \\
@@ -1110,7 +1110,7 @@ We can add the following constraint in the MIP model:
 \end{solution}
 
 \begin{question}
-Let us consider a case where we pay the fixed ordering cost for the container in which supplies are brought from overseas. Here, fixed ordering cost can be shared among a number of products. Thus. if we are planning to place an order anyway we might want to add many different types of products into the order. The ELS models we have seen thus far only consider single-item inventory control problems. How can we extend the ELS model to account for multi-item systems.
+Let us consider a case where we pay the fixed ordering cost for the container in which supplies are brought from overseas. Here, fixed ordering cost can be shared among a number of products. Thus. if we are planning to place an order anyway we might want to add many different types of products into the order. The ELS models we have seen thus far only consider single-item inventory control problems. How can we extend the ELS model to account for multi-item systems such as the one described here? 
 \end{question}
 
 \begin{solution}
