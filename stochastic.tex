@@ -85,7 +85,16 @@
 
 The most well-known stochastic inventory model is the 'newsvendor model'. The following exercises will be devoted to this important model which clearly illustrates the effect of demand uncertainty in inventory decisions. 
 
-The inventory control problem behind the newsvendor model can be explained as follows. Let us consider a newsvendor selling newspapers. The product here is perishable as newspapers does not have much of a value the day after they are printed. Therefore, the newsvendor plans his operations on a daily basis. There are a few of parameters that play a role: buying price per item $c$, selling price per item $p$, and salvage value per item $s$. The newsvendor buys newspapers early in the morning before observing the demand, yet she does know the distribution of the daily demand. The problem of the newsvendor is to match her supply to the demand on a daily basis while maximizing his expected profit.
+The inventory control problem behind the newsvendor model can be explained as follows. Let us consider a newsvendor selling newspapers. The product here is perishable as newspapers does not have much of a value the day after they are printed. Therefore, the newsvendor plans his operations on a daily basis. There are a few of parameters that play a role: 
+\begin{align*}
+  c &= \text{Buying price of one item,} \\
+  p &= \text{Selling  price of one item,} \\
+  s &= \text{Salvage (end) value of one item}, \\
+  h &= \text{Overage cost of one item ($c_o$ in Factory Physics)},\\
+  b &= \text{Shortage cost of one item ($c_s$ in Factory Physics)}.
+\end{align*}
+ The newsvendor buys newspapers early in the morning before observing the demand, yet she does know the distribution of the daily demand. The problem of the newsvendor is to match her supply to the demand on a daily basis while maximizing his expected profit.
+
 
 \begin{question}
 How costs and price parameters should relate to each other so that the newsvendor problem to makes sense?
@@ -118,13 +127,18 @@ Q-\min\{Q,d\}
 \end{solution}
 
 \begin{question}
-Write an expression for the newsvendor's profit.
+Write an expression for the newsvendor's profit $P(Q)$.
 \end{question}
 
 \begin{solution}
-\begin{align*}
--cQ + p\min\{Q,d\} + s(Q-\min\{Q,d\}) 
-\end{align*}
+\begin{equation*}
+  \begin{split}
+P(Q) 
+&= -cQ + p\min\{Q,d\} + s(Q-\min\{Q,d\}) \\
+&=  -cQ + p \min\{Q,d\} + sQ - s \min\{Q,d\} \\
+&= (s-c)Q + (p-s) \min\{Q,d\}.
+  \end{split}
+\end{equation*}
 \end{solution}
 
 The explanation at the beginning of this part defined the newsvendor problem as a 'profit maximization' problem. For the sake of brevity, we want to redefine it as a 'cost minimization' model. To that end, we can introduce two types of costs: unit overage cost $h$ (i.e. the cost of having an item on hand at the end of the day because it was not sold), and unit shortage cost $b$ (i.e. the cost of having a unit of unsatisfied demand due to stock-out). The next exercise relate to these cost components.
@@ -191,6 +205,28 @@ Write the cost expression again, but this time with the $x^+$ and $x^-$ notation
 h(Q-d)^+ + b(Q-d)^-
 \end{align*}
 \end{solution}
+
+\begin{question}
+Try  to rewrite the  expression for the profit in the form
+\begin{equation}\label{eq:1}
+P(Q) = (p -c)Q  + (s-p)(Q-d)^+.
+\end{equation}
+\end{question}
+
+\begin{solution}
+With the above  result that $\min\{Q,d\} = Q-\max\{Q-d,0\} = Q - (Q-d)^+$ we see that
+\begin{equation*}
+  \begin{split}
+P(Q) 
+&= (s-c)Q + (p-s) \min\{Q,d\}\\
+&= (s-c)Q + (p-s) (Q- (Q-d)^+\\
+&= (s-c)Q +  (p-s) Q - (p-s)(Q-d)^+\\
+&= (s-c + p -s)Q  - (p-s)(Q-d)^+\\
+&= (p -c)Q  - (p-s)(Q-d)^+ = (p -c)Q  + (s-p)(Q-d)^+.
+  \end{split}
+\end{equation*}
+\end{solution}
+
 
 \begin{question}\label{ex:nw_det}
 Let $d=20$, $h=1$ and $b=10$; and plot the cost expression for different values of $Q$. 
@@ -291,7 +327,7 @@ How $L(Q)$ can be computed if $D$ is normally distributed?
 Let $\mu$ denote the mean and $\sigma$ the standard deviation of $D$. Then (omitting the math) we have
 \begin{align*}
 L(Q) 
-& = h \E (Q-D)^+ + b \E (Q-D)^- \\
+& = h \E{(Q-D)^+} + b \E{(Q-D)^-} \\
 & = h(Q-\mu) + (h+b) \sigma F_{\text{loss}}(z).
 \end{align*}
 where $z=\frac{Q-\mu}{\sigma}$ and $F_{\text{loss}}$ is the 'standard normal loss function'. 
