@@ -127,13 +127,13 @@ Q-\min\{Q,d\}
 \end{solution}
 
 \begin{question}
-Write an expression for the newsvendor's profit $P(Q)$.
+Write an expression for the newsvendor's profit $V(Q)$.
 \end{question}
 
 \begin{solution}
 \begin{equation*}
   \begin{split}
-P(Q) 
+V(Q) 
 &= -cQ + p\min\{Q,d\} + s(Q-\min\{Q,d\}) \\
 &=  -cQ + p \min\{Q,d\} + sQ - s \min\{Q,d\} \\
 &= (s-c)Q + (p-s) \min\{Q,d\}.
@@ -209,7 +209,7 @@ h(Q-d)^+ + b(Q-d)^-
 \begin{question}
 Try  to rewrite the  expression for the profit in the form
 \begin{equation}\label{eq:1}
-P(Q) = (p -c)Q  + (s-p)(Q-d)^+.
+V(Q) = (p -c)Q  + (s-p)(Q-d)^+.
 \end{equation}
 \end{question}
 
@@ -217,7 +217,7 @@ P(Q) = (p -c)Q  + (s-p)(Q-d)^+.
 With the above  result that $\min\{Q,d\} = Q-\max\{Q-d,0\} = Q - (Q-d)^+$ we see that
 \begin{equation*}
   \begin{split}
-P(Q) 
+V(Q) 
 &= (s-c)Q + (p-s) \min\{Q,d\}\\
 &= (s-c)Q + (p-s) (Q- (Q-d)^+\\
 &= (s-c)Q +  (p-s) Q - (p-s)(Q-d)^+\\
@@ -227,6 +227,38 @@ P(Q)
 \end{equation*}
 \end{solution}
 
+\begin{question}
+Suppose the inventory at the start of the period is $i$. Try  to rewrite the  expression for the profit in the form
+\begin{equation}\label{eq:2}
+V(i, Q) = ci + V(Q).
+\end{equation}
+We will use this expression later for a newsvendor model with two stages.
+\end{question}
+\begin{solution}
+\begin{equation*}
+  \begin{split}
+V(i, Q) 
+&= -cQ + p\min{Q+i, d} + s(Q+i-\min{Q+i,d})\\
+&= - cQ + (p-s)\min{Q+i, d} + s(Q+i)\\
+&= - cQ + (p-s)(Q+i-(Q+i-d)^+ + s(Q+i)\\
+&= - cQ + p(Q+i)+(s-p)(Q+i-d)^+ \\
+&= (p- c)(Q+i) +(s-p)(Q+i-d)^+ + ci\\
+&= V(Q+i) + ci\\
+  \end{split}
+\end{equation*}
+\end{solution}
+
+
+\begin{question}
+Provide an intuitive explanation for (\ref{eq:2}). 
+\end{question}
+\begin{solution}
+  If we have $i$ items in inventory at the start of the period, we
+  don't have to buy these $i$ items. Hence, the profit we expect to
+  make is the profit as if we had to buy $Q+i$ items, but then we get
+  compensated for the $i$ items we don't have to buy. Thus, the
+  expected profit is $V(Q+i) + ci$.
+\end{solution}
 
 \begin{question}\label{ex:nw_det}
 Let $d=20$, $h=1$ and $b=10$; and plot the cost expression for different values of $Q$. 
