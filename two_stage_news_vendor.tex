@@ -84,10 +84,12 @@ The items that are left from the morning contributes to the profit in the aftern
 \begin{question}
 Suppose the morning demand is $D_1\in \{0,1,2\}$ and $g_1(0)=g_1(1)=1/4$, $g_1(2)=1/2$; and the afternoon demand is $D_2\in \{0,1, 2\}$ and $g_2(0)=1/5$, $g_2(1)=1/4$, and $g_2(2)=1-1/5 - 1/4=11/20$. It is not possible to backlog demands, that is,  demands not satisfied in the morning are lost. Also, we have that $c_1=10$, $c_2=12$, $p_1=p_2=20$, and $s=5$. Now, assume that we make $Q_1=2$ items in the morning. What is the expected total profit in the morning and in the afternoon?  
 \begin{solution}
-We can decompose the problem into stages. First consider what happens during the first period (morning), then check what's left and make a decision for the second period (afternoon). 
+We can decompose the problem into stages. First make an assumption about what happens during the first period (morningafternoon), then check what's left and make a decision for the second period (afternoon). 
 
 Let's first compute the optimal total reward under the assumption that
-$D_1=0$. As there is no holding cost, the reward of the first stage is $-cQ_1 = -c 2 = -20$. For the second stage we of course choose the optimal order quantity of $Q_2$. Hence, we use \eqref{eq:2} for stage 2:
+$D_1$ is such that $i$ items remain after the first period, thus,
+$i=Q_1 - D_1$.  Then, for the second stage, we  choose the
+optimal order quantity of $Q_2$. Hence, we use formula \eqref{eq:2} for stage~2:
 \begin{equation*}
   \begin{split}
 V_2(i, Q_2) 
@@ -96,19 +98,18 @@ V_2(i, Q_2)
 &= 8(Q_2+i) -15 \ex (Q_2+i-D_2)^+ + 5i.
   \end{split}
 \end{equation*}
-Now we show how to compute $V_2(1,1)$;  the other values can be found in the table below.
+Now we show explicitly how to compute $V_2$ when $Q_1=2, D_1=1$ so that $i=1$, and we order $Q_2=1$: 
 \begin{equation*}
   \begin{split}
 V_2(i=1,Q_2=1) 
 &= 8(2) -15 \ex (2-D_2)^+ + 5\\
 &= 21  -15 \ex (2-D_2)^+ \\
-&= 21  - 15 \sum_{j=0}^2 \P{D_2 = j} (2-j)^+ \\
-&= 21  - 15 ((2-0)^+ 1/5 + (2-1)^+ 1/4+ (2-2)^+11/20) \\
-&= 21  - 15 (2/5 + 1/4) = 21 - 6 - 15/4 = 11.25
+&= 21  - 15 \sum_{j=0}^2 (2-j)^+ \P{D_2 = j}  \\
+&= 21  - 15 [(2-0)^+ 1/5 + (2-1)^+ 1/4+ (2-2)^+11/20] \\
+&= 21  - 15 [2/5 + 1/4] = 11.25
   \end{split}
 \end{equation*}
-
-For the other values of $i$ and $Q_2$ we wrote a computer program. The values for $V_2(i, Q_2)$ are like this:
+To determine the optimal $Q_2^*$ for each value of $i$,  we wrote a computer program to compute $V_2(i, Q_2)$ for $i=0,1,2$ and $Q_2=0,1,2$. The values for $V_2(i, Q_2)$ are like this:
 \begin{center}
 \begin{tabular}{rrr}
 $i$ & $Q_2$ & $V_2(i, Q_2)$ \\
@@ -124,20 +125,47 @@ $i$ & $Q_2$ & $V_2(i, Q_2)$ \\
 \end{tabular}
 \end{center}
 
-Now we consider what to do at the first period. Suppose we order $Q_1=2$, and that the demand $D_1=1$. Then for the next period (the afternoon) we choose to take $Q_2=1$ as, according to the above table, $V_2(i, Q_2)$ is the highest for $i=1, Q_2=1$.  Thus, for each outcome of the demand, we choose the best $Q_2$.  
+Now we consider what to do at the start of the first period. Suppose we order $Q_1=2$, and that the demand $D_1=1$. Then for the next period (the afternoon) we choose to take $Q_2^*=1$ as, according to the above table, $V_2(i, Q_2)$ is the highest for $i=1, Q_2=1$.  Thus, for each outcome of the demand, we choose the best order quantity $Q_2^*$
 
-Observe that after the first period, we do not dispose of any items. Hence, we can take as salvage value $s_1=0$ for the first period.  Thus, for period 1, 
+Observe that after the first period, we do not dispose of any items. Hence, we can take as salvage value $s_1=0$ for the first period.  Thus, in general, for period 1, 
 \begin{equation*}
   \begin{split}
     V_1(Q_1) 
-&= (p_1-c_1) Q_1 + (s_1-p_1)\ex (Q_1-D_1)^+ + \ex V_2((Q_1-D_1)^+, Q_2) \\
-&= (20-10) Q_1 -10 \ex (Q_1-D_1)^+ + \ex V_2((Q_1-D_1)^+, Q_2).
+&= (p_1-c_1) Q_1 + (s_1-p_1)\ex (Q_1-D_1)^+ + \ex V_2((Q_1-D_1)^+, Q_2^*) \\
+&= (20-10) Q_1 -10 \ex (Q_1-D_1)^+ + \ex V_2((Q_1-D_1)^+, Q_2^*).
   \end{split}
 \end{equation*}
-Next, 
-
-
-
+Let us split up the computation in steps: 
+\begin{equation*}
+  \begin{split}
+\ex (Q_1-D_1)^+  
+&= \ex(2-D_1)^+ \\
+&= (2-0)^+ \P{D_1=0}
++(2-1)^+ \P{D_1=1}
++ (2-2)^+ \P{D_1=2} \\
+&= 2\cdot 1/4 + 1 \cdot 1/4 + 0 = 3/4,
+  \end{split}
+\end{equation*}
+and 
+\begin{equation*}
+  \begin{split}
+    \ex V_2((Q_1-D_1)^+, Q_2^*) 
+&=    \ex V_2((2-D_1)^+, Q_2^*) \\
+&= 
+V_2((2-0)^+, Q_2^*)\P{D_1=0}
++V_2((2-1)^+, Q_2^*)\P{D_1=1}
++V_2((2-2)^+, Q_2^*)\P{D_1=2} \\
+&=
+V_2(2, Q_2^*=0)\cdot 1/4
++V_2(1, Q_2^*=1)\cdot 1/4
++V_2(0, Q_2^*=2) \cdot 1/2 \\
+&= 16.25 /4 + 11.25/4 + 6.25/2  = 10
+  \end{split}
+\end{equation*}
+So, finally, 
+\begin{equation*}
+    V_1(2) = 10 \cdot 2 -10\cdot 3/4  + 10 = 12.75
+\end{equation*}
 \end{solution}
 
 \end{question}
