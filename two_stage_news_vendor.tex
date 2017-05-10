@@ -99,38 +99,44 @@ V_2(i, Q_2)
 Now we show how to compute $V_2(1,1)$;  the other values can be found in the table below.
 \begin{equation*}
   \begin{split}
-V_2(1,1) 
+V_2(i=1,Q_2=1) 
 &= 8(2) -15 \ex (2-D_2)^+ + 5\\
 &= 21  -15 \ex (2-D_2)^+ \\
 &= 21  - 15 \sum_{j=0}^2 \P{D_2 = j} (2-j)^+ \\
 &= 21  - 15 ((2-0)^+ 1/5 + (2-1)^+ 1/4+ (2-2)^+11/20) \\
-&= 21  - 15 (2/5 + 1/4) = 21 - 6 - 15/4 = 10.25.
+&= 21  - 15 (2/5 + 1/4) = 21 - 6 - 15/4 = 11.25
   \end{split}
 \end{equation*}
 
+For the other values of $i$ and $Q_2$ we wrote a computer program. The values for $V_2(i, Q_2)$ are like this:
+\begin{center}
+\begin{tabular}{rrr}
+$i$ & $Q_2$ & $V_2(i, Q_2)$ \\
+0 & 0 & 0.00 \\
+0 & 1 & 5.00 \\
+0 & 2 & 6.25 \\
+1 & 0 & 10.00 \\
+1 & 1 & 11.25 \\
+1 & 2 & 4.25 \\
+2 & 0 & 16.25 \\
+2 & 1 & 9.25 \\
+2 & 2 & 2.25 \\
+\end{tabular}
+\end{center}
+
+Now we consider what to do at the first period. Suppose we order $Q_1=2$, and that the demand $D_1=1$. Then for the next period (the afternoon) we choose to take $Q_2=1$ as, according to the above table, $V_2(i, Q_2)$ is the highest for $i=1, Q_2=1$.  Thus, for each outcome of the demand, we choose the best $Q_2$.  
+
+Observe that after the first period, we do not dispose of any items. Hence, we can take as salvage value $s_1=0$ for the first period.  Thus, for period 1, 
+\begin{equation*}
+  \begin{split}
+    V_1(Q_1) 
+&= (p_1-c_1) Q_1 + (s_1-p_1)\ex (Q_1-D_1)^+ + \ex V_2((Q_1-D_1)^+, Q_2) \\
+&= (20-10) Q_1 -10 \ex (Q_1-D_1)^+ + \ex V_2((Q_1-D_1)^+, Q_2).
+  \end{split}
+\end{equation*}
+Next, 
 
 
-%Let us start with the afternoon. The following are the expected profits (disregarding the purchasing costs) in the afternoon, if the inventory level after making new items is 0, 1, 2, respectively:
-%\begin{align*}
-%    \text{(start with $0$ item)} \quad  & 0 & = 0 \\
-%    \text{(start with $1$ item)} \quad  & p_{s2} \cdot 1/2 + p_e \cdot 1/2 & = 12.5 \\
-% 	\text{(start with $2$ items)} \quad  & p_{s2} \cdot 1/2 + p_e \cdot 3/2 & = 17.5
-%\end{align*}  
-%
-%If we make 2 items in the morning, then at the end of the morning 
-%\begin{itemize}
-%\item with probability $\P(X_1=2)=1/2$ we sell 2 items, make a profit of $-p_{b1} 2 + p_{s1} 2$, and end up with $2-2=0$ items
-%\item with probability $\P(X_1=1)=1/4$ we sell 1 item, make a profit of $-p_{b1} 2 + p_{s1} 2$
-%
-%\end{itemize}
-%
-%
-%
-%
-%,  we end up with $2-1=1$ items, and with probability $\P(X_1=0)=1/4$ we end up with $2-0=0$ items. 
-%
-%
-%the probability of ending up with 0, 1, 2 items at the end of the morning are: $\P(2-X_1=0)=\P(2-X_1=0)$
 
 \end{solution}
 
