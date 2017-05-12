@@ -1,5 +1,4 @@
-%\textit{Recommended reading:} TBD
-%
+%\textit{Recommended reading:} FP Appendix 2A covers the basic probability concepts. FP Section 2.4.1 is on the newsvendor model. These should complement the material discussed here. 
 %
 %\subsection{From Forecasts to Demand Distributions}
 %
@@ -56,7 +55,7 @@
 %\end{question}
 %
 %\begin{solution}
-%We construct demand distributions for demand over a given interval of time. If that interval is the lead time, then we simply have the lead time demand distribution. There are two possible ways of approaching the lead time demand distribution. First, you can start with forecasting the demand over a period and derive its distribution as usual and then use this distribution to construct the lead time demand distribution. For instance, if demand over a period is normally distributed with mean $\mu$ and standard deviation $\sigma$, then demand over $n$ periods (assuming that the demand in these periods follow the same distribution) is also normally distributed with mean $n\cdot\mu$ and standard deviation $\sqrt{n}\cdot \sigma$ (this property holds only for normal distribution, and the distribution). Second, you can directly start by forecasting the lead time demand rather than the period demand and derive its distribution.
+%We construct demand distributions for demand over a given interval of time. If that interval is the lead time, then we simply have the lead time demand distribution. There are two possible ways of approaching the lead time demand distribution. First, you can start with forecasting the demand over a period and derive its distribution as usual and then use this distribution to construct the lead time demand distribution. For instance, if demand over a period is normally distributed with mean $\mu$ and standard deviation $\sigma$, then demand over $n$ periods (assuming that the demand in these periods follow the same distribution) is also normally distributed with mean $n\cdot\mu$ and standard deviation $\sqrt{n}\cdot \sigma$ (this property holds only for normal distribution). Second, you can directly start by forecasting the lead time demand rather than the period demand and derive its distribution.
 %\end{solution}
 %
 %\begin{question}
@@ -78,466 +77,675 @@
 %\end{solution}
 %
 %
+%\subsection{Newsvendor Model}
+%
+%\input{nw_functions.tex}
+%
+%The most well-known stochastic inventory model is the 'newsvendor model'. The following exercises will be devoted to this important model which clearly illustrates the effect of demand uncertainty in inventory decisions. 
+%
+%The inventory control problem behind the newsvendor model can be explained as follows. Let us consider a newsvendor selling newspapers. The product here is perishable as newspapers does not have much of a value the day after they are printed. Therefore, the newsvendor plans his operations on a daily basis. There are a few of parameters that play a role: 
+%\begin{align*}
+%  c &= \text{Buying price of one item,} \\
+%  p &= \text{Selling  price of one item,} \\
+%  s &= \text{Salvage (end) value of one item}, \\
+%  h &= \text{Overage cost of one item ($c_o$ in Factory Physics)},\\
+%  b &= \text{Shortage cost of one item ($c_s$ in Factory Physics)}.
+%\end{align*}
+% The newsvendor buys newspapers early in the morning before observing the demand, yet she does know the distribution of the daily demand. The problem of the newsvendor is to match her supply to the demand on a daily basis while maximizing his expected profit.
+%
+%
+%\begin{question}
+%How costs and price parameters should relate to each other so that the newsvendor problem to makes sense?
+%\end{question}
+%
+%\begin{solution}
+%We must have $p>c>s$. That is because; If $p\leq c$ we would not buy anything as there would be no way of making profit, and if $c<s$ we would buy as much as possible as it would lead to more profit. 
+%\end{solution}
+%
+%Let us assume that the newsvendor buys $Q$ items and demand turns out to be $d$ items. Keep in mind that here both $Q$ and $d$ are scalars, so there is no uncertainty. 
+%
+%\begin{question}
+%Write an expression for the number of items sold.
+%\end{question}
+%
+%\begin{solution}
+%\begin{align*}
+%\min\{Q,d\}
+%\end{align*}
+%\end{solution}
+%
+%\begin{question}
+%Write an expression for the number of items salvaged.
+%\end{question}
+%
+%\begin{solution}
+%\begin{align*}
+%Q-\min\{Q,d\}
+%\end{align*}
+%\end{solution}
+%
+%\begin{question}
+%Write an expression for the newsvendor's profit $P(Q)$.
+%\end{question}
+%
+%\begin{solution}
+%%\begin{equation*}
+%%  \begin{split}
+%%P(Q) 
+%%&= -cQ + p\min\{Q,d\} + s(Q-\min\{Q,d\}) \\
+%%&= (s-c)Q + (p-s) \min\{Q,d\}.
+%%  \end{split}
+%%\end{equation*}
+%\begin{equation*}
+%  \begin{split}
+%P(Q) 
+%&= -cQ + p\min\{Q,d\} + s(Q-\min\{Q,d\}).
+%  \end{split}
+%\end{equation*}
+%\end{solution}
+%
+%The explanation at the beginning of this part defined the newsvendor problem as a 'profit maximization' problem. For the sake of brevity, we want to redefine it as a 'cost minimization' model. To that end, we can introduce two types of costs: unit overage cost $h$ (i.e. the cost of having an item on hand at the end of the day because it was not sold), and unit shortage cost $b$ (i.e. the cost of having a unit of unsatisfied demand due to stock-out). The next exercise relate to these cost components.
+%
+%\begin{question}
+%How can we express the overage cost and and shortage costs in terms of the cost and price parameters introduced earlier?
+%\end{question}
+%
+%\begin{solution}
+%In case of an overage; an item that is bought for $c$ was not sold and therefore salvaged at a price of $s$. The loss due to this item is therefore $h=c-s$. In case of a shortage; a unit of demand is not satisfied leading to a loss of $p$ from profit, but as no item was bought in the first place this loss is reduced by $c$. The net loss is thus $b=p-c$. Observe that both $h$ and $b$ are positive if $p>c>s$.
+%\end{solution}
+%
+%\begin{question}
+%Write an expression for the newsvendor's cost $C(Q)$ by using the overage and shortage costs.
+%\end{question}
+%
+%\begin{solution}
+%\begin{align*}
+%C(Q) = h\max\{Q-d,0\} + b\max\{d-Q,0\}
+%\end{align*}
+%\end{solution}
+%
+%The next exercise illustrates that the profit and cost formulations are equivalent, but they are not the same.
+%
+%\begin{question}
+%Explain how the expressions you wrote for the profit (by using $p$, $c$, and $s$) and cost (by using $h$ and $b$) relate each other.
+%\end{question}
+%
+%\begin{solution}
+%First, observe that (easy to verify; simply check two cases where $Q>d$ and $d>Q$)
+%\begin{align*}
+%\min\{Q,d\} = d-\max\{d-Q,0\} = Q-\max\{Q-d,0\}.
+%\end{align*}
+%
+%If we make use of the above, then after some algebraic manipulation we obtain 
+%\begin{align*}
+%P(Q) 
+%& = -cQ + p\min\{Q,d\} + s(Q-\min\{Q,d\}) \\
+%% = -c(d-\max\{d-Q,0\}+\max\{Q-d,0\}) + p(d-\max\{d-Q,0\}) + s(Q-(Q-\max\{Q-d,0\})) \\
+%% = -cd+c\max\{d-Q,0\}-c\max\{Q-d,0\} + pd-p\max\{d-Q,0\} + s\max\{Q-d,0\} \\
+%% = (p-c)d + (c-p)\max\{d-Q,0\} + (s-c) \max\{Q-d,0\} \\
+%% = (p-c)d -\left((c-s) \max\{Q-d,0\} + (p-c)\max\{d-Q,0\}\right) \\
+%& = (p-c)d - \left(h\max\{Q-d,0\} + b\max\{d-Q,0\}\right) \\
+%& = (p-c)d - C(Q)
+%\end{align*}
+%This tells us that the profit function is equal to $(p-c)d$ minus the cost function. Notice that, $(p-c)d$ stands for the maximum possible profit from sales (i.e. cannot sell more than the demand) and it is independent of the newsvendor's buying quantity. As such, the cost function provides the loss from maximum possible profit.
+%\end{solution}
+%
+%In the following, we want to use the notation $x^+$ and $x^-$ which works as follows: $x^+=\max\{x,0\}$ and $x^-=\max\{-x,0\}$. The next exercise illustrates a nice property of this notation.
+%
+%\begin{question}
+%Show that $x=x^+-x^-$.
+%\end{question}
+%
+%\begin{solution}
+%Let us consider two cases: $x\geq 0$ and $x<0$. In the first case, we have $x^+=\max\{x,0\}=x$ and $x^-=\max\{-x,0\}=0$. Thus $x=x-0$ holds. In the second case, we have $x^+=\max\{x,0\}=0$ and $x^-=\max\{-x,0\}=-x$. Thus $x=0-(-x)$ holds.
+%\end{solution}
+%
+%\begin{question}
+%Write the cost function $C(Q)$ again, but this time with the $x^+$ and $x^-$ notation.
+%\end{question}
+%
+%\begin{solution}
+%\begin{align*}
+%C(Q)=h(Q-d)^+ + b(Q-d)^-
+%\end{align*}
+%\end{solution}
+%
+%%\begin{question}
+%%Try  to rewrite the  expression for the profit in the form
+%%\begin{equation}\label{eq:1}
+%%P(Q) = (p -c)Q  + (s-p)(Q-d)^+.
+%%\end{equation}
+%%\end{question}
+%%
+%%\begin{solution}
+%%With the above  result that $\min\{Q,d\} = Q-\max\{Q-d,0\} = Q - (Q-d)^+$ we see that
+%%\begin{equation*}
+%%  \begin{split}
+%%P(Q) 
+%%&= (s-c)Q + (p-s) \min\{Q,d\}\\
+%%&= (s-c)Q + (p-s) (Q- (Q-d)^+\\
+%%&= (s-c)Q +  (p-s) Q - (p-s)(Q-d)^+\\
+%%&= (s-c + p -s)Q  - (p-s)(Q-d)^+\\
+%%&= (p -c)Q  - (p-s)(Q-d)^+ = (p -c)Q  + (s-p)(Q-d)^+.
+%%  \end{split}
+%%\end{equation*}
+%%\end{solution}
+%
+%
+%\begin{question}\label{ex:nw_det}
+%Let $d=20$, $h=1$ and $b=10$; and plot the cost function for different values of $Q$. 
+%\end{question}
+%
+%\begin{solution}
+%See Figure~\ref{fig:cost_expression}.
+%
+%\begin{figure}[htbp]
+%\centering
+%\begin{tikzpicture}
+%\scriptsize
+%\def\avg{20}
+%\def\h{1}
+%\def\p{10}
+%\begin{axis}[
+%	xlabel=$Q$,
+%	legend style={nodes=right},
+%	axis lines=middle,
+%	ymin=0]
+%\addplot [color=blue,thick,domain=0:2*\avg] {Ldeter(\x,\avg,\h,\p)};
+%\addlegendentry{$\h(Q - \avg)^+ + \p(Q - \avg)^-$}
+%\end{axis}
+%\end{tikzpicture}
+%\caption{Cost function}
+%\label{fig:cost_expression}
+%\end{figure}
+%\end{solution}
+%
+%\begin{question}
+%What is the newsvendor's best replenishment quantity in the previous exercise? What would be her cost if she replenishes this amount? How would her cost be effected if she were buy one unit less or one unit more than this quantity?
+%\end{question}
+%
+%\begin{solution}
+%The optimal quantity is obviously 20, a we know that the demand is 20 units anyway. The newsvendor's cost will be zero if she replenishes this quantity. Having a unit more will exactly increase the cost by \$1 and a unit less by \$10.
+%\end{solution}
+%
+%\begin{question}
+%Let newsvendor's selling price be \$15 in the previous exercise. Write down the profit and cost functions for replenishment quantities $\{7,26\}$ and compare the results.
+%\end{question}
+%
+%\begin{solution}
+%Because $h=c-s=1$ and $b=p-c=10$, and as $p=15$; we have that $c=5$ and $s=4$. Thus, we obtain the profit function
+%\begin{align*}
+%P(Q) = -cQ + p\min\{Q,d\} + s(Q-\min\{Q,d\}) = -5\cdot Q + 15\cdot\min\{Q,20\} + 4\cdot(Q-\min\{Q,20\})
+%\end{align*}
+%and the cost function
+%\begin{align*}
+%C(Q) = h(Q-d)^+ + b(Q-d)^- = 1\cdot (Q-20)^+ + 10\cdot(Q-20)^-.
+%\end{align*}
+%
+%Then; for $Q=7$ we obtain profit \$70 and cost \$130, and for $Q=26$ we have \$194 for profit and \$6 for cost. Indeed, in botch cases, profit and cost functions sum up to the maximum possible profit $(p-c)d=(15-5)\cdot 20=200$.
+%\end{solution}
+%
+%We now begin investigating the newsvendor problem with stochastic demand. To that end, we replace the deterministic demand $d$ with the random demand $D$. 
+%
+%\begin{question}
+%Let $L(Q)$ be the expected total cost of the newsvendor given that she buys $Q$ items. Write an expression for this function.
+%\end{question}
+%
+%\begin{solution}
+%\begin{align*}
+%L(Q) = \ex C(Q) = h\ex (Q-D)^+ + b\ex (Q-D)^-
+%\end{align*}
+%Here, we simply used an expectation operator. How we approach this operator depends on the demand distribution. 
+%\end{solution}
+%
+%
+%\begin{question}
+%How $L(Q)$ can be computed?
+%\end{question}
+%
+%\begin{solution}
+%It depends on the demand distribution. 
+%
+%If demand distribution is continuous than we have 
+%\begin{align*}
+%L(Q) & = h \ex (Q-D)^+ + b \ex (Q-D)^- \\
+%	 & = \int_x \left(h (Q-x)^+ + b (Q-x)^-\right) f(x) \dif x
+%\end{align*}
+%where $f(x)$ is the probability density function of $D$. This can be computed easily (in closed form) for some distributions (e.g. normal and lognormal distributions), whereas for some others numerical integration could be quite involved computationally.
+%
+%If demand distribution is discrete then we have 
+%\begin{align*}
+%L(Q) & = h \ex (Q-D)^+ + b \ex (Q-D)^- \\
+%	 & = \sum_x \left(h (Q-x)^+ + b (Q-x)^-\right) f(x)
+%\end{align*}
+%where $f(x)$ is the probability mass function of $D$. This cannot be computed in closed form in general. But it's numerical computation is trivial and it can easily be done in spreadsheet applications.
+%\end{solution}
+%
+%\begin{question}
+%How can we compute the optimal order quantity minimizing the expected cost function?
+%\end{question}
+%
+%\begin{solution}
+%The expected cost function $L(Q)$ is convex and therefore one can easily characterize the optimal order quantity  (we omit the proof as it immediately follows the first and second-order necessary conditions of optimality).
+%
+%The optimality condition for continuous demand distributions is
+%\begin{align*}
+%F(Q^*) = \frac{b}{h+b}.
+%\end{align*}
+%
+%The optimality condition for discrete demand distributions is
+%\begin{align*}
+%F(Q^*) = \min\left\{Q\mid F(Q)\geq \frac{b}{h+b}\right\}.
+%\end{align*}
+%
+%This optimality conditions simply state that the optimal order quantity is the minimum quantity that guarantees a stock-out probability less than or equal to $\frac{b}{h+b}$
+%
+%Note that the optimal order quantity can be expressed as 
+%\begin{align*}
+%Q^* = F^{-1}\left(\frac{b}{h+b}\right)
+%\end{align*}
+%if the inverse distribution function of the demand exists. 
+%\end{solution}
+%
+%The results on $L(Q)$ and $Q^*$ we discussed thus far are rather conceptual. We are also interested in computational procedures. These procedures are dependent on the demand distribution. 
+%
+%We now concentrate on the computational procedures of computing $L(Q)$ and $Q^*$ for normally distributed demand. 
+%
+%\begin{question}
+%How $L(Q)$ can be computed if $D$ is normally distributed?
+%\end{question}
+%
+%\begin{solution}
+%Let $\mu$ denote the mean and $\sigma$ the standard deviation of $D$. Then (omitting the math) we have
+%\begin{align*}
+%L(Q) 
+%& = h \ex (Q-D)^+ + b \ex (Q-D)^- \\
+%& = h(Q-\mu) + (h+b) \sigma F_{\text{loss}}(z).
+%\end{align*}
+%where $z=\frac{Q-\mu}{\sigma}$ and $F_{\text{loss}}$ is the 'standard normal loss function'. 
+%
+%The standard normal loss function is defined as 
+%\begin{align*}
+%F_{\text{loss}}(z) = \phi(z)-z(1-\Phi(z))
+%\end{align*}
+%where $\phi(z)$ and $\Phi(z)$ are 'standard normal density function' and 'standard normal distribution function' respectively. 
+%
+%These functions are accessible in spreadsheet applications. For instance, in Excel we have 
+%\begin{align*}
+%\phi(z) \text{=NORMDIST($z$,0,1,FALSE)}
+%\end{align*}
+%and
+%\begin{align*}
+%\Phi(z) \text{=NORMSDIST($z$)}.
+%\end{align*}
+%
+%Therefore, we can compute the 'standard normal loss function as
+%\begin{align*}
+%F_{\text{loss}}(z) \text{=NORMDIST($z$,0,1,FALSE)-$z$*(1-NORMSDIST($z$))}.
+%\end{align*}
+%\end{solution}
+%
+%\begin{question}\label{ex:nw_stoc}
+%Let $D$ be normally distributed with mean 20 and standard deviation 5, $h=1$ and $b=10$; and plot $L(Q)$ for different values of $Q$. 
+%\end{question}
+%
+%\begin{solution}
+%See Figure~\ref{fig:LQ_normal}.
+%
+%\begin{figure}[htbp]
+%\centering
+%\begin{tikzpicture}
+%\scriptsize
+%\def\avg{20}
+%\def\std{5}
+%\def\h{1}
+%\def\p{10}
+%\begin{axis}[
+%	xlabel=$Q$,
+%	legend style={nodes=right},
+%	axis lines=middle,
+%	ymin=0]
+%\addplot [color=red,thick,domain=0:2*\avg] {Lstoch(\x,\avg,\std,\h,\p)};
+%\addlegendentry{$\h\ex(Q - D)^+ + \p\ex(Q - D)^-$}
+%\end{axis}
+%\end{tikzpicture}
+%\caption{$L(Q)$ for normally distributed demand}
+%\label{fig:LQ_normal}
+%\end{figure}
+%\end{solution}
+%
+%
+%\begin{question}
+%Have a look at the graphs you obtained in Exercise~\ref{ex:nw_det} and Exercise~\ref{ex:nw_stoc}. What similarities and differences you see?
+%
+%Note that the deterministic problem considered in Exercise~\ref{ex:nw_det} can be perceived as a stochastic problem with normally distributed demand with mean 20 and 0 standard deviation.
+%\end{question}
+%
+%\begin{solution}
+%See Figure~\ref{fig:LQ_comparison}. 
+%
+%\begin{enumerate}
+%\item The stochastic cost is always larger than the deterministic one. this is due to the fact that there is always a non-zero probability of overage and shortage in the stochastic case. 
+%\item For very small and very large values of order quantity cost figures coincide. This can be explained as follows. On the one hand, if order quantity is very large then no demand will be lost. Therefore, the expected total cost will be overage cost times the order quantity minus the expected demand, i.e. $h(Q-\ex D)$. That's why the we have $L(40)\approx 1\cdot(40-20)=20$. This is the very same cost that would realize if demand was exactly 20 units and the order quantity was 40. On the other hand, if the order quantity is very small then all demand will be lost. Therefore, the expected total cost will be shortage cost times the expected demand, i.e. $b \ex D$. That's why the we have $L(0)\approx 10\cdot20=200$. This is the very same cost that would realize if demand was exactly 20 units and the order quantity was 0.
+%\item It is optimal to order 20 units in the determinstic case, whereas it is a bit higher in the stochastic case. This can be attributed to the demand uncertainty and shortages being more expensive as compared to overages. 
+%\end{enumerate}
+%
+%
+%\begin{figure}[htbp]
+%\centering
+%\begin{tikzpicture}
+%\scriptsize
+%\def\avg{20}
+%\def\std{5}
+%\def\h{1}
+%\def\p{10}
+%\begin{axis}[
+%	xlabel=$Q$,
+%	legend style={nodes=right},
+%	axis lines=middle,
+%	ymin=0]
+%\addplot [color=blue,thick,domain=0:2*\avg] {Ldeter(\x,\avg,\h,\p)};
+%\addplot [color=red,thick,domain=0:2*\avg] {Lstoch(\x,\avg,\std,\h,\p)};
+%\addlegendentry{$\h(Q - \avg)^+ + \p(Q - \avg)^-$}
+%\addlegendentry{$\h\ex(Q - D)^+ + \p\ex(Q - D)^-$}
+%\end{axis}
+%\end{tikzpicture}
+%\caption{A comparison of costs for deterministic and stochastic demands}
+%\label{fig:LQ_comparison}
+%\end{figure}
+%\end{solution}
+%
+%
+%\begin{question}
+%Let us consider cases where demand is always normally distributed with mean 20 but with different standard deviation levels $\{1,5,10\}$. Plot $L(Q)$ for these cases assuming $h=1$ and $b=10$. What do you observe?
+%\end{question}
+%
+%\begin{solution}
+%See Figure~\ref{fig:LQ_std}. We observe that increasing standard deviation leads to further deviations from the deterministic case and larger optimal order quantities. 
+%
+%\begin{figure}[htbp]
+%\centering
+%\begin{tikzpicture}
+%\scriptsize
+%\def\avg{20}
+%\def\h{1}
+%\def\p{10}
+%\begin{axis}[
+%	xlabel=$Q$,
+%	legend style={nodes=right},
+%	axis lines=middle,
+%	ymin=0]
+%
+%\addplot [color=red,thick,domain=0:2*\avg] {Lstoch(\x,\avg,1,\h,\p)};
+%\addlegendentry{$\sigma=1$}
+%
+%\addplot [color=blue,thick,domain=0:2*\avg] {Lstoch(\x,\avg,5,\h,\p)};
+%\addlegendentry{$\sigma=5$}
+%
+%\addplot [color=green,thick,domain=0:2*\avg] {Lstoch(\x,\avg,10,\h,\p)};
+%\addlegendentry{$\sigma=10$}
+%
+%\end{axis}
+%\end{tikzpicture}
+%\caption{$L(Q)$ with different levels of standard deviation}
+%\label{fig:LQ_std}
+%\end{figure}
+%\end{solution}
+%
+%\begin{question}
+%How can we compute the optimal order quantity if demand is normally distributed?
+%\end{question}
+%
+%\begin{solution}
+%Because we know how to compute $L(Q)$ for different values of $Q$, we can try many reasonable values and find the best. 
+%
+%Nevertheless, it is also possible to compute it in closed form. The optimal order quantity (omitting the math) can be computed as 
+%\begin{align*}
+%Q^* 
+%& = F^{-1}\left(\frac{b}{h+b}\right) \\
+%& = \mu + \sigma \Phi^{-1}(\beta) 
+%\end{align*}
+%where $\Phi^{-1}(\beta)$ is the 'inverse standard normal distribution' evaluated at $\beta=\frac{b}{h+b}$. 
+%
+%The inverse standard normal distribution can easily be computed in spreadsheet applications. For instance, in Excel we have 
+%\begin{align*}
+%\Phi^{-1}(\beta)\text{=NORMSINV($\beta$)}.
+%\end{align*}
+%\end{solution}
+%
+%\begin{question}
+%Let $D$ be normally distributed with mean 20 and standard deviation 5, $h=1$ and $b=10$. What is the optimal order quantity? Verify your result by comparing it against the graph you obtained in Exercise~\ref{ex:nw_stoc}. 
+%\end{question}
+%
+%\begin{solution}
+%\begin{align*}
+%Q^* 
+%& = \mu + \sigma \Phi^{-1}(\beta) \\
+%& = 20 + 5\cdot \Phi^{-1}(10/11) = 20 + 5\cdot \Phi^{-1}(1.3352) = 26.676
+%\end{align*}
+%\end{solution}
+%
+%\begin{question}
+%The term 'safety stock' refers to the level of extra stock that is kept to mitigate the costs due to stock-outs. Have a closer look at the expression of the optimal order quantity. Explain how does it relate to the concept of safety stocks.
+%\end{question}
+%
+%\begin{solution}
+%The optimal order quantity is defined as
+%\begin{align*}
+%Q^* = \mu + \sigma \Phi^{-1}(\beta).
+%\end{align*}
+%It is easy to see here that $\sigma \Phi^{-1}(\beta)$ stands for the safety stock, as it exactly is the extra stock, on the top of the anticipated demand $\mu$, that is kept to avoid stock outs.
+%\end{solution}
+%
+%\begin{question}
+%Explain how the 'optimal' safety stock is affected by problem parameters.
+%\end{question}
+%
+%\begin{solution}
+%We observe that $\sigma \Phi^{-1}(\beta)$ is increasing in the standard deviation $\sigma$ of the demand as well as the fraction $\beta$. These make sense; first larger standard deviation leads to larger stock-outs and second larger shortage costs increases the criticality of those stock-outs. Both of which calls for larger safety stocks.
+%\end{solution}
+%
+%\begin{question}
+%Can safety stock be negative?
+%\end{question}
+%
+%\begin{solution}
+%Yes. If the unit overage cost is higher than the unit shortage cost, then it could make sense to order less than the mean demand. For instance, in case of normally distributed demands, if we had $h>b$ and therefore $\beta<0.5$, then $\Phi^{-1}(\beta)$ would yield a negative value. This would, in turn, lead to a negative safety stock. 
+%\end{solution}
+%
+%We now concentrate on the computational procedures of computing $L(Q)$ and $Q^*$ for log-normally distributed demand. 
+%
+%\begin{question}
+%Why log-normal distribution is interesting anyway?
+%\end{question}
+%
+%\begin{solution}
+%It is well-known that normal distribution is not appropriate for modeling demands if standard deviation is large. That is because it then assigns a significant probability to negative demands. For instance, the probability of having a demand less than or equal to zero is around 16\% if it is normally distributed with the same mean and standard deviation. As a rule of thumb; it would make sense to avoid normal distribution if standard deviation is larger than one third of the demand. 
+%
+%Log-normal distribution could be an alternative for modeling demands as it's domain is restricted to positive numbers (i.e. no negative demands) and it is able to capture large demand variations while it possesses many (but not all) practical properties of the normal distribution.
+%
+%A random variable $D$ is log-normal distributed with mean $\mu$ and standard deviation $\sigma$, if $\ln(D)$ is normally distributed with mean $\upsilon$ and standard deviation $\tau$ where 
+%\begin{align*}
+%\upsilon = \ln \mu - \ln \sqrt{1+(\sigma/\mu)^2} \quad \text{and} \quad \tau = \sqrt{\ln(1+(\sigma/\mu)^2)}
+%\end{align*}
+%
+%The log-normal distribution is easily accessible in spreadsheet applications. For instance, in Excel it's probability distribution function' can be obtained by
+%\begin{align*}
+%F(x)\text{=LOGNORMDIST($x,\upsilon,\tau$)} 
+%\end{align*}
+%\end{solution}
+%
+%\begin{question}
+%Plot the probability distribution functions of normal and log-normal distributions and compare them for the different values of standard deviation.
+%\end{question}
+%
+%\begin{solution}
+%See Figure~\ref{fig:normlognorm}. We observe that the normal distribution function has a positive probability at zero. This is not the case for log-normal distributions. It is also possible to see that normal and log-normal distributions look alike if standard deviation is small.
+%
+%\begin{figure}[htbp]
+%\begin{subfigure}[b]{0.5\textwidth}
+%\begin{center}
+%\begin{tikzpicture}[x=0.01cm,y=0.06cm]
+%\scriptsize
+%\def\avg{20} 
+%\def\std{20}
+%\pgfmathsetmacro{\logavg}{ln \avg - ln sqrt(1+(\std/\avg)*(\std/\avg))}
+%\pgfmathsetmacro{\logstd}{sqrt(ln (1+(\std/\avg)*(\std/\avg)))}
+%\begin{axis}[
+%	xlabel=$x$,
+%	ylabel=$F(x)$,
+%	ymax=1.05,
+%	legend style={at={(.65,0.1)},anchor=south west},
+%	axis lines=middle]
+%\addplot [color=blue,smooth,thick,domain=0:2*\avg] {StandNormCdf((\x-\avg)/\std)};
+%\addplot [color=red,smooth,thick,domain=0:2*\avg] {StandNormCdf((ln \x-\logavg)/\logstd)};
+%\addlegendentry{Normal}
+%\addlegendentry{Log-normal}
+%\end{axis}
+%\end{tikzpicture}
+%\end{center}
+%\caption{$\mu=20$ and $\sigma=20$}
+%\label{fig:normlognorm20}
+%\end{subfigure}
+%~
+%\begin{subfigure}[b]{0.5\textwidth}
+%\begin{center}
+%\begin{tikzpicture}[x=0.01cm,y=0.06cm]
+%\scriptsize
+%\def\avg{20} 
+%\def\std{10}
+%\pgfmathsetmacro{\logavg}{ln \avg - ln sqrt(1+(\std/\avg)*(\std/\avg))}
+%\pgfmathsetmacro{\logstd}{sqrt(ln (1+(\std/\avg)*(\std/\avg)))}
+%\begin{axis}[
+%	xlabel=$x$,
+%	ylabel=$F(x)$,
+%	ymax=1.05,
+%	legend style={at={(.65,0.1)},anchor=south west},
+%	axis lines=middle]
+%\addplot [color=blue,smooth,thick,domain=0:2*\avg] {StandNormCdf((\x-\avg)/\std)};
+%\addplot [color=red,smooth,thick,domain=0:2*\avg] {StandNormCdf((ln \x-\logavg)/\logstd)};
+%\addlegendentry{Normal}
+%\addlegendentry{Log-normal}
+%\end{axis}
+%\end{tikzpicture}
+%\end{center}
+%\caption{$\mu=20$ and $\sigma=10$}
+%\label{fig:normlognorm10}
+%\end{subfigure}
+%\\
+%\begin{subfigure}[b]{0.5\textwidth}
+%\begin{center}
+%\begin{tikzpicture}[x=0.01cm,y=0.06cm]
+%\scriptsize
+%\def\avg{20} 
+%\def\std{5}
+%\pgfmathsetmacro{\logavg}{ln \avg - ln sqrt(1+(\std/\avg)*(\std/\avg))}
+%\pgfmathsetmacro{\logstd}{sqrt(ln (1+(\std/\avg)*(\std/\avg)))}
+%\begin{axis}[
+%	xlabel=$x$,
+%	ylabel=$F(x)$,
+%	ymax=1.05,
+%	legend style={at={(.65,0.1)},anchor=south west},
+%	axis lines=middle]
+%\addplot [color=blue,smooth,thick,domain=0:2*\avg] {StandNormCdf((\x-\avg)/\std)};
+%\addplot [color=red,smooth,thick,domain=0:2*\avg] {StandNormCdf((ln \x-\logavg)/\logstd)};
+%\addlegendentry{Normal}
+%\addlegendentry{Log-normal}
+%\end{axis}
+%\end{tikzpicture}
+%\end{center}
+%\caption{$\mu=20$ and $\sigma=5$}
+%\label{fig:normlognorm5}
+%\end{subfigure}
+%~
+%\begin{subfigure}[b]{0.5\textwidth}
+%\begin{center}
+%\begin{tikzpicture}[x=0.01cm,y=0.06cm]
+%\scriptsize
+%\def\avg{20} 
+%\def\std{1}
+%\pgfmathsetmacro{\logavg}{ln \avg - ln sqrt(1+(\std/\avg)*(\std/\avg))}
+%\pgfmathsetmacro{\logstd}{sqrt(ln (1+(\std/\avg)*(\std/\avg)))}
+%\begin{axis}[
+%	xlabel=$x$,
+%	ylabel=$F(x)$,
+%	ymax=1.05,
+%	legend style={at={(.65,0.1)},anchor=south west},
+%	axis lines=middle]
+%\addplot [color=blue,smooth,thick,domain=0:2*\avg] {StandNormCdf((\x-\avg)/\std)};
+%\addplot [color=red,smooth,thick,domain=0:2*\avg] {StandNormCdf((ln \x-\logavg)/\logstd)};
+%\addlegendentry{Normal}
+%\addlegendentry{Log-normal}
+%\end{axis}
+%\end{tikzpicture}
+%\end{center}
+%\caption{$\mu=20$ and $\sigma=1$}
+%\label{fig:normlognorm1}
+%\end{subfigure}
+%\caption{A comparison of normal and log-normal distributions}
+%\label{fig:normlognorm}
+%\end{figure}
+%\end{solution}
+%
+%\begin{question}
+%How $L(Q)$ can be computed if $D$ is log-normally distributed?
+%\end{question}
+%
+%\begin{solution}
+%Let $\mu$ denote the mean and $\sigma$ the standard deviation of $D$, and $\upsilon = \ln \mu - \ln \sqrt{1+(\sigma/\mu)^2}$ and $\tau = \sqrt{\ln(1+(\sigma/\mu)^2)}$. Then (omitting the math) we have
+%\begin{align*}
+%L(Q) 
+%& = h \ex (Q-D)^+ + b \ex (Q-D)^- \\
+%& = h(Q-\mu) + (h+b) (\mu\Phi(\tau-z) - Q\Phi(-z))
+%\end{align*}
+%where once again $z=\frac{Q-\mu}{\sigma}$ and $\Phi$ is the standard normal distribution function. 
+%
+%The computation can easily be done in spreadsheet applications following steps similar to those we have taken in case of normally distributed demands.
+%\end{solution}
+%
+%\begin{question}
+%How can we compute the optimal order quantity if demand is log-normally distributed?
+%\end{question}
+%
+%\begin{solution}
+%Because we know how to compute $L(Q)$ for different values of $Q$, we can try many reasonable values and find the best. 
+%
+%Nevertheless, it is also possible to compute it in closed form. The optimal order quantity (omitting the math) can be computed as 
+%\begin{align*}
+%Q^* 
+%& = F^{-1}\left(\frac{b}{h+b}\right) \\
+%& =\exp(\upsilon + \tau \Phi^{-1}(\beta))
+%\end{align*}
+%where $\Phi^{-1}(\beta)$ is the inverse standard normal distribution evaluated at $\beta=\frac{b}{h+b}$. 
+%\end{solution}
 
-\subsection{The Newsvendor Model}
-
-\input{nw_functions.tex}
-
-The most well-known stochastic inventory model is the 'newsvendor model'. The following exercises will be devoted to this important model which clearly illustrates the effect of demand uncertainty in inventory decisions. 
-
-The inventory control problem behind the newsvendor model can be explained as follows. Let us consider a newsvendor selling newspapers. The product here is perishable as newspapers does not have much of a value the day after they are printed. Therefore, the newsvendor plans his operations on a daily basis. There are a few of parameters that play a role: 
-\begin{align*}
-  c &= \text{Buying price of one item,} \\
-  p &= \text{Selling  price of one item,} \\
-  s &= \text{Salvage (end) value of one item}, \\
-  h &= \text{Overage cost of one item ($c_o$ in Factory Physics)},\\
-  b &= \text{Shortage cost of one item ($c_s$ in Factory Physics)}.
-\end{align*}
- The newsvendor buys newspapers early in the morning before observing the demand, yet she does know the distribution of the daily demand. The problem of the newsvendor is to match her supply to the demand on a daily basis while maximizing his expected profit.
-
+Next, we consider arbitrary discrete demand distributions. 
 
 \begin{question}
-How costs and price parameters should relate to each other so that the newsvendor problem to makes sense?
+How $L(Q)$ can be computed if $D$ has a discrete distribution function?
 \end{question}
 
 \begin{solution}
-We must have $p>c>s$. That is because; If $p\leq c$ we would not buy anything as there would be no way of making profit, and if $c<s$ we would buy as much as possible as it would lead to more profit. 
-\end{solution}
+In case of discrete demand distributions, the 'probability mass function' could come in handy besides the distribution function. We let $f(x)$ denote the probability function; defined as $f(x)=\pr{D=x}$. 
 
-Let us assume that the newsvendor buys $Q$ items and demand turns out to be $d$ items. Keep in mind that here both $Q$ and $d$ are scalars, so there is no uncertainty. 
-
-\begin{question}
-Write an expression for the number of items sold.
-\end{question}
-
-\begin{solution}
-\begin{align*}
-\min\{Q,d\}
-\end{align*}
-\end{solution}
-
-\begin{question}
-Write an expression for the number of items salvaged.
-\end{question}
-
-\begin{solution}
-\begin{align*}
-Q-\min\{Q,d\}
-\end{align*}
-\end{solution}
-
-\begin{question}
-Write an expression for the newsvendor's profit $P(Q)$.
-\end{question}
-
-\begin{solution}
-\begin{equation*}
-  \begin{split}
-P(Q) 
-&= -cQ + p\min\{Q,d\} + s(Q-\min\{Q,d\}) \\
-&=  -cQ + p \min\{Q,d\} + sQ - s \min\{Q,d\} \\
-&= (s-c)Q + (p-s) \min\{Q,d\}.
-  \end{split}
-\end{equation*}
-\end{solution}
-
-The explanation at the beginning of this part defined the newsvendor problem as a 'profit maximization' problem. For the sake of brevity, we want to redefine it as a 'cost minimization' model. To that end, we can introduce two types of costs: unit overage cost $h$ (i.e. the cost of having an item on hand at the end of the day because it was not sold), and unit shortage cost $b$ (i.e. the cost of having a unit of unsatisfied demand due to stock-out). The next exercise relate to these cost components.
-
-\begin{question}
-How can we express the overage cost and and shortage costs in terms of the cost and price parameters introduced earlier?
-\end{question}
-
-\begin{solution}
-In case of an overage; an item that is bought for $c$ was not sold and therefore salvaged at a price of $s$. The loss due to this item is therefore $h=c-s$. In case of a shortage; a unit of demand is not satisfied leading to a loss of $p$ from profit, but as no item was bought in the first place this loss is reduced by $c$. The net loss is thus $b=p-c$. Observe that both $h$ and $b$ are positive if $p>c>s$.
-\end{solution}
-
-\begin{question}
-Once again, assume that the newsvendor buys $Q$ items and demand turns out to be $d$ items. Write an expression for the newsvendor's cost by using the overage and shortage costs.
-\end{question}
-
-\begin{solution}
-\begin{align*}
-h\max\{Q-d,0\} + b\max\{d-Q,0\}
-\end{align*}
-\end{solution}
-
-The next exercise illustrates that the profit and cost formulations are equivalent, but they are not the same.
-
-\begin{question}
-Explain how the expressions you wrote for the profit (by using $p$, $c$, and $s$) and cost (by using $h$ and $b$) relate each other.
-\end{question}
-
-\begin{solution}
-First, observe that (easy to verify; simply check two cases where $Q>d$ and $d>Q$)
-\begin{align*}
-\min\{Q,d\} = d-\max\{d-Q,0\} = Q-\max\{Q-d,0\}.
-\end{align*}
-
-If we make use of the above, then after some algebraic manipulation we obtain 
-\begin{align*}
- -cQ + p\min\{Q,d\} + s(Q-\min\{Q,d\}) \\
-% = -c(d-\max\{d-Q,0\}+\max\{Q-d,0\}) + p(d-\max\{d-Q,0\}) + s(Q-(Q-\max\{Q-d,0\})) \\
-% = -cd+c\max\{d-Q,0\}-c\max\{Q-d,0\} + pd-p\max\{d-Q,0\} + s\max\{Q-d,0\} \\
-% = (p-c)d + (c-p)\max\{d-Q,0\} + (s-c) \max\{Q-d,0\} \\
-% = (p-c)d -\left((c-s) \max\{Q-d,0\} + (p-c)\max\{d-Q,0\}\right) \\
- = (p-c)d - \left(h\max\{Q-d,0\} + b\max\{d-Q,0\}\right).
-\end{align*}
-
-This tells us that the profit expression is equal to $(p-c)d$ minus the cost expression. Notice that, $(p-c)d$ stands for the maximum possible profit from sales (i.e. cannot sell more than the demand) and it is independent of the newsvendor's buying quantity. As such, the cost expression provides the loss from maximum possible profit.
-\end{solution}
-
-In the following, we want to use the notation $x^+$ and $x^-$ which works as follows: $x^+=\max\{x,0\}$ and $x^-=\max\{-x,0\}$. The next exercise illustrates a nice property of this notation.
-
-\begin{question}
-Show that $x=x^+-x^-$.
-\end{question}
-
-\begin{solution}
-Let us consider two cases: $x\geq 0$ and $x<0$. In the first case, we have $x^+=\max\{x,0\}=x$ and $x^-=\max\{-x,0\}=0$. Thus $x=x-0$ holds. In the second case, we have $x^+=\max\{x,0\}=0$ and $x^-=\max\{-x,0\}=-x$. Thus $x=0-(-x)$ holds.
-\end{solution}
-
-\begin{question}
-Write the cost expression again, but this time with the $x^+$ and $x^-$ notation.
-\end{question}
-
-\begin{solution}
-\begin{align*}
-h(Q-d)^+ + b(Q-d)^-
-\end{align*}
-\end{solution}
-
-\begin{question}
-Try  to rewrite the  expression for the profit in the form
-\begin{equation}\label{eq:1}
-P(Q) = (p -c)Q  + (s-p)(Q-d)^+.
-\end{equation}
-\end{question}
-
-\begin{solution}
-With the above  result that $\min\{Q,d\} = Q-\max\{Q-d,0\} = Q - (Q-d)^+$ we see that
-\begin{equation*}
-  \begin{split}
-P(Q) 
-&= (s-c)Q + (p-s) \min\{Q,d\}\\
-&= (s-c)Q + (p-s) (Q- (Q-d)^+\\
-&= (s-c)Q +  (p-s) Q - (p-s)(Q-d)^+\\
-&= (s-c + p -s)Q  - (p-s)(Q-d)^+\\
-&= (p -c)Q  - (p-s)(Q-d)^+ = (p -c)Q  + (s-p)(Q-d)^+.
-  \end{split}
-\end{equation*}
-\end{solution}
-
-
-\begin{question}\label{ex:nw_det}
-Let $d=20$, $h=1$ and $b=10$; and plot the cost expression for different values of $Q$. 
-\end{question}
-
-\begin{solution}
-See Figure~\ref{fig:cost_expression}.
-
-\begin{figure}[htbp]
-\centering
-\begin{tikzpicture}
-\scriptsize
-\def\avg{20}
-\def\h{1}
-\def\p{10}
-\begin{axis}[
-	xlabel=$Q$,
-	legend style={nodes=right},
-	axis lines=middle,
-	ymin=0]
-\addplot [color=blue,thick,domain=0:2*\avg] {Ldeter(\x,\avg,\h,\p)};
-\addlegendentry{$\h(Q - \avg)^+ + \p(Q - \avg)^-$}
-\end{axis}
-\end{tikzpicture}
-\caption{Cost expression}
-\label{fig:cost_expression}
-\end{figure}
-\end{solution}
-
-\begin{question}
-What is the newsvendor's best replenishment quantity in the previous exercise? What would be her cost if she replenishes this amount? How would her cost be effected if she were buy one unit less or one unit more than this quantity?
-\end{question}
-
-\begin{solution}
-The optimal quantity is obviously 20, a we know that the demand is 20 units anyway. The newsvendor's cost will be zero if she replenishes this quantity. Having a unit more will exactly increase the cost by \$1 and a unit less by \$10.
-\end{solution}
-
-\begin{question}
-Let newsvendor's selling price be \$15 in the previous exercise. Write down the profit and cost expressions for replenishment quantities $\{7,26\}$ and compare the results.
-\end{question}
-
-\begin{solution}
-Because $h=c-s=1$ and $b=p-c=10$, and as $p=15$; we have that $c=5$ and $s=4$. Thus, we obtain the profit expression
-\begin{align*}
--cQ + p\min\{Q,d\} + s(Q-\min\{Q,d\}) = -5\cdot Q + 15\cdot\min\{Q,20\} + 4\cdot(Q-\min\{Q,20\})
-\end{align*}
-and the cost expression
-\begin{align*}
-h(Q-d)^+ + b(Q-d)^- = 1\cdot (Q-20)^+ + 10\cdot(Q-20)^-.
-\end{align*}
-
-Then; for $Q=7$ we obtain profit \$70 and cost \$130, and for $Q=26$ we have \$194 for profit and \$6 for cost. Indeed, in botch cases, profit and cost expressions sum up to the maximum possible profit $(p-c)d=(15-5)\cdot 20=200$.
-\end{solution}
-
-We now begin investigating the newsvendor problem with stochastic demand. To that end, we replace the deterministic demand $d$ with the random demand $D$. 
-
-\begin{question}
-Let $L(Q)$ be the expected total cost of the newsvendor given that she buys $Q$ items. Write an expression for this function.
-\end{question}
-
-\begin{solution}
-\begin{align*}
-L(Q) = h\ex (Q-D)^+ + b\ex (Q-D)^-
-\end{align*}
-Here, we simply used an expectation operator. How we approach this operator depends on the demand distribution. 
-\end{solution}
-
-\begin{question}
-How $L(Q)$ can be computed?
-\end{question}
-
-\begin{solution}
-It depends on the demand distribution. 
-
-If demand distribution is continuous than we have 
-\begin{align*}
-L(Q) & = h \ex (Q-D)^+ + b \ex (Q-D)^- \\
-	 & = \int_x \left(h (Q-x)^+ + b (Q-x)^-\right) f(x) \dif x
-\end{align*}
-where $f(x)$ is the probability density function of $D$. This can be computed easily (in closed form) for some distributions (e.g. normal and lognormal distributions), whereas for some others numerical integration could be quite involved computatinally.
-
-If demand distribution is discrete then we have 
+Then we have
 \begin{align*}
 L(Q) & = h \ex (Q-D)^+ + b \ex (Q-D)^- \\
 	 & = \sum_x \left(h (Q-x)^+ + b (Q-x)^-\right) f(x)
 \end{align*}
-where $f(x)$ is the probability mass function of $D$. This cannot be computed in closed form in general. But it's numerical computation is trivial and it can easily be done in spreadsheet applications.
-\end{solution}
-
-
-We now concentrate on the computational procedure for normally distributed demand. 
-
-\begin{question}
-How $L(Q)$ can be computed if $D$ is normally distributed?
-\end{question}
-
-\begin{solution}
-Let $\mu$ denote the mean and $\sigma$ the standard deviation of $D$. Then (omitting the math) we have
-\begin{align*}
-L(Q) 
-& = h \ex (Q-D)^+ + b \ex (Q-D)^- \\
-& = h(Q-\mu) + (h+b) \sigma F_{\text{loss}}(z).
-\end{align*}
-where $z=\frac{Q-\mu}{\sigma}$ and $F_{\text{loss}}$ is the 'standard normal loss function'. 
-
-The standard normal loss function is defined as 
-\begin{align*}
-F_{\text{loss}}(z) = \phi(z)-z(1-\Phi(z))
-\end{align*}
-where $\phi(z)$ and $\Phi(z)$ are 'standard normal density function' and 'standard normal distribution function' respectively. 
-
-These functions are accessible in spreadsheet applications. For instance, in Excel we have 
-\begin{align*}
-\phi(z) \text{=NORMDIST($z$,0,1,FALSE)}
-\end{align*}
-and
-\begin{align*}
-\Phi(z) \text{=NORMSDIST($z$)}.
-\end{align*}
-
-Therefore, we can compute the 'standard normal loss function as
-\begin{align*}
-F_{\text{loss}}(z) \text{=NORMDIST($z$,0,1,FALSE)-$z$*(1-NORMSDIST($z$))}.
-\end{align*}
-\end{solution}
-
-\begin{question}\label{ex:nw_stoc}
-Let $D$ be normally distributed with mean 20 and standard deviation 5, $h=1$ and $b=10$; and plot $L(Q)$ for different values of $Q$. 
-\end{question}
-
-\begin{solution}
-See Figure~\ref{fig:LQ_normal}.
-
-\begin{figure}[htbp]
-\centering
-\begin{tikzpicture}
-\scriptsize
-\def\avg{20}
-\def\std{5}
-\def\h{1}
-\def\p{10}
-\begin{axis}[
-	xlabel=$Q$,
-	legend style={nodes=right},
-	axis lines=middle,
-	ymin=0]
-\addplot [color=red,thick,domain=0:2*\avg] {Lstoch(\x,\avg,\std,\h,\p)};
-\addlegendentry{$\h\ex(Q - D)^+ + \p\ex(Q - D)^-$}
-\end{axis}
-\end{tikzpicture}
-\caption{$L(Q)$ for normally distributed demand}
-\label{fig:LQ_normal}
-\end{figure}
-\end{solution}
-
-
-\begin{question}
-Have a look at the graphs you obtained in Exercise~\ref{ex:nw_det} and Exercise~\ref{ex:nw_stoc}. What similarities and differences you see?
-\end{question}
-
-\begin{solution}
-See Figure~\ref{fig:LQ_comparison}. 
-
-\begin{enumerate}
-\item The stochastic cost is always larger than the deterministic one. this is due to the fact that there is always a non-zero probability of overage and shortage in the stochastic case. 
-\item For very small and very large values of order quantity cost figures coincide. This can be explained as follows. On the one hand, if order quantity is very large then no demand will be lost. Therefore, the expected total cost will be overage cost times the order quantity minus the expected demand, i.e. $h(Q-\ex D)$. That's why the we have $L(40)\approx 1\cdot(40-20)=20$. This is the very same cost that would realize if demand was exactly 20 units and the order quantity was 40. On the other hand, if the order quantity is very small then all demand will be lost. Therefore, the expected total cost will be shortage cost times the expected demand, i.e. $b \ex D$. That's why the we have $L(0)\approx 10\cdot20=200$. This is the very same cost that would realize if demand was exactly 20 units and the order quantity was 0.
-\item It is optimal to order 20 units in the determinstic case , whereas it is a bit higher in the stochastic case. This can be attributed to the demand uncertainty and shortages being more expensive as compared to overages. 
-\end{enumerate}
-
-
-\begin{figure}[htbp]
-\centering
-\begin{tikzpicture}
-\scriptsize
-\def\avg{20}
-\def\std{5}
-\def\h{1}
-\def\p{10}
-\begin{axis}[
-	xlabel=$Q$,
-	legend style={nodes=right},
-	axis lines=middle,
-	ymin=0]
-\addplot [color=blue,thick,domain=0:2*\avg] {Ldeter(\x,\avg,\h,\p)};
-\addplot [color=red,thick,domain=0:2*\avg] {Lstoch(\x,\avg,\std,\h,\p)};
-\addlegendentry{$\h(Q - \avg)^+ + \p(Q - \avg)^-$}
-\addlegendentry{$\h\ex(Q - D)^+ + \p\ex(Q - D)^-$}
-\end{axis}
-\end{tikzpicture}
-\caption{A comparison of costs for deterministic and stochastic demands}
-\label{fig:LQ_comparison}
-\end{figure}
-\end{solution}
-
-
-\begin{question}
-Let us consider cases where demand is always normally distributed with mean 20 but with different standard deviation levels $\{1,5,10\}$. Plot $L(Q)$ for these cases assuming $h=1$ and $b=10$. What do you observe?
-\end{question}
-
-\begin{solution}
-See Figure~\ref{fig:LQ_std}. We observe that increasing standard deviation leads to further deviations from the deterministic case and larger optimal order quantities. 
-
-\begin{figure}[htbp]
-\centering
-\begin{tikzpicture}
-\scriptsize
-\def\avg{20}
-\def\h{1}
-\def\p{10}
-\begin{axis}[
-	xlabel=$Q$,
-	legend style={nodes=right},
-	axis lines=middle,
-	ymin=0]
-
-\addplot [color=red,thick,domain=0:2*\avg] {Lstoch(\x,\avg,1,\h,\p)};
-\addlegendentry{$\sigma=1$}
-
-\addplot [color=blue,thick,domain=0:2*\avg] {Lstoch(\x,\avg,5,\h,\p)};
-\addlegendentry{$\sigma=5$}
-
-\addplot [color=green,thick,domain=0:2*\avg] {Lstoch(\x,\avg,10,\h,\p)};
-\addlegendentry{$\sigma=10$}
-
-\end{axis}
-\end{tikzpicture}
-\caption{$L(Q)$ with different levels of standard deviation}
-\label{fig:LQ_std}
-\end{figure}
+There is no closed form expression that can be used to compute the expected cost function for arbitrary discrete demand distribution. But it can easily be computed in spreadsheet applications. 
 \end{solution}
 
 \begin{question}
-How can we compute the optimal order quantity if demand is normally distributed?
+How can we compute the optimal order quantity if demand follows a discrete distribution?
 \end{question}
 
 \begin{solution}
-Because we know how to compute the cost function for different values of $Q$, we can try many reasonable values and find the best. 
+Because we know how to compute $L(Q)$ for different values of $Q$, we can try many reasonable values and find the best. 
 
-Nevertheless, it is also possible to compute it in closed form. The optimal order quantity (omitting the math) can be computed as 
+Also, we can make use of the optimality property. The optimal order quantity should satisfy 
 \begin{align*}
-Q^* 
-& = F^{-1}\left(\frac{b}{h+b}\right) \\
-& = \mu + \sigma \Phi^{-1}(\beta) 
+Q^* = \min\left\{Q\mid F(Q)\geq \frac{b}{h+b}\right\}.
 \end{align*}
-where $\Phi^{-1}(\beta)$ is the 'inverse standard normal distribution' evaluated at $\beta=\frac{b}{h+b}$. 
-
-The inverse standard normal distribution can easily be computed in spreadsheet applications. For instance, in Excel we have 
-\begin{align*}
-\Phi^{-1}(\beta)\text{=NORMSINV($\beta$)}.
-\end{align*}
+This condition can easily be checked by browsing through the distribution function $F(x)$ for increasing values of $x$ and stop once we find an $x$ such that $F(Q)\geq \frac{b}{h+b}$.
 \end{solution}
-
-\begin{question}
-Let $D$ be normally distributed with mean 20 and standard deviation 5, $h=1$ and $b=10$. What is the optimal order quantity? Verify your result by comparing it against the graph you obtained in Exercise~\ref{ex:nw_stoc}. 
-\end{question}
-
-\begin{solution}
-\begin{align*}
-Q^* 
-& = \mu + \sigma \Phi^{-1}(\beta) \\
-& = 20 + 5\cdot \phi^{-1}(10/11) = 20 + 5\cdot \Phi^{-1}(1.3352) = 26.676
-\end{align*}
-\end{solution}
-
-\begin{question}
-We call 'safety stock' 
-
-Have a closer look at the expression of the optimal order quantity. How does it affected by the mean
-\end{question}
-
-\begin{solution}
-•
-\end{solution}
-
-%Next, we consider arbitrary discrete demand distributions. 
-%
-%\begin{question}
-%How $L(Q)$ can be computed if $D$ has a discrete distribution function $F(x)$?
-%\end{question}
-%
-%\begin{solution}
-%Let $\mu$ denote the mean of $D$. Then (omitting the math) we have
-%\begin{align*}
-%L(Q) 
-%& = h\ex (Q-D)^+ + b\ex (Q-D)^- \\
-%%& = h\sum_{x=0}^Q (Q-x) + b \sum_{x=Q+1}^{\infty} (x-Q) \\  
-%& = h(Q-\ex D) + (h+b)\ex (Q-D)^- \\
-%\end{align*}
-%
-%\end{solution}
-
-
-
-%\begin{align*}
-%L(Q) = \sum_x h\left((Q-x)^+ + b\ex (Q-x)^-\right) f(x)\dif x.
-%\end{align*}
-%
-%
-%whether demand has a continuous distribution (e.g. normal distribution) or discrete distribution (e.g. Poisson distribution). 
-%
-%If demand has a continuous distribution we have
-%\begin{align*}
-%L(Q) = \int_x h\left((Q-x)^+ + b\ex (Q-x)^-\right) f(x)\dif x.
-%\end{align*}
-%where $f(x)$ is the density function of $D$. 
-%
-%If demand has a discrete distribution we have
-%\begin{align*}
-%L(Q) = \sum_{x=0}^{\infty} h\left((Q-x)^+ + b\ex (Q-x)^-\right) f(x)\dif x.
-%\end{align*}
-%where $f(x)$ is the density function of $D$. 
-
-
-
