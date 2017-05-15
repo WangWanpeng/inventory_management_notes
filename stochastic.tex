@@ -75,13 +75,12 @@
 %
 %The preference towards normal and Poisson distributions is not only due to their 'nice' mathematical characteristics but also their power in capturing real-life demand data.
 %\end{solution}
-%
-%
-<<<<<<< HEAD
-%\subsection{Newsvendor Model}
-%
-%\input{nw_functions.tex}
-%
+
+
+\subsection{Newsvendor Model}
+
+\input{nw_functions.tex}
+
 %The most well-known stochastic inventory model is the 'newsvendor model'. The following exercises will be devoted to this important model which clearly illustrates the effect of demand uncertainty in inventory decisions. 
 %
 %The inventory control problem behind the newsvendor model can be explained as follows. Let us consider a newsvendor selling newspapers. The product here is perishable as newspapers does not have much of a value the day after they are printed. Therefore, the newsvendor plans his operations on a daily basis. There are a few of parameters that play a role: 
@@ -130,13 +129,6 @@
 %\end{question}
 %
 %\begin{solution}
-%%\begin{equation*}
-%%  \begin{split}
-%%P(Q) 
-%%&= -cQ + p\min\{Q,d\} + s(Q-\min\{Q,d\}) \\
-%%&= (s-c)Q + (p-s) \min\{Q,d\}.
-%%  \end{split}
-%%\end{equation*}
 %\begin{equation*}
 %  \begin{split}
 %P(Q) 
@@ -211,28 +203,6 @@
 %\end{align*}
 %\end{solution}
 %
-%%\begin{question}
-%%Try  to rewrite the  expression for the profit in the form
-%%\begin{equation}\label{eq:1}
-%%P(Q) = (p -c)Q  + (s-p)(Q-d)^+.
-%%\end{equation}
-%%\end{question}
-%%
-%%\begin{solution}
-%%With the above  result that $\min\{Q,d\} = Q-\max\{Q-d,0\} = Q - (Q-d)^+$ we see that
-%%\begin{equation*}
-%%  \begin{split}
-%%P(Q) 
-%%&= (s-c)Q + (p-s) \min\{Q,d\}\\
-%%&= (s-c)Q + (p-s) (Q- (Q-d)^+\\
-%%&= (s-c)Q +  (p-s) Q - (p-s)(Q-d)^+\\
-%%&= (s-c + p -s)Q  - (p-s)(Q-d)^+\\
-%%&= (p -c)Q  - (p-s)(Q-d)^+ = (p -c)Q  + (s-p)(Q-d)^+.
-%%  \end{split}
-%%\end{equation*}
-%%\end{solution}
-%
-%
 %\begin{question}\label{ex:nw_det}
 %Let $d=20$, $h=1$ and $b=10$; and plot the cost function for different values of $Q$. 
 %\end{question}
@@ -287,464 +257,6 @@
 %\end{solution}
 %
 %We now begin investigating the newsvendor problem with stochastic demand. To that end, we replace the deterministic demand $d$ with the random demand $D$. 
-=======
-
-\subsection{The Newsvendor Model}
-
-\input{nw_functions.tex}
-
-The most well-known stochastic inventory model is the 'newsvendor model'. The following exercises will be devoted to this important model which clearly illustrates the effect of demand uncertainty in inventory decisions. 
-
-The inventory control problem behind the newsvendor model can be explained as follows. Let us consider a newsvendor selling newspapers. The product here is perishable as newspapers does not have much of a value the day after they are printed. Therefore, the newsvendor plans his operations on a daily basis. There are a few of parameters that play a role: 
-\begin{align*}
-  c &= \text{Buying price of one item,} \\
-  p &= \text{Selling  price of one item,} \\
-  s &= \text{Salvage (end) value of one item}, \\
-  h &= \text{Overage cost of one item ($c_o$ in Factory Physics)},\\
-  b &= \text{Shortage cost of one item ($c_s$ in Factory Physics)}.
-\end{align*}
- The newsvendor buys newspapers early in the morning before observing the demand, yet she does know the distribution of the daily demand. The problem of the newsvendor is to match her supply to the demand on a daily basis while maximizing his expected profit.
-
-
-\begin{question}
-How costs and price parameters should relate to each other so that the newsvendor problem to makes sense?
-\end{question}
-
-\begin{solution}
-We must have $p>c>s$. That is because; If $p\leq c$ we would not buy anything as there would be no way of making profit, and if $c<s$ we would buy as much as possible as it would lead to more profit. 
-\end{solution}
-
-Let us assume that the newsvendor buys $Q$ items and demand turns out to be $d$ items. Keep in mind that here both $Q$ and $d$ are scalars, so there is no uncertainty. 
-
-\begin{question}
-Write an expression for the number of items sold.
-\end{question}
-
-\begin{solution}
-\begin{align*}
-\min\{Q,d\}
-\end{align*}
-\end{solution}
-
-\begin{question}
-Write an expression for the number of items salvaged.
-\end{question}
-
-\begin{solution}
-\begin{align*}
-Q-\min\{Q,d\}
-\end{align*}
-\end{solution}
-
-\begin{question}
-Write an expression for the newsvendor's profit $V(Q)$.
-\end{question}
-
-\begin{solution}
-\begin{equation*}
-  \begin{split}
-V(Q) 
-&= -cQ + p\min\{Q,d\} + s(Q-\min\{Q,d\}) \\
-&=  -cQ + p \min\{Q,d\} + sQ - s \min\{Q,d\} \\
-&= (s-c)Q + (p-s) \min\{Q,d\}.
-  \end{split}
-\end{equation*}
-\end{solution}
-
-The explanation at the beginning of this part defined the newsvendor problem as a 'profit maximization' problem. For the sake of brevity, we want to redefine it as a 'cost minimization' model. To that end, we can introduce two types of costs: unit overage cost $h$ (i.e. the cost of having an item on hand at the end of the day because it was not sold), and unit shortage cost $b$ (i.e. the cost of having a unit of unsatisfied demand due to stock-out). The next exercise relate to these cost components.
-
-\begin{question}
-How can we express the overage cost and and shortage costs in terms of the cost and price parameters introduced earlier?
-\end{question}
-
-\begin{solution}
-In case of an overage; an item that is bought for $c$ was not sold and therefore salvaged at a price of $s$. The loss due to this item is therefore $h=c-s$. In case of a shortage; a unit of demand is not satisfied leading to a loss of $p$ from profit, but as no item was bought in the first place this loss is reduced by $c$. The net loss is thus $b=p-c$. Observe that both $h$ and $b$ are positive if $p>c>s$.
-\end{solution}
-
-\begin{question}
-Once again, assume that the newsvendor buys $Q$ items and demand turns out to be $d$ items. Write an expression for the newsvendor's cost by using the overage and shortage costs.
-\end{question}
-
-\begin{solution}
-\begin{align*}
-h\max\{Q-d,0\} + b\max\{d-Q,0\}
-\end{align*}
-\end{solution}
-
-The next exercise illustrates that the profit and cost formulations are equivalent, but they are not the same.
-
-\begin{question}
-Explain how the expressions you wrote for the profit (by using $p$, $c$, and $s$) and cost (by using $h$ and $b$) relate each other.
-\end{question}
-
-\begin{solution}
-First, observe that (easy to verify; simply check two cases where $Q>d$ and $d>Q$)
-\begin{align*}
-\min\{Q,d\} = d-\max\{d-Q,0\} = Q-\max\{Q-d,0\}.
-\end{align*}
-
-If we make use of the above, then after some algebraic manipulation we obtain 
-\begin{align*}
- -cQ + p\min\{Q,d\} + s(Q-\min\{Q,d\}) \\
-% = -c(d-\max\{d-Q,0\}+\max\{Q-d,0\}) + p(d-\max\{d-Q,0\}) + s(Q-(Q-\max\{Q-d,0\})) \\
-% = -cd+c\max\{d-Q,0\}-c\max\{Q-d,0\} + pd-p\max\{d-Q,0\} + s\max\{Q-d,0\} \\
-% = (p-c)d + (c-p)\max\{d-Q,0\} + (s-c) \max\{Q-d,0\} \\
-% = (p-c)d -\left((c-s) \max\{Q-d,0\} + (p-c)\max\{d-Q,0\}\right) \\
- = (p-c)d - \left(h\max\{Q-d,0\} + b\max\{d-Q,0\}\right).
-\end{align*}
-
-This tells us that the profit expression is equal to $(p-c)d$ minus the cost expression. Notice that, $(p-c)d$ stands for the maximum possible profit from sales (i.e. cannot sell more than the demand) and it is independent of the newsvendor's buying quantity. As such, the cost expression provides the loss from maximum possible profit.
-\end{solution}
-
-In the following, we want to use the notation $x^+$ and $x^-$ which works as follows: $x^+=\max\{x,0\}$ and $x^-=\max\{-x,0\}$. The next exercise illustrates a nice property of this notation.
-
-\begin{question}
-Show that $x=x^+-x^-$.
-\end{question}
-
-\begin{solution}
-Let us consider two cases: $x\geq 0$ and $x<0$. In the first case, we have $x^+=\max\{x,0\}=x$ and $x^-=\max\{-x,0\}=0$. Thus $x=x-0$ holds. In the second case, we have $x^+=\max\{x,0\}=0$ and $x^-=\max\{-x,0\}=-x$. Thus $x=0-(-x)$ holds.
-\end{solution}
-
-\begin{question}
-Write the cost expression again, but this time with the $x^+$ and $x^-$ notation.
-\end{question}
-
-\begin{solution}
-\begin{align*}
-h(Q-d)^+ + b(Q-d)^-
-\end{align*}
-\end{solution}
-
-\begin{question}
-Try  to rewrite the  expression for the profit in the form
-\begin{equation}\label{eq:1}
-V(Q) = (p -c)Q  + (s-p)(Q-d)^+.
-\end{equation}
-\end{question}
-
-\begin{solution}
-With the above  result that $\min\{Q,d\} = Q-\max\{Q-d,0\} = Q - (Q-d)^+$ we see that
-\begin{equation*}
-  \begin{split}
-V(Q) 
-&= (s-c)Q + (p-s) \min\{Q,d\}\\
-&= (s-c)Q + (p-s) (Q- (Q-d)^+\\
-&= (s-c)Q +  (p-s) Q - (p-s)(Q-d)^+\\
-&= (s-c + p -s)Q  - (p-s)(Q-d)^+\\
-&= (p -c)Q  - (p-s)(Q-d)^+ = (p -c)Q  + (s-p)(Q-d)^+.
-  \end{split}
-\end{equation*}
-\end{solution}
-
-\begin{question}
-Suppose the inventory at the start of the period is $i$. Try  to rewrite the  expression for the profit in the form
-\begin{equation}\label{eq:2}
-V(i, Q) = ci + V(Q).
-\end{equation}
-We will use this expression later for a newsvendor model with two stages.
-\end{question}
-\begin{solution}
-\begin{equation*}
-  \begin{split}
-V(i, Q) 
-&= -cQ + p\min{Q+i, d} + s(Q+i-\min{Q+i,d})\\
-&= - cQ + (p-s)\min{Q+i, d} + s(Q+i)\\
-&= - cQ + (p-s)(Q+i-(Q+i-d)^+ + s(Q+i)\\
-&= - cQ + p(Q+i)+(s-p)(Q+i-d)^+ \\
-&= (p- c)(Q+i) +(s-p)(Q+i-d)^+ + ci\\
-&= V(Q+i) + ci\\
-  \end{split}
-\end{equation*}
-\end{solution}
-
-
-\begin{question}
-Provide an intuitive explanation for (\ref{eq:2}). 
-\end{question}
-\begin{solution}
-  If we have $i$ items in inventory at the start of the period, we
-  don't have to buy these $i$ items. Hence, the profit we expect to
-  make is the profit as if we had to buy $Q+i$ items, but then we get
-  compensated for the $i$ items we don't have to buy. Thus, the
-  expected profit is $V(Q+i) + ci$.
-\end{solution}
-
-\begin{question}\label{ex:nw_det}
-Let $d=20$, $h=1$ and $b=10$; and plot the cost expression for different values of $Q$. 
-\end{question}
-
-\begin{solution}
-See Figure~\ref{fig:cost_expression}.
-
-\begin{figure}[htbp]
-\centering
-\begin{tikzpicture}
-\scriptsize
-\def\avg{20}
-\def\h{1}
-\def\p{10}
-\begin{axis}[
-	xlabel=$Q$,
-	legend style={nodes=right},
-	axis lines=middle,
-	ymin=0]
-\addplot [color=blue,thick,domain=0:2*\avg] {Ldeter(\x,\avg,\h,\p)};
-\addlegendentry{$\h(Q - \avg)^+ + \p(Q - \avg)^-$}
-\end{axis}
-\end{tikzpicture}
-\caption{Cost expression}
-\label{fig:cost_expression}
-\end{figure}
-\end{solution}
-
-\begin{question}
-What is the newsvendor's best replenishment quantity in the previous exercise? What would be her cost if she replenishes this amount? How would her cost be effected if she were buy one unit less or one unit more than this quantity?
-\end{question}
-
-\begin{solution}
-The optimal quantity is obviously 20, a we know that the demand is 20 units anyway. The newsvendor's cost will be zero if she replenishes this quantity. Having a unit more will exactly increase the cost by \$1 and a unit less by \$10.
-\end{solution}
-
-\begin{question}
-Let newsvendor's selling price be \$15 in the previous exercise. Write down the profit and cost expressions for replenishment quantities $\{7,26\}$ and compare the results.
-\end{question}
-
-\begin{solution}
-Because $h=c-s=1$ and $b=p-c=10$, and as $p=15$; we have that $c=5$ and $s=4$. Thus, we obtain the profit expression
-\begin{align*}
--cQ + p\min\{Q,d\} + s(Q-\min\{Q,d\}) = -5\cdot Q + 15\cdot\min\{Q,20\} + 4\cdot(Q-\min\{Q,20\})
-\end{align*}
-and the cost expression
-\begin{align*}
-h(Q-d)^+ + b(Q-d)^- = 1\cdot (Q-20)^+ + 10\cdot(Q-20)^-.
-\end{align*}
-
-Then; for $Q=7$ we obtain profit \$70 and cost \$130, and for $Q=26$ we have \$194 for profit and \$6 for cost. Indeed, in botch cases, profit and cost expressions sum up to the maximum possible profit $(p-c)d=(15-5)\cdot 20=200$.
-\end{solution}
-
-We now begin investigating the newsvendor problem with stochastic demand. To that end, we replace the deterministic demand $d$ with the random demand $D$. 
-
-\begin{question}
-Let $L(Q)$ be the expected total cost of the newsvendor given that she buys $Q$ items. Write an expression for this function.
-\end{question}
-
-\begin{solution}
-\begin{align*}
-L(Q) = h\ex (Q-D)^+ + b\ex (Q-D)^-
-\end{align*}
-Here, we simply used an expectation operator. How we approach this operator depends on the demand distribution. 
-\end{solution}
-
-\begin{question}
-How $L(Q)$ can be computed?
-\end{question}
-
-\begin{solution}
-It depends on the demand distribution. 
-
-If demand distribution is continuous than we have 
-\begin{align*}
-L(Q) & = h \ex (Q-D)^+ + b \ex (Q-D)^- \\
-	 & = \int_x \left(h (Q-x)^+ + b (Q-x)^-\right) f(x) \dif x
-\end{align*}
-where $f(x)$ is the probability density function of $D$. This can be computed easily (in closed form) for some distributions (e.g. normal and lognormal distributions), whereas for some others numerical integration could be quite involved computatinally.
-
-If demand distribution is discrete then we have 
-\begin{align*}
-L(Q) & = h \ex (Q-D)^+ + b \ex (Q-D)^- \\
-	 & = \sum_x \left(h (Q-x)^+ + b (Q-x)^-\right) f(x)
-\end{align*}
-where $f(x)$ is the probability mass function of $D$. This cannot be computed in closed form in general. But it's numerical computation is trivial and it can easily be done in spreadsheet applications.
-\end{solution}
-
-
-We now concentrate on the computational procedure for normally distributed demand. 
-
-\begin{question}
-How $L(Q)$ can be computed if $D$ is normally distributed?
-\end{question}
-
-\begin{solution}
-Let $\mu$ denote the mean and $\sigma$ the standard deviation of $D$. Then (omitting the math) we have
-\begin{align*}
-L(Q) 
-& = h \ex (Q-D)^+ + b \ex (Q-D)^- \\
-& = h(Q-\mu) + (h+b) \sigma F_{\text{loss}}(z).
-\end{align*}
-where $z=\frac{Q-\mu}{\sigma}$ and $F_{\text{loss}}$ is the 'standard normal loss function'. 
-
-The standard normal loss function is defined as 
-\begin{align*}
-F_{\text{loss}}(z) = \phi(z)-z(1-\Phi(z))
-\end{align*}
-where $\phi(z)$ and $\Phi(z)$ are 'standard normal density function' and 'standard normal distribution function' respectively. 
-
-These functions are accessible in spreadsheet applications. For instance, in Excel we have 
-\begin{align*}
-\phi(z) \text{=NORMDIST($z$,0,1,FALSE)}
-\end{align*}
-and
-\begin{align*}
-\Phi(z) \text{=NORMSDIST($z$)}.
-\end{align*}
-
-Therefore, we can compute the 'standard normal loss function as
-\begin{align*}
-F_{\text{loss}}(z) \text{=NORMDIST($z$,0,1,FALSE)-$z$*(1-NORMSDIST($z$))}.
-\end{align*}
-\end{solution}
-
-\begin{question}\label{ex:nw_stoc}
-Let $D$ be normally distributed with mean 20 and standard deviation 5, $h=1$ and $b=10$; and plot $L(Q)$ for different values of $Q$. 
-\end{question}
-
-\begin{solution}
-See Figure~\ref{fig:LQ_normal}.
-
-\begin{figure}[htbp]
-\centering
-\begin{tikzpicture}
-\scriptsize
-\def\avg{20}
-\def\std{5}
-\def\h{1}
-\def\p{10}
-\begin{axis}[
-	xlabel=$Q$,
-	legend style={nodes=right},
-	axis lines=middle,
-	ymin=0]
-\addplot [color=red,thick,domain=0:2*\avg] {Lstoch(\x,\avg,\std,\h,\p)};
-\addlegendentry{$\h\ex(Q - D)^+ + \p\ex(Q - D)^-$}
-\end{axis}
-\end{tikzpicture}
-\caption{$L(Q)$ for normally distributed demand}
-\label{fig:LQ_normal}
-\end{figure}
-\end{solution}
-
-
-\begin{question}
-Have a look at the graphs you obtained in Exercise~\ref{ex:nw_det} and Exercise~\ref{ex:nw_stoc}. What similarities and differences you see?
-\end{question}
-
-\begin{solution}
-See Figure~\ref{fig:LQ_comparison}. 
-
-\begin{enumerate}
-\item The stochastic cost is always larger than the deterministic one. this is due to the fact that there is always a non-zero probability of overage and shortage in the stochastic case. 
-\item For very small and very large values of order quantity cost figures coincide. This can be explained as follows. On the one hand, if order quantity is very large then no demand will be lost. Therefore, the expected total cost will be overage cost times the order quantity minus the expected demand, i.e. $h(Q-\ex D)$. That's why the we have $L(40)\approx 1\cdot(40-20)=20$. This is the very same cost that would realize if demand was exactly 20 units and the order quantity was 40. On the other hand, if the order quantity is very small then all demand will be lost. Therefore, the expected total cost will be shortage cost times the expected demand, i.e. $b \ex D$. That's why the we have $L(0)\approx 10\cdot20=200$. This is the very same cost that would realize if demand was exactly 20 units and the order quantity was 0.
-\item It is optimal to order 20 units in the determinstic case , whereas it is a bit higher in the stochastic case. This can be attributed to the demand uncertainty and shortages being more expensive as compared to overages. 
-\end{enumerate}
-
-
-\begin{figure}[htbp]
-\centering
-\begin{tikzpicture}
-\scriptsize
-\def\avg{20}
-\def\std{5}
-\def\h{1}
-\def\p{10}
-\begin{axis}[
-	xlabel=$Q$,
-	legend style={nodes=right},
-	axis lines=middle,
-	ymin=0]
-\addplot [color=blue,thick,domain=0:2*\avg] {Ldeter(\x,\avg,\h,\p)};
-\addplot [color=red,thick,domain=0:2*\avg] {Lstoch(\x,\avg,\std,\h,\p)};
-\addlegendentry{$\h(Q - \avg)^+ + \p(Q - \avg)^-$}
-\addlegendentry{$\h\ex(Q - D)^+ + \p\ex(Q - D)^-$}
-\end{axis}
-\end{tikzpicture}
-\caption{A comparison of costs for deterministic and stochastic demands}
-\label{fig:LQ_comparison}
-\end{figure}
-\end{solution}
-
-
-\begin{question}
-Let us consider cases where demand is always normally distributed with mean 20 but with different standard deviation levels $\{1,5,10\}$. Plot $L(Q)$ for these cases assuming $h=1$ and $b=10$. What do you observe?
-\end{question}
-
-\begin{solution}
-See Figure~\ref{fig:LQ_std}. We observe that increasing standard deviation leads to further deviations from the deterministic case and larger optimal order quantities. 
-
-\begin{figure}[htbp]
-\centering
-\begin{tikzpicture}
-\scriptsize
-\def\avg{20}
-\def\h{1}
-\def\p{10}
-\begin{axis}[
-	xlabel=$Q$,
-	legend style={nodes=right},
-	axis lines=middle,
-	ymin=0]
-
-\addplot [color=red,thick,domain=0:2*\avg] {Lstoch(\x,\avg,1,\h,\p)};
-\addlegendentry{$\sigma=1$}
-
-\addplot [color=blue,thick,domain=0:2*\avg] {Lstoch(\x,\avg,5,\h,\p)};
-\addlegendentry{$\sigma=5$}
-
-\addplot [color=green,thick,domain=0:2*\avg] {Lstoch(\x,\avg,10,\h,\p)};
-\addlegendentry{$\sigma=10$}
-
-\end{axis}
-\end{tikzpicture}
-\caption{$L(Q)$ with different levels of standard deviation}
-\label{fig:LQ_std}
-\end{figure}
-\end{solution}
-
-\begin{question}
-How can we compute the optimal order quantity if demand is normally distributed?
-\end{question}
-
-\begin{solution}
-Because we know how to compute the cost function for different values of $Q$, we can try many reasonable values and find the best. 
-
-Nevertheless, it is also possible to compute it in closed form. The optimal order quantity (omitting the math) can be computed as 
-\begin{align*}
-Q^* 
-& = F^{-1}\left(\frac{b}{h+b}\right) \\
-& = \mu + \sigma \Phi^{-1}(\beta) 
-\end{align*}
-where $\Phi^{-1}(\beta)$ is the 'inverse standard normal distribution' evaluated at $\beta=\frac{b}{h+b}$. 
-
-The inverse standard normal distribution can easily be computed in spreadsheet applications. For instance, in Excel we have 
-\begin{align*}
-\Phi^{-1}(\beta)\text{=NORMSINV($\beta$)}.
-\end{align*}
-\end{solution}
-
-\begin{question}
-Let $D$ be normally distributed with mean 20 and standard deviation 5, $h=1$ and $b=10$. What is the optimal order quantity? Verify your result by comparing it against the graph you obtained in Exercise~\ref{ex:nw_stoc}. 
-\end{question}
-
-\begin{solution}
-\begin{align*}
-Q^* 
-& = \mu + \sigma \Phi^{-1}(\beta) \\
-& = 20 + 5\cdot \phi^{-1}(10/11) = 20 + 5\cdot \Phi^{-1}(1.3352) = 26.676
-\end{align*}
-\end{solution}
-
-\begin{question}
-We call 'safety stock' 
-
-Have a closer look at the expression of the optimal order quantity. How does it affected by the mean
-\end{question}
-
-\begin{solution}
-•
-\end{solution}
-
-%Next, we consider arbitrary discrete demand distributions. 
->>>>>>> origin/master
 %
 %\begin{question}
 %Let $L(Q)$ be the expected total cost of the newsvendor given that she buys $Q$ items. Write an expression for this function.
@@ -756,7 +268,6 @@ Have a closer look at the expression of the optimal order quantity. How does it 
 %\end{align*}
 %Here, we simply used an expectation operator. How we approach this operator depends on the demand distribution. 
 %\end{solution}
-%
 %
 %\begin{question}
 %How $L(Q)$ can be computed?
@@ -1177,34 +688,497 @@ Have a closer look at the expression of the optimal order quantity. How does it 
 %\end{align*}
 %where $\Phi^{-1}(\beta)$ is the inverse standard normal distribution evaluated at $\beta=\frac{b}{h+b}$. 
 %\end{solution}
+%
+%Next, we consider arbitrary discrete demand distributions. 
+%
+%\begin{question}
+%How $L(Q)$ can be computed if $D$ has a discrete distribution function?
+%\end{question}
+%
+%\begin{solution}
+%In case of discrete demand distributions, the 'probability mass function' could come in handy besides the distribution function. We let $f(x)$ denote the probability mass function; defined as $f(x)=\pr{D=x}$. 
+%
+%Then we have
+%\begin{align*}
+%L(Q) & = h \ex (Q-D)^+ + b \ex (Q-D)^- \\
+%	 & = \sum_x \left(h (Q-x)^+ + b (Q-x)^-\right) f(x)
+%\end{align*}
+%There is no closed form expression that can be used to compute the expected cost function for arbitrary discrete demand distribution. But it can easily be computed in spreadsheet applications. 
+%\end{solution}
+%
+%\begin{question}
+%How can we compute the optimal order quantity if demand follows a discrete distribution?
+%\end{question}
+%
+%\begin{solution}
+%Because we know how to compute $L(Q)$ for different values of $Q$, we can try many reasonable values and find the best. 
+%
+%Also, we can make use of the optimality property. The optimal order quantity should satisfy 
+%\begin{align*}
+%Q^* = \min\left\{Q\mid F(Q)\geq \frac{b}{h+b}\right\}.
+%\end{align*}
+%This condition can easily be checked by browsing through the distribution function $F(x)$ for increasing values of $x$ and stop once we find an $x$ such that $F(Q)\geq \frac{b}{h+b}$.
+%\end{solution}
+%
+%\begin{question}\label{ex:nw_stoc}
+%Let $D$ has a discrete distribution $f(x)$ where $f(0)=f(1)=\ldots=f(9)=\frac{1}{10}$, and assume that $h=1$ and $b=2$. Plot $L(Q)$ for different values of $Q$. Then point out the optimal order quantity $Q^*$ and check whether it satisfies the optimality condition.
+%\end{question}
+%
+%\begin{solution}
+%See Figure~\ref{fig:Ldisc}. 
+%
+%\begin{figure}[htbp]
+%\centering
+%\begin{tikzpicture}
+%\scriptsize
+%\def\h{1}
+%\def\p{2}
+%\begin{axis}[
+%	xlabel=$Q$,
+%	legend style={nodes=right},
+%	axis lines=middle,
+%	ymin=0]
+%\addplot [color=red,thick,domain=0:20] {L(\x,\h,\p)};
+%\addlegendentry{$\h\ex(Q - D)^+ + \p\ex(Q - D)^-$}
+%\end{axis}
+%\end{tikzpicture}
+%\caption{$L(Q)$}
+%\label{fig:Ldisc}
+%\end{figure}
+%
+%It is apparent from the graph that the optimal order quantity $Q^*$ is 6. This provides an expected cost of 3.3.
+%
+%The optimality condition verifies this result. The optimal order quantity should satisfy
+%\begin{align*}
+%Q^* = \min\left\{Q\mid F(Q)\geq \frac{2}{1+2}\approx 0.66\right\}.
+%\end{align*}
+%
+%Because $F(0)=0.1, F(1)=0.2, \ldots, F(5)=0.6, F(6)=0.7$, the minimum order quantity that has a cumulative probability larger than $0.66$ is indeed 6. 
+%\end{solution}
+%
+%
+%
+%\subsection{Extensions of the Newsvendor Model}
+%
+%We now turn our attention to some extensions of the newsvendor problem which are of importance in practical applications. 
+%
+%
+%\subsubsection{Cost Minimization vs Profit Maximization}
+%
+%In order to better understand extensions of the newsvendor problem, we begin by switching back to the profit maximization objective. The following exercises are on the expected profit of the newsvendor.
+%
+%\begin{question}
+%Let $V(Q)$ be the expected profit of the newsvendor given that she buys $Q$ items. Write an expression for this function.
+%\end{question}
+%
+%\begin{solution}
+%It is easy to see that $V(Q)$ can be written as the expected value of the profit function $P(Q)$ as  
+%\begin{align*}
+%V(Q) = \ex P(Q)  
+%& = -cQ + p\ex \min\{Q,D\} + s(Q-\ex\min\{Q,D\}) \\
+%& = (s-c)Q + (p-s)\ex \min\{Q,D\} \\
+%& = (s-c)Q + (p-s) (Q- \ex (Q-D)^+) \\
+%%& = (s-c)Q + (p-s)Q - (p-s) \ex (Q-d)^+ \\
+%& = (p-c)Q - (p-s)\ex (Q-D)^+.
+%\end{align*}
+%
+%
+%Alternatively, it can be written as the difference between the maximum expected profit and expected cost function as
+%\begin{align*}
+%V(Q) 
+%& = (p-c)\ex D - L(Q) \\
+%& = (p-c)\ex D - (c-s)\ex (Q-D)^+ - (p-c)\ex (Q-D)^- \\
+%& = (p-c)\ex D - (c-s)\ex (Q-D)^+ - (p-c)\ex ((Q-D)^+ - (Q-D)) \\
+%& = (p-c)Q - (p-s) \ex(Q-D)^+
+%\end{align*}
+%which is exactly the same result.
+%\end{solution}
+%
+%\begin{question}
+%What is the difference between cost minimization and profit maximization objectives? How do they effect the optimal order quantity?
+%\end{question}
+%
+%\begin{solution}
+%We know that $V(Q) = (p-c)\ex D - L(Q)$. Here, $(p-c)\ex D$ is a constant that is not affected by the order quantity. Therefore, if $Q^*$ is the order quantity minimizing $L(Q^*)$, it is also the order quantity that is maximizing $V(Q)$. As such, we can safely say that cost minimization and profit maximization are equivalent, and the optimal order quantity is the same in both cases. 
+%\end{solution}
+%
+%\begin{question}\label{ex:costprofit}
+%Let $D$ has a discrete distribution $f(x)$ where $f(0)=f(1)=\ldots=f(9)=\frac{1}{10}$, and assume that $c=2$, $p=4$, and $s=1$. Plot $L(Q)$ and $V(Q)$ for different values of $Q$. Then point out whether cost minimizing and profit maximizing order quantities are the same.
+%\end{question}
+%
+%\begin{solution}
+%See Figure~\ref{fig:LVdisc}. 
+%
+%\begin{figure}[htbp]
+%\centering
+%\begin{tikzpicture}
+%\scriptsize
+%\def\c{2}
+%\def\p{4}
+%\def\s{1}
+%\begin{axis}[
+%	xlabel=$Q$,
+%	legend style={nodes=right},
+%	axis lines=middle]
+%\addplot [color=red,thick,domain=0:20] {L(\x,(\c-\s),(\p-\c))};
+%\addplot [color=blue,thick,domain=0:20] {V(\x,\c,\p,\s)};
+%\addplot [color=green,thick,domain=0:20] {L(\x,(\c-\s),(\p-\c))+V(\x,\c,\p,\s)};
+%\addlegendentry{$L(Q)$}
+%\addlegendentry{$V(Q)$}
+%\addlegendentry{$L(Q)+V(Q)$}
+%\end{axis}
+%\end{tikzpicture}
+%\caption{$L(Q)$ and $V(Q)$}
+%\label{fig:LVdisc}
+%\end{figure}
+%
+%It is easy to see that both cost minimizing and profit maximizing order quantity is $6$. This is also in line with the optimality condition. 
+%\end{solution}
+%
+%\subsubsection{Starting Inventories}
+%
+%\begin{question}
+%Suppose that the newsvendor has $x$ items on-hand at the beginning of the day and decides to buy $Q$ more items. Let $V(x,Q)$ be the newsvendor's expected profit function in this case. Try to write an expression for this function.
+%\end{question}
+%
+%\begin{solution}
+%The difference as compared to the original newsvendor problem is that here the newsvendor does not pay for $x$ items. Therefore, we simply have 
+%\begin{align*}
+%V(x,Q) = cx + V(Q+x).
+%\end{align*}
+%
+%Later on, we will also use this expression for other extensions.
+%\end{solution}
+%
+%\begin{question}
+%Given the starting inventory level $x$, what is the optimal order quantity of the newsvendor?
+%\end{question}
+%
+%\begin{solution}
+%We need to find a $Q$ that maximizes the expected profit. That is
+%\begin{align*}
+%\max_{Q} V(x,Q) 
+%& = \max_{Q} \left\{cx + V(Q+x)\right\} \\
+%& = cx + \max_{Q} \left\{V(Q+x)\right\}.
+%\end{align*}
+%The last expression follows as the term $cx$ is independent from the decision variable $Q$ and can be left out of the maximization operator. That is 'the cost of $x$ units is saved no matter what our order quantity is'. This tells us that the optimal order quantity is such that $V(Q+x)$ is maximized. Note that if $x=0$ the optimal order quantity would be the same as the original newsvendor problem. Let us use the example from Exercise~\ref{ex:costprofit}. Here, the optimal order quantity is 6. See Figure~\ref{fig:LVdisc}. We consider a few cases. Let's assume that $x=1$. Because we know that $V(6)$ is the maximum point and we are interested in the $Q$ maximizing $V(Q+1)$, it is clear that we should order 5 units. Let's assume that $x=7$. It is not possible to 'reach' the maximum point now as $V(6)$ is the maximum point and we already have 7 on hand. We also know that $V(7)\leq V(8) \leq \ldots$ (see Figure~\ref{fig:Ldisc}). Thus, it is clear that we should not order at all. 
+%
+%The discussion above leads to the following characterization of the optimal order quantity. Let $Q^*$ be the optimal order quantity in the original newsvendor case with no initial inventories. Let us assume that we have $x$ units on hand. The optimal policy is to place an order of size $Q^*-x$ if $x<Q^*$, and not to order otherwise. This is a so-called 'base-stock policy' where it is optimal to 'order up-to' the base stock level whenever the inventory level is below the base-stock level and not to order otherwise. 
+%
+%Note that this exercise shows that it could make sense to choose (optimize) an 'order up-to level' rather than choosing an 'order quantity'. Although practically they boil down to the same thing, the former could be more intuitive as the optimal order up-to level is independent form the current inventory level whereas the order quantity most certainly is.
+%\end{solution}
+%
+%\begin{question}
+%Let $Q^\#(x)$ be the optimal order quantity given the inventory level at the beginning of the day is $x$. Write an expression for $Q^\#(x)$.
+%\end{question}
+%
+%\begin{solution}
+%Let $Q^*$ be the optimal order quantity of the original problem where the inventory level at the beginning of the day is zero.
+%
+%Then we can write
+%\begin{align*}
+%Q^\#(x) = 
+%\begin{cases}
+%Q^*-x & \text{if } x<Q^* \\
+%0 & \text{otherwise}.
+%\end{cases}
+%\end{align*}
+%
+%This can also be simplified as 
+%\begin{align*}
+%Q^\#(x) = \max\{Q^*,x\}-x.
+%\end{align*}
+%\end{solution}
+%
+%\begin{question}
+%Let $V^\#(x)$ is the optimal expected profit, given the inventory level at the beginning of the day is $x$. Write an expression for $Q^\#(x)$.
+%\end{question}
+%
+%\begin{solution}
+%Let $Q^*$ be the optimal order quantity of the original problem where the inventory level at the beginning of the day is zero.
+%
+%Then we can write
+%\begin{align*}
+%V^\#(x) = cx + 
+%\begin{cases}
+%V(Q^*) & \text{if } x<Q^* \\
+%V(x) & \text{otherwise}.
+%\end{cases}
+%\end{align*}
+%
+%This can also be simplified as 
+%\begin{align*}
+%V^\#(x) = cx + V(\max\{x,Q^*\}).
+%\end{align*}
+%\end{solution}
+%
+%\begin{question}
+%Consider the example from Exercise~\ref{ex:costprofit}. Plot $V^\#(x)$ for different values of $x$. 
+%\end{question}
+%
+%\begin{solution}
+%See Figure~\ref{fig:maxV}. We have that $V^\#(x)=cx+V(Q^*)$ for all $x<Q^*$ and $V^\#(x)=cx+V(x)$ for all $x\geq Q^*$.
+%\begin{figure}[htbp]
+%\centering
+%\begin{tikzpicture}
+%\scriptsize
+%\def\c{2}
+%\def\p{4}
+%\def\s{1}
+%\def\Q{6}
+%\begin{axis}[
+%	xlabel=$x$,
+%	legend style={nodes=right},
+%	axis lines=middle]
+%\addplot [color=blue,thick,domain=0:\Q] {V(\Q,\c,\p,\s)+\c*\x};
+%\addplot [color=blue,thick,domain=\Q:20] {V(\x,\c,\p,\s)+\c*\x};
+%\addlegendentry{$V^\#(x)$}
+%\end{axis}
+%\end{tikzpicture}
+%\caption{$V^\#(x)$}
+%\label{fig:maxV}
+%\end{figure}
+%\end{solution}
+%
+%\begin{question}
+%It appears that $V^\#(x)$ is increasing on $x$. That is, the more we have at the beginning of the day the better. Does it make sense? Could there be a case where it is not increasing? Illustrate through an example.
+%\end{question}
+%
+%\begin{solution}
+%Yes. First, although we have more inventory, we do not actually 'pay' for those. Therefor, there is a lot of cost savings. This is captured in the term $+cx$. Second, as there is a salvage value, we can always sell left-overs (which we did not pay for at the first place). This is captured in the $s\ex (Q-D)^+$ term of the $V(Q)$. 
+%
+%There can indeed be cases where having more is not better. For instance, an example appears in cases where salvage value was negative -- where we need to pay for the left-overs. Let us set $s=-1$ in the previous example. Figure~\ref{fig:maxVsc} illustrates that $V^\#(x)$ is not increasing in $x$ in this case. 
+%\begin{figure}[htbp]
+%\centering
+%\begin{tikzpicture}
+%\scriptsize
+%\def\c{2}
+%\def\p{4}
+%\def\s{-1}
+%\def\Q{6}
+%\begin{axis}[
+%	xlabel=$x$,
+%	legend style={nodes=right},
+%	axis lines=middle]
+%\addplot [color=blue,thick,domain=0:\Q] {V(\Q,\c,\p,\s)+\c*\x};
+%\addplot [color=blue,thick,domain=\Q:20] {V(\x,\c,\p,\s)+\c*\x};
+%\addlegendentry{$V^\#(x)$}
+%\end{axis}
+%\end{tikzpicture}
+%\caption{$V^\#(x)$ with salvage cost}
+%\label{fig:maxVsc}
+%\end{figure}
+%\end{solution}
+%
 
-Next, we consider arbitrary discrete demand distributions. 
+\subsubsection{Fixed Costs}
 
 \begin{question}
-How $L(Q)$ can be computed if $D$ has a discrete distribution function?
+Suppose that the newsvendor has to pay a fixed cost $A$ to order any item at the beginning of the day. How would it change the newsvendor's problem?
 \end{question}
 
 \begin{solution}
-In case of discrete demand distributions, the 'probability mass function' could come in handy besides the distribution function. We let $f(x)$ denote the probability function; defined as $f(x)=\pr{D=x}$. 
+We assume that we start the day with 0 inventories. 
 
-Then we have
-\begin{align*}
-L(Q) & = h \ex (Q-D)^+ + b \ex (Q-D)^- \\
-	 & = \sum_x \left(h (Q-x)^+ + b (Q-x)^-\right) f(x)
-\end{align*}
-There is no closed form expression that can be used to compute the expected cost function for arbitrary discrete demand distribution. But it can easily be computed in spreadsheet applications. 
+If we do not order. Then the expected profit will be $V(0)=0$. If we order $Q$ units, then the expected profit will be $-A+V(Q)$. The newsvendor's problem should thus be extended to capture these two cases. 
+
+It is important to see that, once the fixed ordering cost is paid, the optimal order quantity should be the same -- as the ordering quantity that maximizes $V(Q)$ should be the same as the one that maximizes $-A+V(Q)$. That is because $A$ is a scalar that is not a part of the expected profit function. As a result of this; we should place an order only if $-A+V(Q^*)>V(0)=0$. In other words, if $V(Q^*)>A$ then it is worth to place an order. 
+
+Let us consider the example from Exercise~\ref{ex:costprofit}. Here, the optimal order quantity $Q^*$ is 6. We also have that $V(6)=5.7$ and $V(0)=0$. In case of fixed ordering cost, we should place an order only if $V(6)=5.7 > A$. 
 \end{solution}
 
 \begin{question}
-How can we compute the optimal order quantity if demand follows a discrete distribution?
+Assume that we have on-hand $x$ units at the beginning of the day. Should we place an order? If so how many?
 \end{question}
 
 \begin{solution}
-Because we know how to compute $L(Q)$ for different values of $Q$, we can try many reasonable values and find the best. 
+The trade-off we discussed in the previous case is the same here. That is, once the fixed ordering cost is paid, the optimal order quantity and the optimal expected profit should be the same as in the case with no fixed ordering costs -- as $A$ is once again a scalar that is not a part of the expected profit function. However, this time we should consider the expected profit while conditioning on the number of items on hand. 
 
-Also, we can make use of the optimality property. The optimal order quantity should satisfy 
-\begin{align*}
-Q^* = \min\left\{Q\mid F(Q)\geq \frac{b}{h+b}\right\}.
-\end{align*}
-This condition can easily be checked by browsing through the distribution function $F(x)$ for increasing values of $x$ and stop once we find an $x$ such that $F(Q)\geq \frac{b}{h+b}$.
+That is, we should compare $-A+V^\#(x)$ with $cx+V(x)$; and we should place an order only if $-A+V^\#(x)=-A+cx+V(\max\{x,Q^*\})>cx+V(x)$. This suggests that, if $V(\max\{x,Q^*\})-V(x)>A$ then it is worth to place an order and if so then we should place an order of size $Q^*-x$.
+
+Notice the following.
+\begin{enumerate}
+\item If $x<Q^*$ the condition becomes $V(Q^*)-V(x)>A$.
+\item If $x\geq Q^*$ we have $V(x)-V(x)=0>A$, This cannot hold by definition and it immediately shows that we should not place an order if what we already have on hand is larger than the optimal order quantity of the original problem.
+\end{enumerate}
+
+Let us consider the example from Exercise~\ref{ex:costprofit}. Here, the optimal order quantity $Q^*$ is 6. We consider two cases: $x=1$ and $x=7$. In the former, we have that $x<Q^*$. Thus we should order 5 units if $V(6)-V(1)=5.7-1.7=4>A$. In the latter, we have that $x\geq Q^*$. Thus we should not order.
 \end{solution}
+
+
+\subsubsection{Random Demand for Salvage}
+
+We have thus far assumed that all left-overs can be salvaged. Now we consider an practical case where this may not be possible.
+
+\begin{question}
+Let us assume that the demand for salvage is a random variable denoted by $W$. That is, if the number of left-overs is less than $W$, the newsvendor can salvage them all, but otherwise the she can at most salvage $W$ items. 
+
+Write an expression and revise the newsvendor's expected profit function $V(Q)$ such that the random demand for salvage is accounted for.
+\end{question}
+
+\begin{solution}
+The main difference as compared to the original problem here is that we will sell first $W$ left-over items at a price of $s$ and will not be able to salvage the rest. This calls for a revision in the revenue from salvage. 
+
+The expected revenue from salvage in the original problem was $s\ex (Q-D)^+$. That is, all $(Q-D)^+$ units were salvaged at a price of $s$. In the new case, we will sell the minimum of $(Q-D)^+$ and $W$ units at a price of $s$, and we will not be able to salvage the rest. Therefore we will lose $s\ex \left((Q-D)^+ - \min\{(Q-D)^+,W\}\right)$
+of our expected salvage revenue.
+
+If we have a closer look at the expression $(Q-D)^+ - \min\{(Q-D)^+,W\}$, then we have 
+\begin{align*}
+& = (Q-D)^+ - \min\{(Q-D)^+,W\} \\
+& = (Q-D)^+ - \left((Q-D)^+ - ((Q-D)^+-W)^+ \right) \\
+%& = (Q-D)^+ - (Q-D)^+ + ((Q-D)^+-W)^+ \\
+& = ((Q-D)^+-W)^+ \\
+& = (Q-D-W)^+
+\end{align*}
+where $((Q-D)^+-W)^+=(Q-D-W)^+$ because $W\geq 0$. 
+
+As a result of this, we can re-write the newsvendor's expected profit function as
+\begin{align*}
+V(Q) = (p-c)Q - (p-s) \ex(Q-D)^+ - s\ex (Q-D-W)^+
+\end{align*}
+\end{solution}
+
+
+\begin{question}
+How do we compute the optimal order quantity demand for salvage is random?
+\end{question}
+
+\begin{solution}
+It can be done following the same steps we have taken in approaching the original newsvendor problem. The only difference is that now we should compute the term $\ex (Q-D-W)^+$. 
+
+To that end we need the demand distributions of the demand for the product and the demand for the salvage. Let $f(x)$ denote the probability mass function of the demand, i.e. $f(x)=\pr{D=x}$. Also, let $g(y)$ denote the probability mass function of the salvage demand, i.e. $g(y)=\pr{W=y}$. 
+
+Then $\ex (Q-D-W)^+$ can be computed as
+\begin{align*}
+\ex (Q-D-W)^+ & = \sum_x \sum_y (Q-x-y)^+ f(x) g(y).
+\end{align*}
+\end{solution}
+The computation is trivial and it can easily be done in spreadsheet applications.
+
+
+\subsubsection{Service Levels}
+
+We have so far used a cost-based (financial) approach towards demand satisfaction, i.e. there is a cost that is paid per unsatisfied customer. This approach, however ignores the customer goodwill/satisfaction. The customer satisfaction is often quantified by using 'service level' measures which can be considered as alternative KPI's. The following exercises relate to service level measures. 
+
+\begin{question}
+What are the most commonly used service level measures?
+\end{question}
+
+\begin{solution}
+There are two well-known service level measures:
+\begin{enumerate}
+\item $\alpha$-service level (in-stock probability): Probability of satisfying 'all' customers from stock should be larger than $\alpha$. This is an event-oriented measure in the sense that it counts as 'ok' only if all demand is satisfied. 
+\item $\beta$-service level (fill rate): Proportion of demand satisfied from stock should be larger than $\beta$. This is a quantity-oriented measure in the sense that it counts as 'ok' only if some fraction of the demand is satisfied. 
+\end{enumerate}
+\end{solution}
+
+\begin{question}
+How do we compute service level measures in the context of he newsvendor problem?
+\end{question}
+
+\begin{solution}
+The $\alpha$-service level constraint is simply the probability of not stocking out. We stock-out if demand $D$ exceeds the order quantity $Q$. The probability of this happening can be written as 
+\begin{align*}
+\Pr\{Q\geq D\} \geq \alpha \\
+F(Q) \geq \alpha.
+\end{align*}
+
+The $\beta$-service level constraint is the ratio of expected shortage to expected demand. Recall that the expected shortage is $\ex(Q-D)^-$ and expected demand is $\ex D$. Therefore, we have
+\begin{align*}
+1-\frac{\ex(Q-D)^-}{\ex D} \geq \beta.
+\end{align*}
+
+Notice that both service level measures are decreasing on the order quantity. That is, the more we order the higher the service level.
+\end{solution}
+
+\begin{question}
+How do these measure compare against each other?
+\end{question}
+
+\begin{solution}
+Despite these measures serve for somewhat similar purposes. They can be very different than each other. For instance, consider a case where demand is almost surely 100. That is, $D=100+\epsilon$ where $\epsilon$ is a very small number. Now let us assume that we order 99 units. 
+
+In such a case the probability of having a demand less than 100 is almost 0\% and the probability of having a demand more tan zero is almost 100\%. This suggest that $F(100-\epsilon)=0$ and $F(100+\epsilon)=1$. Therefore, our non-stockout probability will be
+\begin{align*}
+\Pr\{Q\geq D\} = F(Q) = F(99) = 0.
+\end{align*}
+
+On the other hand, we know that we will satisfy exactly 99 units of demand if we order 99 units. Therefore, the stock-out  quantity will be around 1 unit. Thus, our fill rate will be 
+\begin{align*}
+1-\frac{\ex(Q-D)^-}{\ex D} = 1-\frac{1}{100} = 0.99.
+\end{align*}
+
+As can be observed, we have a very poor non-stockout probability while also we have a very good fill rate in  this case. 
+\end{solution}
+
+\begin{question}
+Let us consider a case where demand is normally distributed with mean 20 and standard deviation 5. Plot $\alpha$- and $\beta$ service levels for different values of $Q$.
+\end{question}
+
+\begin{solution}
+See Figure~\ref{fig:service}.
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\scriptsize
+\def\avg{20}
+\def\std{5}
+\def\h{1}
+\def\p{10}
+\begin{axis}[
+	xlabel=$Q$,
+	legend style={nodes=right},
+	axis lines=middle,
+	ymin=0]
+\addplot [color=blue,thick,domain=0:2*\avg] {StandNormCdf((\x-\avg)/\std)};	
+\addplot [color=red,thick,domain=0:2*\avg] {1-((StandNormLoss((\x-\avg)/\std)*\std)/\avg)};
+\addlegendentry{$\alpha$}
+\addlegendentry{$\beta$}
+\end{axis}
+\end{tikzpicture}
+\caption{Service level measures}
+\label{fig:service}
+\end{figure}
+\end{solution}
+
+\begin{question}
+Let us suppose that the newsvendor decides to concentrate on a service level oriented KPI rather than a cost-based KPI. How would the newsvendor's define her optimal order quantity?
+\end{question}
+
+\begin{solution}
+When service levels are of concern rather than a cost-based objective; the shortage cost drops out of the trade-off that defines the optimal order quantity, and it is replaced by a service level constraint. That is, the newsvendor first sets a service level goal. For instance, providing a non-stockout probability of 99.5\% or a fill rate of 90\%. Then, orders the minimum amount that would guarantee this objective. the newsvendor would not order more than this quantity as doing so would lead to extra holding cost.
+\end{solution}
+
+\begin{question}
+How can we find the optimal order quantity in case of service level constraints?
+\end{question}
+
+\begin{solution}
+We can easily reverse engineer the definitions of the service level constraints. 
+
+\begin{enumerate}
+\item The non-stockout probability:
+\begin{align*}
+Q^*
+& = \min\{Q\mid F(Q) \geq \alpha\} \\
+& = \min\{Q\mid Q\geq F^{-1}(\alpha)\}
+\end{align*}
+\item The fill rate: 
+\begin{align*}
+Q^*
+& =\min\{Q\mid 1-\frac{\ex(Q-D)^-}{\E D} \geq \beta\} \\
+& =\min\{Q\mid (1-\beta)\ex D \geq \ex(Q-D)^-\} 
+\end{align*}
+\end{enumerate}
+\end{solution}
+ 
+
+
+
+
+
+\subsection{Two-Period Newsvendor Model}
+
+
+
+\subsection{Multi-Period Newsvendor Model}
