@@ -8,36 +8,37 @@
 
 Let $I_t$ denote the on-hand inventory at time $t$, $B_t$ the number
 of backorders, $R_t$ the number of out-standing replenishments, and
-$X(t-L,t]$ the demand that occurred during the time interval
-$(t-L, t]$. Note that here we write $X(t-L, t]$ to represent the
-random variable $X$ of the book.
-
-
-The above random variables satisfy a number of important relations.
-First, as for each demand a replenishment order is sent, it must be that
-\begin{equation}
-  \label{eq:8}
-   R_t = X(t-L, t],
-\end{equation}
-that is, the number of outstanding replenishments at time $t$ equals
-all demand that occurred during the previous leadtime.  Hence,
+$X_t := X(t-L,t]$ the demand that occurred during the time interval
+$(t-L, t]$. Note that here we write $X_t$ to represent the
+random variable $X$ of Factory Physics.
+We also write
 \begin{equation}
   \label{eq:16}
-   G(r) = \P\{X\leq r\} = \P(X(t-L, t])).
+   G(r) = \P{X_t\leq r},
 \end{equation}
-Note that the average demand during a lead time is
+and for the average demand during a lead time 
 \begin{equation*}
-\theta = \E(X(t-L, t]).
+\theta = \E{X_t}.
 \end{equation*}
 
+Under the basestock policy the above random variables $I_t, B_t, R_t$
+and $X_t$ satisfy a number of important relations.  Recally that
+according to the basestock policy we issue a replenishment order as
+soon as the re-order level $r$ is hit. First, as for each demand a
+replenishment order is sent, it must be that
+\begin{equation}
+  \label{eq:8}
+   R_t = X(t-L, t] = X_t,
+\end{equation}
+that is, the number of outstanding replenishments at time $t$ equals
+all demand $X_t$ that occurred during the previous leadtime.  
 Second, as each demand spawns a replenishment, it must be for all time
-$t$ that the inventory level $I_t$ plus the number of
+$t$ that the on-hand inventory $I_t$ plus the number of
 replenishments $R_t$ minus all backorders $B_t$ remains
 constant. That is, 
 \begin{equation*}
 I_t + R_t - B_t = \text{ constant}.
 \end{equation*}
-
 Third, we do not backorder demand when there is on-hand stock and we
 also match backorders (if any) with replenishments as they arrive, it
 must hold that
@@ -45,11 +46,10 @@ must hold that
   \label{eq:9}
    I_t B_t =0, \text{ for all }  t\geq 0.
 \end{equation}
-In other words, either the on-hand inventory is $0$ or the
-number of backorders is 0.
+In other words, at any moment in time the on-hand inventory $I_t = 0$ or the
+number of backorders $B_t=0$.
 
-According to the basestock policy we issue a replenishment order as
-soon as the re-order level $r$ is hit. Assuming that at time $t=0$,
+Assuming that at time $t=0$,
 there are no outstanding replenishments and no backorders, we can
 safely assume that $I_0 = r+1$. The above then implies that
 \begin{equation}
@@ -57,22 +57,43 @@ safely assume that $I_0 = r+1$. The above then implies that
    I_t + R_t - B_t = r+1, \text{ for all }  t\geq 0.
 \end{equation}
 
-When dealing with positive leadtimes two concepts are very useful. The \emph{inventory level} $IL_t$ at time $t$ consists of all items on hand or on backlog, i.e.,
+
+When dealing with positive leadtimes two concepts are very useful. The \emph{inventory level} $\IL_t$ at time $t$ is the basestock level minus the demand: 
 \begin{equation}\label{eq:23}
-  \IL_t = I_t - B_t.
+  \IL_t = r+1 - X_t
 \end{equation}
-The \emph{inventory position} $IP_t$ is the inventory level plus all outstanding replenishments:
+Note that from~\eqref{eq:8} and~\eqref{eq:7} it follows that
+\begin{equation*}
+  \begin{split}
+  \IL_t 
+&=r - X_t \\
+&= (I_t + R_t - B_t) - X_t \\
+&= I_t - B_t.
+  \end{split}
+\end{equation*}
+
+
+The \emph{inventory position} $\IP_t$ is the inventory level plus all outstanding replenishments:
 \begin{equation*}
   \IP_t = \IL_t + R_t.
 \end{equation*}
-
-From (\ref{eq:7}) we conclude that 
+From \eqref{eq:7} we conclude that 
 \begin{equation}\label{eq:20}
 \IP_t =\IL_t + R_t = I_t - B_t +R_t = r+1.
 \end{equation}
 Thus, for the basestock mode in continuous time, the inventory position is constant. 
 
 
+\begin{question}
+  What is the reorder level $r$ for a make-to-order inventory system?
+\end{question}
+\begin{solution}
+  In a make-to-order setting, there is no on-hand
+  inventory. Production starts when a job comes in. Thus, if we take
+  $r=-1$, then when the inventory position hits $-1$, we issue a
+  production order. Clearly, $I_t=0$ always, and $B_t$ is the number
+  of jobs waiting to get served by production.
+\end{solution}
 
 
 \subsubsection{Computing the Service level}
@@ -85,47 +106,51 @@ process is given by a Poisson process. Therefore, by the PASTA property,
 the fraction of demand served from stock is equal to the (long-run)
 fraction of time that the inventory level is positive. Hence,
 \begin{equation*}
-   S(r) = \P\{I_t >0\}.
+   S(r) = \P{I_t >0}.
 \end{equation*}
 
 Using that $I_t>0$ at time $t$ implies that $B_t = 0$,
-and \ref{eq:7}:
+it follows from Eq.~\eqref{eq:7} that:
 \begin{equation}\label{eq:10}
   \begin{split}
-   S(r) &= \P\{I_t >0\} \\
-   &= \P\{r+1 + B_t - R_t >0\}, \text{  from  \ref{eq:7}}  \\
-   &= \P\{r+1 - R_t >0\}, \text{ as } B_t = 0, \\
-   &= \P\{R_t < r+1\} \\
-   &= \P\{R_t \leq r\} \\
-   & = \P\{X(t-L,t] \leq  r\}, \text{from  \ref{eq:8}}, \\
-   &= G(r),  \text{ from \ref{eq:16}} \\
+   S(r) &= \P{I_t >0} \\
+   &= \P{r+1 + B_t - R_t >0}, \text{  from  \eqref{eq:7}}  \\
+   &= \P{r+1 - R_t >0}, \text{ as } B_t = 0, \\
+   &= \P{R_t < r+1} \\
+   &= \P{R_t \leq r} \\
+   & = \P{X_t \leq  r}, \text{from  \eqref{eq:8}}, \\
+   &= G(r),  \text{ from \eqref{eq:16}} \\
    &=  \sum_{i=0}^{r} g_i.
   \end{split}
 \end{equation}
 Thus,
 \begin{equation}
   \label{eq:13}
-   S(r) = G(r) = \sum_{i=0}^r \P{X(t-L,t] = i},
+   S(r) = G(r) = \sum_{i=0}^r \P{X_t = i},
 \end{equation}
-and \emph{not} $G(r+1)$ as in Factory Physics.
+and \emph{not} $G(r+1)$ as in the third edition of Factory Physics.
 
 \subsubsection{Computing the average backorder level}
 
 
-When does a back-order occur? This happens whenever
+When does a backorder occur? This happens whenever
 \begin{equation}
   \label{eq:11}
-   \{B_t > 0\} = \{R_t - r-1>0\} = \{X(t-L, t] - r-1>0\},
+  \begin{split}
+   \{B_t > 0\} 
+&= \{R_t - r-1>0\}, \quad \text{ as } R_t - B_t = r+1\text{ when } B_t >0, \\
+&= \{X_t - r-1>0\},\quad \text{ since  } R_t  = X_t.
+  \end{split}
 \end{equation}
-where we use \ref{eq:9}, \ref{eq:7} and \ref{eq:8}. Hence,
+Hence,
 \begin{equation*}
    \begin{split}
      B(r) 
-   &= \E(B_t) \\
-   &= \E(\max\{B_t, 0\}) \\
-   &= \E(\max\{R_t - r - 1, 0\}) \\
-   &= \E(\max\{X(t-L, t] - r - 1, 0\}) \\
-   &= \sum_{i=r+1}^\infty (i- r -1)\P\{X(t-L, t] = i\}\\
+   &= \E{B_t} \\
+   &= \E{\max\{B_t, 0\}} \\
+   &= \E{\max\{R_t - r - 1, 0\}} \\
+   &= \E{\max\{X_t - r - 1, 0\}} \\
+   &= \sum_{i=r+1}^\infty (i- r -1)\P{X_t = i}\\
    &= \sum_{i=r+1}^\infty (i- r -1)g_i \\
    &= \sum_{i=r+2}^\infty (i- r -1)g_i,
      \end{split}
@@ -138,19 +163,23 @@ in the sequel:
    B(r)  = \sum_{i=r+1}^\infty (i- r -1)g_i.
 \end{equation}
 
-For later purposes we prove that
+Note that in the above formula for $B(r)$ the summation runs to $\infty$, which is a bit problematic for numerical purposes. In the proof below we show that this expression can be rewritten to 
 \begin{equation}
   \label{eq:17}
-   B(r) = \sum_{i=r+1}^{\infty} \bar G(i)
+   B(r) 
+%= \sum_{i=r+1}^{\infty} \bar G(i)
+   = \theta - \sum_{j=0}^{r} \bar G(j)
 \end{equation}
 where
 \begin{equation}
   \label{eq:18}
-   \bar G(i) = \P(X>i) = 1 - P(X\leq i) = 1 - G(i).
+   \bar G(i) = \P{X>i} = 1 - \P{X\leq i} = 1 - G(i),
 \end{equation}
+and $\theta = \E{X_t}$. You can skip the proof. 
+\begin{proof}
 Define first the function
 \begin{equation*}
-   1_{i< j} =
+   \1{i< j} =
      \begin{cases}
        1, &\text{  if } i < j, \\
    0, &\text{ else},
@@ -158,19 +187,19 @@ Define first the function
 \end{equation*}
 so that we can write
 \begin{equation*}
-  \sum_{j=0}^\infty 1_{j< i-r - 1} = i-r -1.
+  \sum_{j=0}^\infty \1{j< i-r - 1} = i-r -1.
 \end{equation*}
-Now, using \ref{eq:12},
+Now, using \eqref{eq:12},
 \begin{equation}
   \label{eq:19}
   \begin{split}
        B(r) &= 
    \sum_{i=r+1}^\infty (i-r-1) g(i)   \\
-   &= \sum_{i=r+1}^\infty\sum_{j=0}^\infty 1_{j < i-r-1}\, g(i)   = 
-    \sum_{j=0}^\infty \sum_{i=r+1}^\infty 1_{i > j +r + 1}\, g(i)\\
+   &= \sum_{i=r+1}^\infty\sum_{j=0}^\infty \1{j < i-r-1}\, g(i)   = 
+    \sum_{j=0}^\infty \sum_{i=r+1}^\infty \1{i > j +r + 1}\, g(i)\\
    &= \sum_{j=0}^\infty \sum_{i=j + r+2}^\infty  g(i) = 
-   \sum_{j=0}^\infty \P(X \geq j + r+2)  \\
-   &=\sum_{j=0}^\infty \P(X > j + r+1)  \\
+   \sum_{j=0}^\infty \P{X_t \geq j + r+2}  \\
+   &=\sum_{j=0}^\infty \P{X_t > j + r+1} \\
    &= \sum_{j=0}^\infty \bar G(j+r+1) =\sum_{j=r+1}^\infty  \bar G(j).
   \end{split}
 \end{equation}
@@ -185,21 +214,23 @@ $\sum_{i=0}^\infty \bar G(i) = \theta$:
    &= \theta - \sum_{j=0}^{r} \bar G(j)
   \end{split}
 \end{equation}
+  
+\end{proof}
 	   
 
-\subsubsection{Computing the expected inventory level}
+\subsubsection{Computing the expected on-hand inventory}
 
-Taking expectations at the left and right hand side of \ref{eq:7} we get
+Taking expectations at the left and right hand side of \eqref{eq:7} we get
 \begin{equation*}
-  \E(I_t + R_t - B_t) = r+1,
+  \E{I_t + R_t - B_t} = r+1,
 \end{equation*}
-from which
+from which we find for the on-hand inventory $I_t$: 
 \begin{equation}
   \label{eq:6}
   \begin{split}
-  \E(I_t)
-  &= r+1 - \E(R_t) + \E(B_t)  \\
-  & = r + 1 - \E(X(t-L, t]) + B(r) \\
+  \E{I_t}
+  &= r+1 - \E{R_t} + \E{B_t}  \\
+  & = r + 1 - \E{X_t} + B(r) \\
   & = r + 1 - \theta + B(r) \\
   \end{split}
 \end{equation}
@@ -210,42 +241,42 @@ Formulas to skip (in edition 3): 2.24, 2.25.
 \subsubsection{Simulation of the basestock inventory model}
 \label{sec:simul-basest-invent}
 
-Consider a periodic-time model so that $\IP_i$ is the inventory position at the end of period $i$. Then the sequence $\{\IP_i\}$ must satisfy the recursion:
+Consider a periodic-time model so that $\IP_t$ is the inventory position at the end of period $t$. Write $D_t = X(t-1, t]$ for the demand that occured in period $t$. (Recall that $X_t = X(t-L, t]$ is the demand during the leadtime $L$, which is not the same as the demand during one period.)
+ Then the sequence $\{\IP_i\}$ must satisfy the recursion:
 \begin{equation}
   \label{eq:15}
-  %\IP_i = (r+1-\IP_{i-1}-X_i)1\{\IP_{i-1} - X_i\leq r\}.
-  \IP_i = r+1 = r+1 - X_i + X_i 1\{X_i>0\}.
+  \IP_t = r+1 = r+1 - D_t + D_t \1{D_t>0}.
 \end{equation}
 To see this, observe that under the basestock policy the inventory
-position is always kept at level $r+1$, c.f., (\ref{eq:20}). Thus, if
-the inventory position at the end of period $i-1$ minus the demand
-$X_i$ during period $i$ is less than $r+1$, we need to reorder the
+position is always kept at level $r+1$, c.f., \eqref{eq:20}. Thus, if
+the inventory position $\IP_t$ at the end of period $t$ minus the demand
+$D_i$ during period $i$ is less than $r+1$, we need to reorder the
 shortage. Since the shortage is precisely the demand during period
-$i$, i.e., $X_i$, we order $X_i$. (Recall that $1\{X_i>0\} = 1$ if
-$X_i>0$ and is $0$ otherwise.)
+$t$, i.e., $D_t$, we order $D_t$. (Recall that $\1{D_t>0} = 1$ if
+$D_i>0$ and is $0$ otherwise.)
 
 When the leadtime $L$ is one period or more, the replenishments do not arrive right away but $L$ periods later. The consequences of the inventory level are that
 \begin{equation}
   \label{eq:21}
-  \IL_i = \IL_{i-1} - X_i + X_{i-L})1\{X_{i-L}>0\}.
+  \IL_t = \IL_{t-1} - D_t + D_{t-L}\1{D_{t-L}>0}.
 \end{equation}
 Thus, what we ordered $L$ periods `ago', we receive `now'.
 
 Once we carry out a simulation for $n$ periods, we can estimate the
-performance measure. The average inventory level is
+performance measure. The average  inventory on-hand is
 \begin{equation}
   \label{eq:22}
-  I = \frac 1n \sum_{i=1}^n \IL_i1\{\IL_i \geq 0\},
+  I = \frac 1n \sum_{t=1}^n \IL_t\1{\IL_t \geq 0} = \frac1n\sum_{t=1}^n \max{\IL_t, 0}
 \end{equation}
 the average backlog  is
 \begin{equation}
-  B = - \frac 1n \sum_{i=1}^n \IL_i1\{\IL_i < 0\},
+  B = - \frac 1n \sum_{t=1}^n \IL_t\1{\IL_t < 0} = \frac1n\sum_{t=1}^n \max{-\IL_t, 0}
 \end{equation}
-because $\IL_i<0$ if there are backorders, recall~(\ref{eq:23}). 
+because $\IL_t<0$ if there are backorders, recall~\eqref{eq:23}. 
 The service level is 
 \begin{equation}
   \label{eq:22}
-  S = \frac 1n \sum_{i=1}^n \{\IL_i \geq 0\},
+  S = \frac 1n \sum_{i=t}^n \1{\IL_t \geq 0},
 \end{equation}
 
 
