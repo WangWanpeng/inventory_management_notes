@@ -279,7 +279,69 @@ The service level is
   S = \frac 1n \sum_{i=t}^n \1{\IL_t \geq 0},
 \end{equation}
 
+\begin{question}
+  Suppose the demand during the leadtime is like this:
+  \begin{align*}
+    \P{X = 0} &= 1/6, \\
+    \P{X = 1} &= 1/5, \\
+    \P{X = 2} &= 1/4, \\
+    \P{X = 3} &= 1/8, \\
+    \P{X = 4} &= 11/120, \\
+    \P{X = 5} &= 1/6.
+  \end{align*}
+What is $S(r)$ for $r=0, \ldots, 5$?
+\end{question}
+\begin{solution}
+  \begin{equation*}
+    S(r) = G(r) = \sum_{i=0}^r \P{X = i}.
+  \end{equation*}
+Hence,
+\begin{align*}
+  r &= 0 \implies S(0) = \P{X \leq 0} = \P{X=0}1/6, \\
+  r &= 1 \implies S(1) = \P{X \leq 1} = 1/6 + 1/5 = 11/33, \\
+  r &= 2 \implies S(2) = \P{X \leq 2} = 37/60,\\
+  r &= 3 \implies S(3) = 89/120, \\
+  r &= 4 \implies S(4) = 100/120 = 5/6, \\
+  r &= 5 \implies S(5) = 1.
+\end{align*}
+\end{solution}
 
+\begin{question}
+Suppose the demand is a given by the previous exercise. What is $\theta$?
+\end{question}
+\begin{solution}
+  \begin{equation*}
+    \theta = \E{X} =
+1\cdot 1/5 + \cdots + 5 \cdot 1/6 = 91/40.
+  \end{equation*}
+\end{solution}
+
+\begin{question}
+Suppose the demand is a given by the previous exercise. What is $B(r)$ for $r=0,\ldots, 5$.?
+\end{question}
+\begin{solution}
+  Use that $B(r) = \sum_{i=r+1}^\infty (i-r-1)g(i)$, and that $g(i) = \P{X = i}$, and that $g(i)=0$ for $i\geq 6$.
+  \begin{align*}
+    r&=0 \implies B(0) = \sum_{i=1}^\infty (i-1)g(i) =  0\cdot 1/5 + \cdots + 4 \cdot 1/6 = 173/120, \\
+    r&=1 \implies B(1) = \sum_{i=2}^6 (i-2)g(i) =  1\cdot 1/8 + 2\cdot 11/120 + 3 \cdot 1/6 = 97/120, \\
+    r&=2 \implies B(2) = 1\cdot 11/120 + 2 \cdot 1/6 = 17/40, \\
+    r&=3 \implies B(3) = 1 \cdot 1/6 = 1/6, \\
+  \end{align*}
+\end{solution}
+
+\begin{question}
+Suppose the demand is a given by the previous exercise. What is $I(r)$ for $r=0,\ldots, 5$.?
+\end{question}
+\begin{solution}
+  Use that $I(r) = \E{I_t} = r+1-\theta + B(r)$.  The result follows straightaway from the previous exercise. As an example
+  \begin{equation*}
+    I(3) = 3+1 - \theta + B(3) = 4 - 91/40 + 1/6 = 227/120.
+  \end{equation*}
+\end{solution}
+
+\begin{question}
+Suppose the demand is a given by the previous exercise and that the holding cost $h=1$ and the backlog cost per item is $b=5$.  What is $r$ that minimizes $hI(r)+bB(r)$?
+\end{question}
 
 
 %%% Local Variables:
