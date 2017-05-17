@@ -75,7 +75,7 @@ $Q=1$, we get \eqref{eq:12} of the basestock model.
 The expected inventory level can be found as follows. Let $I(r)$
 be the long-run time average inventory level, i.e., \eqref{eq:6}. Then,
 
-\begin{equation*}
+\begin{equation}\label{eq:2}
   \begin{split}
    I(Q,r)
    &= \frac1Q\sum_{i=r}^{r+Q-1} I(i) \\
@@ -83,10 +83,56 @@ be the long-run time average inventory level, i.e., \eqref{eq:6}. Then,
    &= \frac1Q\sum_{i=r}^{r+Q-1} (i + 1)  - \theta + \frac1Q\sum_{i=r}^{r+Q-1} B(r) \\
    &= \frac{Q+1}2 + r - \theta + B(Q,r), 
   \end{split}
-\end{equation*}
+\end{equation}
 where we use \eqref{eq:14}. What do you get when $Q=1$?
 
 Formulas to skip (in edition 3): 2.38, 2.41, 2.42, 2.43.
+
+\begin{question}
+  Take the data from Exercise~\ref{q:basestock}. Suppose $r=1$ and $Q=2$. What is $S(Q,r)$?
+\end{question}
+\begin{solution}
+  Use~\eqref{eq:5}.
+  \begin{equation*}
+    \begin{split}
+      S(2,1)
+&= \frac{1}Q\sum_{i=r}^{r+Q-1} G(i) \\
+&= \frac{1}Q\sum_{i=r}^{r+Q-1} \P{X\leq i} \\
+&= \frac{1}Q\sum_{i=1}^{1+2-1} \P{X\leq i} \\
+&= \frac 12 \sum_{i=1}^{2} \P{X\leq i} \\
+&=  \frac 12 (\P{X\leq 1} + P{X\leq 2}) \\
+&= \frac12(11/30 + 37/60) = 59/120.
+    \end{split}
+  \end{equation*}
+\end{solution}
+
+\begin{question}
+  Take the data from Exercise~\ref{q:basestock}. Suppose $r=1$ and $Q=2$. What is $B(Q,r)$?
+\end{question}
+\begin{solution}
+Use~\eqref{eq:14} and the results of Exercise~\ref{q:basestock_B}
+  \begin{equation*}
+    \begin{split}
+      B(2,1)
+&= \frac1Q \sum_{i=r}^{r+Q-1} B(i) \\
+&= \frac12 \sum_{i=1}^{2} B(i) \\
+&= \frac12 (B(1) + B(2)) \\
+&= \frac12 \left(\frac{97}{120} + \frac{17}{40}\right) = \frac{37}{60}.
+\end{split}
+\end{equation*}
+\end{solution}
+
+
+\begin{question}
+  Take the data from Exercise~\ref{q:basestock}. Suppose $r=1$ and $Q=2$. What is $I(Q,r)$?
+\end{question}
+\begin{solution}
+  Use~\eqref{eq:2} and the previous exercise and the result of Exercise~\ref{q:basestock_theta}.
+
+  \begin{equation*}
+    I(2,1)  = \frac{2+1}2 + r - \frac{91}{40}+ \frac{37}{60} = \frac{101}{120}.
+  \end{equation*}
+\end{solution}
 
 
 \subsubsection{Simulation of the (Q,r) inventory model}

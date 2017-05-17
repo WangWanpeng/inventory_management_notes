@@ -279,15 +279,15 @@ The service level is
   S = \frac 1n \sum_{i=t}^n \1{\IL_t \geq 0},
 \end{equation}
 
-\begin{question}
+\begin{question}\label{q:basestock}
   Suppose the demand during the leadtime is like this:
   \begin{align*}
-    \P{X = 0} &= 1/6, \\
-    \P{X = 1} &= 1/5, \\
-    \P{X = 2} &= 1/4, \\
-    \P{X = 3} &= 1/8, \\
-    \P{X = 4} &= 11/120, \\
-    \P{X = 5} &= 1/6.
+    \P{X = 0} &= 1/6, & \P{X \leq 0} &= 1/6,  \\
+    \P{X = 1} &= 1/5, & \P{X \leq 1} &= 11/30,  \\
+    \P{X = 2} &= 1/4, & \P{X \leq 2} &= 37/60, \\
+    \P{X = 3} &= 1/8, & \P{X \leq 3} &= 89/120, \\
+    \P{X = 4} &= 11/120, & \P{X \leq 4} &= 5/6, \\
+    \P{X = 5} &= 1/6, & \P{X \leq 5} &= 1.
   \end{align*}
 What is $S(r)$ for $r=0, \ldots, 5$?
 \end{question}
@@ -306,7 +306,7 @@ Hence,
 \end{align*}
 \end{solution}
 
-\begin{question}
+\begin{question}\label{q:basestock_theta}
 Suppose the demand is a given by the previous exercise. What is $\theta$?
 \end{question}
 \begin{solution}
@@ -316,7 +316,7 @@ Suppose the demand is a given by the previous exercise. What is $\theta$?
   \end{equation*}
 \end{solution}
 
-\begin{question}
+\begin{question}\label{q:basestock_B}
 Suppose the demand is a given by the previous exercise. What is $B(r)$ for $r=0,\ldots, 5$.?
 \end{question}
 \begin{solution}
