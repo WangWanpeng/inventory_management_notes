@@ -317,32 +317,50 @@ Consider a periodic-time model so that $\IP_t$ is the inventory position at the 
  Then the sequence $\{\IP_i\}$ must satisfy the recursion:
 \begin{equation}
   \label{eq:15}
-  \IP_t = r+1 = r+1 - D_t + D_t \1{D_t>0}.
+  \IP_t = r+1 = r+1 - D_t + D_t \1{D_t>0} = r+1.
 \end{equation}
 To see this, observe that under the basestock policy the inventory
 position is always kept at level $r+1$, c.f., \eqref{eq:20}. Thus, if
 the inventory position $\IP_t$ at the end of period $t$ minus the demand
 $D_t$ during period $t$ is less than $r+1$, we need to reorder to fill up the
 shortage. Since the shortage is precisely the demand during period
-$t$, i.e., $D_t$, we order $D_t$. Finally, recall that the indicator function $\1{D_t>0} = 1$ if
-$D_i>0$ and is $0$ otherwise, so that this indicator is only positive when $D_t>0$, precisely as we want.
+$t$, i.e., $D_t$, we order $D_t$. 
+% Finally, recall that the indicator function $\1{D_t>0} = 1$ if
+% $D_i>0$ and is $0$ otherwise, so that this indicator is only positive when $D_t>0$, precisely as we want.  
+
 
 When the leadtime $L$ is one period or more, the replenishments do not arrive right away but~$L$ periods later. The consequences for the inventory level are that
 \begin{equation}
   \label{eq:21}
-  \IL_t = \IL_{t-1} - D_t + D_{t-L}\1{D_{t-L}>0}.
+  \IL_t = \IL_{t-1} - D_t + D_{t-L}\1{D_{t-L}>0} = \IL_{t-1} - D_t + D_{t-L}.
 \end{equation}
 Thus, what we ordered $L$ periods `ago', we receive `now'.
+
+Consider an example with the demand during the period is given by
+\begin{equation}\label{eq:demand_base}
+  D = (1,2,3,0,4,4,2,0,1,3),
+\end{equation}
+and leadtime $L=3$. In Figure~\ref{fig:basestock_demand} we show a graph of $D_t$ and the total demand $X_t=X(t-L, t]$ during the leadtime. We compute $\IL_t$ according to the above recursions and set $r=5$, hence $\IP_t = r+1=6$ always.
+
+\begin{figure}[tb]
+  \centering
+  \begin{tabular}[h]{cc}
+\input{basestock_demand_figures}\\
+\input{basestock_position_figures}
+  \end{tabular}
+  \caption{Upper panel: demand $D_t$ and demand $X_t$ during the leadtime $L$. Lower panel: inventory position $\IP_t$ and inventory level $IL_t$ as functions of time $t$. Observe that $IL_t = IP_t - X_t.$}
+\label{fig:basestock_demand}
+\end{figure}
 
 Once we carry out a simulation for $n$ periods, we can estimate the
 performance measure. The average  inventory on-hand is
 \begin{equation}
   \label{eq:22}
-  I = \frac 1n \sum_{t=1}^n \IL_t\1{\IL_t \geq 0} = \frac1n\sum_{t=1}^n \max{\IL_t, 0}
+  I = \frac 1n \sum_{t=1}^n \IL_t\1{\IL_t \geq 0} = \frac1n\sum_{t=1}^n \max\{\IL_t, 0\}
 \end{equation}
 the average backlog  is
 \begin{equation}
-  B = - \frac 1n \sum_{t=1}^n \IL_t\1{\IL_t < 0} = \frac1n\sum_{t=1}^n \max{-\IL_t, 0}
+  B = - \frac 1n \sum_{t=1}^n \IL_t\1{\IL_t < 0} = \frac1n\sum_{t=1}^n \max\{-\IL_t, 0\}
 \end{equation}
 because $\IL_t<0$ if there are backorders, recall~\eqref{eq:23}. 
 The service level is 
@@ -351,6 +369,22 @@ The service level is
   S = \frac 1n \sum_{i=t}^n \1{\IL_t \geq 0},
 \end{equation}
 
+For the demand of~\eqref{eq:demand_base}, we define 
+\begin{align*}
+  I_t &= \max\{\IL_t, 0\}, \\
+  B_t &= 0 \min\{\IL_t, 0\}.
+\end{align*}
+In Figure~\ref{fig:basestock_on_hand} we provide graphs of $I_t$ and $B_t$.
+
+\begin{figure}[tb]
+  \centering
+  \begin{tabular}[h]{cc}
+\input{basestock_position_figures}\\
+\input{basestock_on_hand_figures}
+  \end{tabular}
+  \caption{On-hand inventory and backlog as functions of $t$. Clearly, when $B_t=0$ when $I_t>0$, and the other way around. We include a graph of $\IL_t$ for reference.}
+\label{fig:basestock_on_hand}
+\end{figure}
 
 
 
