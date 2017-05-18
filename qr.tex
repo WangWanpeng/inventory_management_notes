@@ -137,23 +137,24 @@ Use~\eqref{eq:14} and the results of Exercise~\ref{q:basestock_B}
 
 \subsubsection{Simulation of the (Q,r) inventory model}
 
-Consider a periodic-time model so that the inventory position $\IP_i$
-is the inventory position at the end of period $i$. Then the sequence
-$\{\IP_i\}$ must satisfy the recursion:
-\begin{equation}
-  \IP_i = \IP_{i-1} - D_i + Q \1{\IP_{i-1} - D_i\leq r}.
-\end{equation}
+Consider a periodic-time model so that the inventory position $\IP_t$ is the inventory position as the \emph{start} of period $t$ and $\IP_t'$
+is the inventory position at the \emph{end} of period $t$. Then the sequence
+$\{\IP_t\}$ must satisfy the recursion:
+\begin{align*}
+  \IP_{t-1}' &= \IP_{t-1} - D_t, \\
+  \IP_t &= \IP_{t-1}' + Q \1{\IP_{t-1}'\leq r}.
+\end{align*}
 To see this, observe that under the $(Q,r)$ policy the inventory
 position is always kept above level $r$. Thus, if the inventory
-position at the end of period $i-1$ minus the demand $D_i$ during
-period $i$ is less than $r+1$, we need to place a replenishment
+position at the end of period $i-1$ minus the demand $D_t$ during
+period $t$ is less than $r+1$, we need to place a replenishment
 reorder of size $Q$.  Note that we assume here that $D_i\leq Q$ always.
 
 When the leadtime $L$ is one period or more, the replenishments do not
 arrive right away but $L$ periods later. The consequences of the
 inventory level are that
 \begin{equation}
-  \IL_i = \IL_{i-1} - D_i + Q\1{\IP_{i-1-L} - D_{i-L}\leq r}.
+  \IL_t = \IL_{t-1} - D_t + Q\1{\IP_{t-1-L}'\leq r}.
 \end{equation}
 Compare~\eqref{eq:21} of the basestock model.
 
