@@ -83,6 +83,11 @@ From \eqref{eq:7} we conclude that
 \end{equation}
 Thus, for the basestock mode in continuous time, the inventory position is constant. 
 
+\begin{remark}
+Below we develop a set of expressions for the most relevant KPIs such
+as the service level. In Section~\ref{sec:qr_example-code} we provide some computer code on how to compute these KPIs. This code is not obligatory for the course. 
+\end{remark}
+
 
 \begin{question}
   What is the reorder level $r$ for a make-to-order inventory system?
@@ -95,6 +100,25 @@ Thus, for the basestock mode in continuous time, the inventory position is const
   of jobs waiting to get served by production.
 \end{solution}
 
+
+\begin{question}\label{q:basestock}
+  Suppose the demand during the leadtime is like this:
+  \begin{align*}
+    \P{X = 0} &= 1/6, & \P{X \leq 0} &= 1/6,  \\
+    \P{X = 1} &= 1/5, & \P{X \leq 1} &= 11/30,  \\
+    \P{X = 2} &= 1/4, & \P{X \leq 2} &= 37/60, \\
+    \P{X = 3} &= 1/8, & \P{X \leq 3} &= 89/120, \\
+    \P{X = 4} &= 11/120, & \P{X \leq 4} &= 5/6, \\
+    \P{X = 5} &= 1/6, & \P{X \leq 5} &= 1.
+  \end{align*}
+What is $\theta$?
+\end{question}
+\begin{solution}
+  \begin{equation*}
+    \theta = \E{X} =
+1\cdot 1/5 + \cdots + 5 \cdot 1/6 = 91/40.
+  \end{equation*}
+\end{solution}
 
 \subsubsection{Computing the Service level}
 
@@ -129,6 +153,26 @@ Thus,
    S(r) = G(r) = \sum_{i=0}^r \P{X_t = i},
 \end{equation}
 and \emph{not} $G(r+1)$ as in the third edition of Factory Physics.
+
+
+\begin{question}\label{q:basestock}
+  Suppose the demand is a given by  Exercise~\ref{q:basestock}.
+What is $S(r)$ for $r=0, \ldots, 5$?
+\end{question}
+\begin{solution}
+  \begin{equation*}
+    S(r) = G(r) = \sum_{i=0}^r \P{X = i}.
+  \end{equation*}
+Hence,
+\begin{align*}
+  r &= 0 \implies S(0) = \P{X \leq 0} = \P{X=0}1/6, \\
+  r &= 1 \implies S(1) = \P{X \leq 1} = 1/6 + 1/5 = 11/33, \\
+  r &= 2 \implies S(2) = \P{X \leq 2} = 37/60,\\
+  r &= 3 \implies S(3) = 89/120, \\
+  r &= 4 \implies S(4) = 100/120 = 5/6, \\
+  r &= 5 \implies S(5) = 1.
+\end{align*}
+\end{solution}
 
 \subsubsection{Computing the average backorder level}
 
@@ -218,6 +262,20 @@ $\sum_{i=0}^\infty \bar G(i) = \theta$:
 \end{proof}
 	   
 
+\begin{question}\label{q:basestock_B}
+  Suppose the demand is a given by  Exercise~\ref{q:basestock}. What is $B(r)$ for $r=0,\ldots, 5$.?
+\end{question}
+\begin{solution}
+  Use that $B(r) = \sum_{i=r+1}^\infty (i-r-1)g(i)$, and that $g(i) = \P{X = i}$, and that $g(i)=0$ for $i\geq 6$.
+  \begin{align*}
+    r&=0 \implies B(0) = \sum_{i=1}^\infty (i-1)g(i) =  0\cdot 1/5 + \cdots + 4 \cdot 1/6 = 173/120, \\
+    r&=1 \implies B(1) = \sum_{i=2}^6 (i-2)g(i) =  1\cdot 1/8 + 2\cdot 11/120 + 3 \cdot 1/6 = 97/120, \\
+    r&=2 \implies B(2) = 1\cdot 11/120 + 2 \cdot 1/6 = 17/40, \\
+    r&=3 \implies B(3) = 1 \cdot 1/6 = 1/6, \\
+  \end{align*}
+\end{solution}
+
+
 \subsubsection{Computing the expected on-hand inventory}
 
 Taking expectations at the left and right hand side of \eqref{eq:7} we get
@@ -237,6 +295,20 @@ from which we find for the on-hand inventory $I_t$:
 
 Formulas to skip (in edition 3): 2.24, 2.25. 
 
+\begin{question}
+Suppose the demand is a given by Exercise~\ref{q:basestock}. What is $I(r)$ for $r=0,\ldots, 5$.?
+\end{question}
+\begin{solution}
+  Use that $I(r) = \E{I_t} = r+1-\theta + B(r)$.  The result follows straightaway from Exercise~\ref{q:basestock_B}. As an example
+  \begin{equation*}
+    I(3) = 3+1 - \theta + B(3) = 4 - 91/40 + 1/6 = 227/120.
+  \end{equation*}
+\end{solution}
+
+\begin{question}
+Suppose the demand is a given by the previous exercise and that the holding cost $h=1$ and the backlog cost per item is $b=5$.  What is $r$ that minimizes $hI(r)+bB(r)$?
+\end{question}
+
 
 \subsubsection{Simulation of the basestock inventory model}
 \label{sec:simul-basest-invent}
@@ -250,12 +322,12 @@ Consider a periodic-time model so that $\IP_t$ is the inventory position at the 
 To see this, observe that under the basestock policy the inventory
 position is always kept at level $r+1$, c.f., \eqref{eq:20}. Thus, if
 the inventory position $\IP_t$ at the end of period $t$ minus the demand
-$D_i$ during period $i$ is less than $r+1$, we need to reorder the
+$D_t$ during period $t$ is less than $r+1$, we need to reorder to fill up the
 shortage. Since the shortage is precisely the demand during period
-$t$, i.e., $D_t$, we order $D_t$. (Recall that $\1{D_t>0} = 1$ if
-$D_i>0$ and is $0$ otherwise.)
+$t$, i.e., $D_t$, we order $D_t$. Finally, recall that the indicator function $\1{D_t>0} = 1$ if
+$D_i>0$ and is $0$ otherwise, so that this indicator is only positive when $D_t>0$, precisely as we want.
 
-When the leadtime $L$ is one period or more, the replenishments do not arrive right away but $L$ periods later. The consequences of the inventory level are that
+When the leadtime $L$ is one period or more, the replenishments do not arrive right away but~$L$ periods later. The consequences for the inventory level are that
 \begin{equation}
   \label{eq:21}
   \IL_t = \IL_{t-1} - D_t + D_{t-L}\1{D_{t-L}>0}.
@@ -279,69 +351,7 @@ The service level is
   S = \frac 1n \sum_{i=t}^n \1{\IL_t \geq 0},
 \end{equation}
 
-\begin{question}\label{q:basestock}
-  Suppose the demand during the leadtime is like this:
-  \begin{align*}
-    \P{X = 0} &= 1/6, & \P{X \leq 0} &= 1/6,  \\
-    \P{X = 1} &= 1/5, & \P{X \leq 1} &= 11/30,  \\
-    \P{X = 2} &= 1/4, & \P{X \leq 2} &= 37/60, \\
-    \P{X = 3} &= 1/8, & \P{X \leq 3} &= 89/120, \\
-    \P{X = 4} &= 11/120, & \P{X \leq 4} &= 5/6, \\
-    \P{X = 5} &= 1/6, & \P{X \leq 5} &= 1.
-  \end{align*}
-What is $S(r)$ for $r=0, \ldots, 5$?
-\end{question}
-\begin{solution}
-  \begin{equation*}
-    S(r) = G(r) = \sum_{i=0}^r \P{X = i}.
-  \end{equation*}
-Hence,
-\begin{align*}
-  r &= 0 \implies S(0) = \P{X \leq 0} = \P{X=0}1/6, \\
-  r &= 1 \implies S(1) = \P{X \leq 1} = 1/6 + 1/5 = 11/33, \\
-  r &= 2 \implies S(2) = \P{X \leq 2} = 37/60,\\
-  r &= 3 \implies S(3) = 89/120, \\
-  r &= 4 \implies S(4) = 100/120 = 5/6, \\
-  r &= 5 \implies S(5) = 1.
-\end{align*}
-\end{solution}
 
-\begin{question}\label{q:basestock_theta}
-Suppose the demand is a given by the previous exercise. What is $\theta$?
-\end{question}
-\begin{solution}
-  \begin{equation*}
-    \theta = \E{X} =
-1\cdot 1/5 + \cdots + 5 \cdot 1/6 = 91/40.
-  \end{equation*}
-\end{solution}
-
-\begin{question}\label{q:basestock_B}
-Suppose the demand is a given by the previous exercise. What is $B(r)$ for $r=0,\ldots, 5$.?
-\end{question}
-\begin{solution}
-  Use that $B(r) = \sum_{i=r+1}^\infty (i-r-1)g(i)$, and that $g(i) = \P{X = i}$, and that $g(i)=0$ for $i\geq 6$.
-  \begin{align*}
-    r&=0 \implies B(0) = \sum_{i=1}^\infty (i-1)g(i) =  0\cdot 1/5 + \cdots + 4 \cdot 1/6 = 173/120, \\
-    r&=1 \implies B(1) = \sum_{i=2}^6 (i-2)g(i) =  1\cdot 1/8 + 2\cdot 11/120 + 3 \cdot 1/6 = 97/120, \\
-    r&=2 \implies B(2) = 1\cdot 11/120 + 2 \cdot 1/6 = 17/40, \\
-    r&=3 \implies B(3) = 1 \cdot 1/6 = 1/6, \\
-  \end{align*}
-\end{solution}
-
-\begin{question}
-Suppose the demand is a given by the previous exercise. What is $I(r)$ for $r=0,\ldots, 5$.?
-\end{question}
-\begin{solution}
-  Use that $I(r) = \E{I_t} = r+1-\theta + B(r)$.  The result follows straightaway from the previous exercise. As an example
-  \begin{equation*}
-    I(3) = 3+1 - \theta + B(3) = 4 - 91/40 + 1/6 = 227/120.
-  \end{equation*}
-\end{solution}
-
-\begin{question}
-Suppose the demand is a given by the previous exercise and that the holding cost $h=1$ and the backlog cost per item is $b=5$.  What is $r$ that minimizes $hI(r)+bB(r)$?
-\end{question}
 
 
 %%% Local Variables:
