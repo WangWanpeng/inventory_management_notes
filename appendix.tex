@@ -1,0 +1,118 @@
+\section{Appendix}
+\label{sec:appendix}
+
+\Opensolutionfile{ans}
+
+For the rest of the course we need some important notation. \nvf{to do}
+\begin{exercise}
+What is the meaning of $\sum_{i=1}^n x_i$ and why is $h \sum_{i=1}^n x_i = \sum_{i=1}^n (h x_i)$, where $h$ is some number?
+  \begin{solution}
+    \begin{align*}
+      \sum_{i=1}^3 x_i &= x_1 + x_2 + x_3 \\
+      \sum_{i=1}^n x_i &= x_1 + x_2 + \cdots +x_n \\
+     h \sum_{i=1}^n x_i &= h(x_1 + x_2 + \cdots +x_n) = h x_1 + \cdots + h x_n = \sum_{i=1}^n h x_i.
+    \end{align*}
+  \end{solution}
+\end{exercise}
+
+We define the \recall{indicator function} of a claim $A$ as
+  \begin{equation*}
+    \1{A} =
+    \begin{cases}
+      1, & \text{if $A$ is true},\\
+      0, & \text{if $A$ is not true}.
+    \end{cases}
+  \end{equation*}
+For instance $\1{3<5} = 1$ and $\1{\text{dogs can fly}} = 0$. This function is also easy to implement in excel.
+
+Finally, define
+\begin{align}
+ x^+ &= \max\{x, 0\} & x^- &= \max\{-x, 0\}.
+\end{align}
+
+\begin{exercise}
+  Show that 
+  \begin{align*}
+ x  &= x^+ - x^-, & (x-y)^+ &= x - \min\{x, y\}.
+  \end{align*}
+  \begin{solution}
+    \begin{equation*}
+      x = \max\{x, 0\} + \min\{x, 0\} = x^+ - \max\{-x, 0\} = x^+ - x^-.
+    \end{equation*}
+  \end{solution}
+\end{exercise}
+
+
+Define 
+\begin{align}\label{eq:3}
+ x^+&=\max\{x,0\}, & x^-&=\max\{-x,0\}.
+\end{align}
+In the derivations below we heavily use these definitions and the relations of the next two exercises.
+
+\begin{exercise}
+Show that
+\begin{align}\label{eq:4}
+ x&=x^+ - x^- &  (-x)^- &=x^+.
+\end{align}
+\begin{solution}
+Take simple numerical examples to see why it is true. More formally, let us consider two cases: $x\geq 0$ and $x<0$. In the first case, we have $x^+=\max\{x,0\}=x$ and $x^-=\max\{-x,0\}=0$. Thus $x=x-0$ holds. In the second case, we have $x^+=\max\{x,0\}=0$ and $x^-=\max\{-x,0\}=-x$. Thus $x=0-(-x)$ holds. 
+
+For the other equality: $(-x)^- = \max\{- (-x),0\} = \max\{x, 0\} = x^+$. 
+\end{solution}
+\end{exercise}
+
+\begin{exercise}\label{ex:6}
+Show that
+\begin{align}
+\min\{x,y\} &=  x - (x-y)^+ & (x-y)^+ = x - \min\{x, y\}.
+\end{align}
+Show this.
+\begin{solution}
+  \begin{equation*}
+    x-(x-y)^+ =
+    \begin{cases}
+      x-(x-y) = y &\text{ if } x-y\geq 0\\
+      x-0 = x &\text{ if } x-y\leq 0.
+    \end{cases}
+  \end{equation*}
+Hence, $x-(x-y)^+ = \min\{x, y\}$. The other result follows from this. 
+\end{solution}
+\end{exercise}
+
+the \recall{probability mass function} (\recall{pmf}) $f(i) = \P{ D = i}$ is given. Recall that the \recall{distribution function} $F$ and the mass function $f$ are related by
+\begin{equation*}
+F(i) = f(0)+f(1)+\cdots f(i).
+\end{equation*}
+
+\begin{exercise}\label{ex:exp} Let $D$ be a random variable with probability mass function $f$. To help recall the concept of \recall{expection},
+write the expected demand $\E{D}$ in terms of a summation.
+  \begin{solution}
+$\E{D}$ is just a short-hand for
+    \begin{equation*}
+      \E{D} = \sum_{i=0}^\infty i f(i).
+    \end{equation*}
+  \end{solution}
+\end{exercise}
+
+
+\begin{exercise}
+  Let $f(1)=f(2)\ldots=f(5) = 1/5$. Compute $\theta = \E{D}$, i.e., the expected demand.
+  \begin{solution}
+    \begin{align*}
+      \E{D} &= \sum_{i=1}^5 i f(i) = \frac 1 5+\frac 2 5+\cdots+\frac 55 = 3, \\
+    \end{align*}
+  \end{solution}
+\end{exercise}
+
+
+\Closesolutionfile{ans}
+\opt{solutionfiles}{
+\subsection{Solutions}
+\input{ans}
+}
+\clearpage
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "inventory_notes"
+%%% End:

@@ -1,0 +1,60 @@
+%\documentclass[a5paper]{scrartcl}
+\documentclass[a4paper]{scrartcl}
+
+\usepackage[solutionfiles]{optional}
+%\usepackage[nosolutionfiles]{optional}
+
+\opt{nosolutionfiles}{\usepackage[nosolutionfiles]{answers}}
+\opt{solutionfiles}{\usepackage{answers}}
+
+
+\usepackage{preamble}
+
+\setcapwidth{0.95\textwidth}
+\setcapindent{0pt}
+%\addtokomafont{caption}{\centering}
+
+\usepackage[top=5mm, left=5mm, right=5mm, bottom=2cm]{geometry}
+
+\title{Notes on Inventory Management}
+\date{\small \today}
+\author{\small N.D. van Foreest and O.A. Kilic}
+
+\begin{document}
+\maketitle
+{\small \tableofcontents}
+\clearpage
+
+\input{intro}
+\input{why_inventories}
+\input{dynamics}
+\input{eoq}
+\input{els}
+\input{epq}
+\input{demand}
+\input{newsvendor}
+\input{basestock}
+\input{qr}
+\input{other_policies}
+\input{appendix}
+
+\addcontentsline{toc}{section}{References}
+\bibliographystyle{plainnat}
+\bibliography{inventory}
+\clearpage
+
+\input{notation.tex}
+
+\addcontentsline{toc}{section}{Index}
+\printindex
+
+%\input{joint_ordering}
+%\input{performance_analysis}
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

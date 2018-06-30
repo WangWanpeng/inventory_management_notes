@@ -1,5 +1,9 @@
 auto/
 *.blg
+*.idx
+*.ilg
+*.ind
+**.pytxcode
 *.out
 *.rel
 *.aux
@@ -9,3 +13,8 @@ auto/
 *.pdf
 tmp/
 make_pdf
+nicky.*
+test*
+ans.tex
+hint.tex
+pythontex-files*

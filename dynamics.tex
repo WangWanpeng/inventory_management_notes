@@ -1,0 +1,370 @@
+\section{Simulation of Inventory Systems}
+\label{sec:dynam-an-invent}
+
+\Opensolutionfile{ans}
+
+% \textit{Recommended reading:} FP Section 2.2 and 2.3 covers the basic deterministic inventory models that will be considered here. We suggest you to be familiar with that material. 
+
+To understand inventory systems we start with \emph{constructing} single-item inventory systems. With this construction we have a framework by which we can run all sorts of simulations to analyze various properties of the system under a different ordering rules. In fact, as we will see, except for the rule to determine when and how much to order, the framework is identical for all inventory models we will discuss in the remainder of these notes. Hence we urge the reader to implement all  formulas below in excel; they will be used throughout the rest of the text. 
+
+\subsection{Dynamics}
+\label{sec:dynamics}
+
+
+
+We study an inventory system in \emph{discrete} time, and use 
+ the following notation:
+\begin{align*}
+  Q_i &= \text{Order size that arrives at  the \emph{start} of period $i$}, \\
+  \IP_i &= \text{\recall{Inventory position} at the \emph{end} of period $i$}, \\
+  D_i &= \text{demand arriving \emph{during} period $i$}, \\
+  \IL_i &= \text{\recall{Inventory level} at the \emph{end} of period $i$}, \\
+\IL_i^+ &= \text{\recall{inventory on hand} at the \emph{end} of period $i$}, \\
+\IL_i^- &= \text{\recall{backlogged demand} at the \emph{end} of period $i$}.
+\end{align*}
+Note that  the inventory level $\IL_i$ can be positive and negative. When it is positive we can serve demand from stock, when negative customers have to wait.  
+
+Given order sizes $\{Q_i, i=0, 1, \ldots\}$ and  demands $\{D_i, i=1, 2, \ldots\}$  the \emph{inventory position} satisfies the rule
+\begin{subequations}
+\label{eq:21}
+\begin{equation}\label{eq:22}
+  \IP_i = \IP_{i-1}+Q_i - D_i,
+\end{equation}
+in words, the inventory position at the end of period $i$ is equal to the inventory position at the previous period $i-1$ plus any order of size $Q_i$ that arrives at the start of the period minus the demand that comes in during period $i$.  The \emph{inventory level} satisfies the rule
+\begin{equation}\label{eq:8}
+  \IL_i = \IL_{i-1}+Q_{i-L} - D_i.
+\end{equation}
+Thus, the replenishment orders arrive a leadtime $L\geq 0$ later. The difference between the inventory position and the inventory level is that in the former we include all orders `in the books', but these orders physically arrive $L$ periods later. Only after the orders arrive, they can be used to replenish the inventory level, and serve demand. Finally, to start the recursions we assume that
+\begin{equation}
+\IP_0 = \IL_0 = 0.  
+\end{equation}
+\end{subequations}
+
+Typically, $Q_i$ is determined by the inventory position, for example, in the EOQ model to be discussed in Section~\ref{sec:deterministic}, we have that
+\begin{equation*}
+  Q_i = Q \1{\IP_{i-1} \leq 0},
+\end{equation*}
+where $Q>0$ is a fixed quantity.
+
+\begin{exercise}
+  As a check (many students fail to notice these aspects):
+  \begin{enumerate}
+  \item Which of the two (inventory level or inventory position) triggers the orders?
+  \item Which of the two depends on the lead time?
+  \item Is there a difference inventory position and inventory level when $L=0$?
+  \end{enumerate}
+  \begin{solution}
+    Only $\IP$ triggers the orders and only $\IL$ depends on $L$. When $L=0$, the position and level coincide.
+  \end{solution}
+\end{exercise}
+
+\begin{exercise}\label{ex:8}
+  Suppose, just to see how the rules~\eqref{eq:21} work, that we order $4$ items every three periods, i.e, $Q_1=Q_4=\cdots = 4$, and $Q_i=0$ else, and the demand is constant $D_i=1$. Implement the scheme~\eqref{eq:21} in excel and compute $\IP_i$ and $\IL_i$ for $n=100$ periods.
+  \begin{solution}
+Here are the first 10 or say entries so that you can check your implementation.
+\begin{pyconsole}[dynamics]
+import numpy as np
+
+L = 2
+n = 100
+QQ = 4
+D = np.ones(n, dtype=int)
+
+IP = np.zeros_like(D)
+Q = np.zeros_like(D)
+
+for i in range(1,len(D)):
+    if i % 3 == 1: 
+        Q[i] = QQ
+    IP[i] = IP[i-1] + Q[i] - D[i]
+
+IP[0:11]
+
+IL = np.zeros_like(D)
+for i in range(1,L):
+    IL[i] = IL[i-1] - D[i]
+
+for i in range(L,len(D)):
+    IL[i] = IL[i-1] +Q[i-L]- D[i]
+
+
+IL[0:11]
+
+IL[-1] # the last element of the 100
+\end{pyconsole}
+  \end{solution}
+\end{exercise}
+
+We now derive a number of relations between $\IL_i$ and $\IP_i$ that we will heavily use in the sequel. Write $D_i$ for the demand that arrives \emph{during} period $i$, and 
+\begin{equation*}
+  D[i, j] = \sum_{k=i}^j D_k 
+\end{equation*}
+for the demand that arrives during periods $i, i+1, \ldots, j$.    Similarly, we write
+\begin{equation*}
+  Q[i, j] = \sum_{k=i}^j Q_k.
+\end{equation*}
+
+
+\begin{exercise}
+What is the meaning of $D[i,i]$, $D[i+1, i]$, and $D[i-L, i]$? 
+  \begin{solution}
+    $D[i,i] = \sum_{j=i}^i D_j = D_i$. The set $i+1, i+1, \ldots, i$ is empty, hence $D[i+1, i]=0$. Finally, $D[i-L, i]$ is all demand that arrives during a leadtime. 
+  \end{solution}
+\end{exercise}
+
+
+\begin{exercise}
+  Show 
+  \begin{equation*}
+    \IP_{i}= \IP_0 + Q[1, i] - D[1, i].
+  \end{equation*}
+In words, the inventory position at period $i$ is our starting value $\IP_0$ plus all orders minus all demands. 
+  \begin{solution}
+    \begin{align*}
+    \IP_i
+&= \IP_{i-1} + Q_i - D_i  \\
+&= \IP_{i-2} + Q_{i-1} - D_{i-1} + Q_i - D_i  \\
+&= \IP_{i-2} + Q_{i-1} +Q_i - D_{i-1} - D_i  \\
+&= \IP_{i-2} + \sum_{j=i-1}^i (Q_{j} - D_{j}) \\
+&= \IP_0 + \sum_{j=1}^{i} (Q_j-D_j) \\
+&= \IP_0 + \sum_{j=1}^{i} Q_j- \sum_{j=1}^{i} D_j.
+    \end{align*}
+  \end{solution}
+\end{exercise}
+
+\begin{exercise}
+Expand recursion~\eqref{eq:8} to show that 
+\begin{equation*}
+  \IL_{i} = \IL_{i-1}+Q_{i-L-1} + Q_{i-L} - D_{i-1} - D_i.
+\end{equation*}
+\begin{solution}
+Applying the recursion $I_{i-1}$, 
+\begin{align*}
+  \IL_{i} 
+&= \IL_{i-1} + Q_{i-L} - D_i \\
+&= (\IL_{i-1}+Q_{i-L-1} - D_{i-1}) + Q_{i-L} - D_i \\
+&= \IL_{i-1}+Q_{i-L-1} + Q_{i-L} - D_{i-1} - D_i \\
+\end{align*}
+  \end{solution}
+\end{exercise}
+
+\begin{exercise}
+  Use the previous exercise to derive
+  \begin{equation}
+    \IL_i= \IL_0 + \sum_{j=1}^{i-L} (Q_j-D_j) - D[i-L+1, i].
+  \end{equation}
+  \begin{solution}
+Use recursion to see that
+\begin{align*}
+  \IL_{i} 
+&= \IL_{i-1} + Q_{i-L} - D_i \\
+&= (\IL_{i-1}+Q_{i-L-1} - D_{i-1}) + Q_{i-L} - D_i \\
+&= \IL_{i-1}+Q_{i-L-1} + Q_{i-L} - D_{i-1} - D_i \\
+&= \IL_{i-1}+\sum_{j=i-L-1}^{i-L} Q_{j} - \sum_{j=i-1}^i D_{j} \\
+&= \IL_{0}+\sum_{j=1}^{i-L} Q_{j} - \sum_{j=1}^i D_{j} &\text{as } Q_j = 0\text{ for } j\leq 0\\
+&= \IL_{0}+\sum_{j=1}^{i-L} (Q_{j}-D_j) - \sum_{j=i-L+1}^i D_{j}\\
+&= \IL_{0}+\sum_{j=1}^{i-L} (Q_{j}-D_j) - D[i-L+1, i].
+\end{align*}
+  \end{solution}
+\end{exercise}
+
+
+\begin{exercise}
+As $\IL_0 = \IP_0$, by assumption, conclude with the above that
+\begin{align}\label{eq:15}
+  \IL_i = \IP_{i-L} - D[i-L+1, i]
+\end{align}
+Thus, the inventory level is the inventory position $L$ periods earlier minus the outstanding demand. 
+\begin{solution}
+  \begin{align*}
+    \IL_i
+&= \IL_0 + \sum_{j=1}^{i-L} (Q_j-D_j) - \sum_{j=i-L+1}^j D_j \\
+&= \IP_0 + \sum_{j=1}^{i-L} (Q_j-D_j) - \sum_{j=i-L+1}^j D_j \\
+&= \IP_{i-L} - \sum_{j=i-L+1}^j D_j \\
+  \end{align*}
+\end{solution}
+\end{exercise}
+
+
+\begin{exercise}
+Check~\eqref{eq:15} for $L=0$ and $L=1$.
+  \begin{solution}
+    If $L=0$, we have that $D[i+1-L,i] = D[i+1,i] = 0$. Hence, $\IL_i = \IP_i$, which is entirely logical. 
+
+In a similar way, if $L=1$, $I_i = \IP_{i_1} - D_{i}$. To see this, note that $L=1$. Hence, the  inventory level just after the order lags behind by one period of demand. 
+  \end{solution}
+\end{exercise}
+
+\begin{exercise}
+Finally, there is another relation between the inventory level and the inventory position. Show that
+  \begin{equation}\label{eq:7}
+    \IL_i = \IP_i - \sum_{j=i-L+1}^i Q_j.
+  \end{equation}
+Thus, noting that $\sum_{j=i-L+1}^i Q_j$ is the amount of outstanding orders in period $i$, we see that $\IL_i$ is the inventory position $\IP_i$ at the end of the period minus all outstanding orders.
+\begin{solution}
+  If we   subtract~\eqref{eq:8} from \eqref{eq:22} we get 
+  \begin{align*}
+    \IP_i - \IL_i 
+&= \IP_{i-1} + Q_{i} - \IL_{i-1} - Q_{i-L} \\
+&= \IP_{i-2} - \IL_{i-2} + \sum_{j=i-1}^i Q_{j} - \sum_{j=i-L-1}^{i-L} Q_{j} \\
+&= \IP_{0} - \IL_{0} + \sum_{j=1}^i Q_{j} - \sum_{j=1}^{i-L} Q_{j} &\text{as $Q_j=0$ for $j\leq 0$}\\
+&= \sum_{j=1}^i Q_{j} - \sum_{j=1}^{i-L} Q_{j} &\text{as }\IP_0 = \IL_0\\
+&= \sum_{j=i-L+1}^i Q_{j}.
+  \end{align*}
+\end{solution}
+\end{exercise}
+
+In the above we assume that demand that could not be met from stock is backlogged. In case of \recall{lost demand} we need to change the rules~\eqref{eq:21}. Specifically, the rules for a loss system become
+\begin{subequations}
+\begin{align}
+\IL_i' &= \IL_{i-1} + Q_{i-L}, & \text{helper variable}\\
+L_i &= (\IL_i'-D_i)^- & \text{lost demand}\\
+A_i' &= \IL_{i}' - L_i & \text{accepted demand}\\
+\IP_i &= \IP_{i-1}+Q_i - A_i, &\text{subtract the accepted demand}\\
+\IL_i &= \IL_{i}' - A_i. 
+\end{align}
+\end{subequations}
+The helper variable models the inventory level right after the start of the period, including any replenishments. 
+
+\begin{exercise}
+  Explain that $A_i$ is the accepted demand in period $i$.  Observe the difference with the rules in~\eqref{eq:21}.
+  \begin{solution}
+    The inventory on hand just after receiving the replenishment is given by $\IL_i'$, so this can be used during period $i$ to serve demand from stock. Any remaining stock at the end of the period, in case of loss, is $(\IL_i'-D_i)^+$. Thus, the difference must be the amount of stock that left the system, i.e., the amount of demand that was served. 
+  \end{solution}
+\end{exercise}
+
+\subsection{Performance measures}
+\label{sec:performance-measures}
+
+Once we carry out a simulation for $n$ periods, we can compute performance measures. The average  on-hand inventory and backlog are defined as
+\begin{align*}
+  I &= \frac 1n \sum_{i=1}^n \IL_i^+ & 
+  B &= \frac 1n \sum_{i=1}^n \IL_i^-.
+\end{align*}
+
+If it costs $b$ Euro to have an item on backorder per period and $h$ per item on hand per period, then the average costs is 
+\begin{equation}
+  h I + b B.
+\end{equation}
+
+
+\begin{exercise}
+  Compute $I$ and $B$ for the case of Exercise~\ref{ex:8} for $n=100$ periods.
+  \begin{solution}
+Here is the code, and the numbers.
+\begin{pyconsole}[dynamics]
+I_plus = np.maximum(IL, 0)
+I_plus[:10]
+I_plus.mean()
+
+I_minus = - np.minimum(IL, 0) # backlog
+I_minus[:10]
+I_minus.mean()
+\end{pyconsole}
+  \end{solution}
+\end{exercise}
+
+
+
+We next discuss three different concepts, so-called \recall{service levels}, to address the extent to which demand is met. 
+
+The \recall{ready rate} or is defined as the fraction of periods in which the inventory was not negative, i.e., 
+\begin{equation}
+\alpha_p =   \frac 1n \sum_{i=1}^n \1{\IL_i \geq 0},
+\end{equation}
+To see this, note that $\1{I_i\geq 0}=1$ if $I_i\geq 0$ and is 0 otherwise. Thus, the numerator counts the number of times $\IL_i \geq 0$. 
+
+\begin{exercise}
+  Compute this for the case of Exercise~\ref{ex:8}.
+  \begin{solution}
+\begin{pyconsole}[dynamics]
+alpha_p = IL>=0 # This implements the indicator on numpy arrays
+alpha_p[:10]
+alpha_p.mean()
+\end{pyconsole}
+  \end{solution}
+\end{exercise}
+
+For the next type of service level,  we need the concept of a \recall{cycle}, which is the number of periods in between  placing a replenishment. 
+
+\begin{exercise}
+  Explain that $\sum_{i=1}^n \1{Q_i>0}$ corresponds to the number of cycles.
+  \begin{solution}
+Each cycle starts with placing an order.  Of course, an order only occurs when $Q_i>0$. Now, only when $Q_i>0$, we have that $\1{Q_i>0} = 1$. Thus, to count all cycles, we can just as well count all periods in which we placed an order. The total number of periods in which we placed an order is $\sum_{i=1}^n \1{Q_i>0}$, hence this number is the number of cycles.
+  \end{solution}
+\end{exercise}
+
+The \recall{cycle service level} is defined as the fraction of cycles in which the inventory was not negative.  In the next exercises, we show that this can be computed with the formula
+\begin{equation}
+\alpha_c =  \frac{\sum_{i=1}^n \1{Q_{i-L}>0}\1{I_{i-1}\geq 0}}{\sum_{i=1}^n \1{Q_i>0}}.
+\end{equation}
+
+\begin{exercise}
+Explain that $\1{I_i\geq 0}$ implies that all demand of period $i$ has been served from on-hand stock. 
+\begin{solution}
+  If $I_i > 0$ there is still on-hand inventory at the end of the period. When $I_i < 0$, there is demand in baclog. When $I_i = 0$, there is no on-hand inventory, but also no backlog, so that all demand during period $i$ must havee been met from stock. 
+\end{solution}
+\end{exercise}
+
+
+\begin{exercise}
+  Explain that $\sum_{i=L}^n \1{Q_{i-L}>0}\1{\IL_{i-1}\geq0}$ corresponds to the number of cycles in which the inventory was not negative.
+  \begin{solution}
+A cycle of the inventory level finishes when an order arrives. Clearly, when $Q_{i-L}>0$, a new cycle for the inventory level must start at period $i$, because an order placed at period $i-L$ arrives at period $i$. Thus, this cycle ends at period $i-1$. When $I_{i-1}\geq 0$, the inventory level at the end of this cycle was not negative. 
+Counting all periods then gives the result
+\begin{equation*}
+  \sum_{i=L}^n \1{Q_{i-L} > 0}\1{\IL_{i-1} \geq 0}
+\end{equation*}
+  \end{solution}
+\end{exercise}
+
+Finally, the \recall{fill rate} $\beta$ is defined as the fraction of demand satisfied from on-hand stock. 
+
+\begin{exercise}
+Explain that the total demand received is $\sum_{i=1}^n D_i$. 
+\end{exercise}
+
+\begin{exercise}
+Explain that $D_i\1{I_i\geq 0} + (I_i+D_i)^+\1{I_i< 0}$ is the demand met from on-hand stock at period $i$.
+\begin{solution}
+  Note that $I_i+D_i$ is the on-hand inventory right after the start of period $i$. Thus, if $I_i\geq 0$, all the demand $D_i$ is covered from on-hand stock. Next, if $I_i<0$, part of the demand is lost. Since, $I_i+D_i$ is the on-hand inventory at the start, we have satisfied an amount of~$(I_i+d_i)^+$ from on-hand stock. Combining the two leads to the result. 
+\end{solution}
+\end{exercise}
+
+Thus, we see that show that the fill rate is given by
+\begin{equation}
+\beta =   \frac{\sum_{i=1}^n D_i\1{I_i\geq 0} + \sum_{i=1}^n (I_i+D_i)^+\1{I_i< 0}}{\sum_{i=1}^n D_i}.
+\end{equation}
+
+\begin{exercise}
+  Show that 
+  \begin{equation*}
+    \beta = 1 - \frac{\sum_{i=1}^n \min\{D_i, \IL_i^-\}}{\sum_{i=1}^n D_i}.
+  \end{equation*}
+\end{exercise}
+
+The\nvf{to do} rule mentioned in Exercise~\ref{ex:8} to determine the order sizes $Q_i$ is in actuality not a good rule. In the present case you must have noticed that the inventory level becomes higher and higher, the reason being that the replenishments are not aligned with the demand. In the sequel of the document we will discuss many rules to improve this situation.
+
+\begin{exercise}
+  Other loss types\nvf{todo}
+\end{exercise}
+
+\begin{exercise}
+  Extend to networks\nvf{todo}
+\end{exercise}
+
+\begin{exercise}
+  Show that the $(T,Q)$ model\nvf{todo} is a random walk. In particular, take $T=1$ and $Q = \E D$. 
+\end{exercise}
+\Closesolutionfile{ans}
+\opt{solutionfiles}{
+\subsection{Solutions}
+\input{ans}
+}
+
+\clearpage
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "inventory_notes"
+%%% End:
