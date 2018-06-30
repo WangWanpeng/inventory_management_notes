@@ -1,15 +1,428 @@
+\textit{Recommended reading:} See FP Chapter 17.3
 
-\subsection{Joint Ordering}
 
- 
-\begin{itemize}
-\item ABC classification
-\item See FP, ch 17 for other models.
-\end{itemize}
+\subsection{Exercises}
+\label{sec:exercises}
 
 
 
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: "notes_all"
-%%% End:
+\begin{exercise}
+In practice, companies have to address inventory control of a large variety of items all at the same time. It is therefore plausible that these items share common delivery systems, e.g. different products might be delivered with the same truck. How would this affect the approaches used in managing inventories?
+
+
+\begin{solution}
+This should have an impact on the ordering frequency. For instance, it would make sense to jointly order multiple different products. This, however, contradicts with the approach of managing the inventory of each product independent of each other. 
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+How can one manage jointly ordering different items? What type of inventory control policies can be used? 
+
+
+\begin{solution}
+Optimal control of joint ordering systems is mathematically tedious. Therefore, often policies based on simple rules of thumbs are used in practice. For instance, there are can-order policies where two critical levels for each item: can-order level and must-order level. An item is ordered if one of the following two hold; (a) if inventory position of the item falls below the must-order level, and (b) if some other item is being ordered and the inventory position of the item falls below the can-order level. Obviously, the can-order level is higher than the must-order level. This policy indeed captures the incentive of ordering an item even when its inventory position has not yet reached to a ``critical'' level due to economies of scale. Another example is a so-called $(S_i,Q)$ policy. Here, all items are replenished up to certain levels $S_i$ when the total demand for all items (since the last replenishment) has reached $Q$. Here, the frequency of ordering is a function of the total demand, rather than individual demands.  
+
+Another approach which is easier is to implement is to align orders for different items using a periodic review framework. That is, we review inventories of all items periodically every $T$ time periods, and make use of an inventory policy for each item. Here, orders for different items are inherently aligned as (assuming that there is a very large number of items) we place an order every $T$ time periods.
+\end{solution}
+\end{exercise}
+
+The idea of periodic review seems to be appealing. Let's put this into action in the EOQ problem. Consider an EOQ system with 4 products. Each product $i$ is characterized by its demand rate $D_i$, holding cost per unit time $h_i$, and fixed ordering cost $a_i$. Also, each time an order is placed, we pay a fixed transportation cost $A$ regardless of which item or items we order. Note that the fixed transportation cost gives us an incentive to align orders of different items. 
+
+We assume that there are four different products with the following data: 
+\begin{align*}
+D=\{2200,4200,100,40\}, h=\{3,30,15,300\}, a=\{15,10,50,80\}, \text{ and } A=200
+\end{align*}
+where demands and holding costs are provided on a yearly basis.
+
+\begin{exercise}
+First, let us ignore the common fixed transportation cost $A$, and compute the optimal order quantities $Q^*_i$ and corresponding average costs $F_i(Q^*_i)$ and time between orders $T^*_i$ for all items.
+
+
+\begin{solution}
+We simply use the EOQ formula as $Q^*_i=\sqrt{\frac{2a_iD_i}{h_i}}$. Then, the average cost is $C_i(Q^*_i)=\sqrt{2a_iD_ih_i}$, and 
+the time between orders is $T^*_i=\frac{Q^*_i}{D_i}=\sqrt{\frac{2a_i}{h_i D_i}}$. This gives us the following.
+
+\begin{center}
+    \begin{tabular}{r|rrrr}
+          			& \multicolumn{1}{c}{Pr 1} & \multicolumn{1}{c}{Pr 2} & \multicolumn{1}{c}{Pr 3} & \multicolumn{1}{c}{Pr 4} \\
+    \toprule
+    $Q^*$ 			& 148.3239 & 52.9150 & 25.8199 & 4.6188 \\
+    $F_i(Q^*_i)$ 	& 444.97191 & 1587.4508 & 387.29833 & 1385.6406 \\
+    $T^*_i$ 		& 0.0674 & 0.0126 & 0.2582 & 0.1155 \\
+    \bottomrule
+    \end{tabular}%
+\end{center}
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+If we were to use this policy in presence of the common a fixed transportation cost $A$, what would be the extra cost due to transportation? How would this cost compare against the rest of the costs?
+
+
+\begin{solution}
+It might seem easy to answer this. But, in fact, it is not. Let us first have a look at the time between orders and convert them into days. 
+\begin{center}
+    \begin{tabular}{r|rrrr}
+          			& \multicolumn{1}{c}{Pr 1} & \multicolumn{1}{c}{Pr 2} & \multicolumn{1}{c}{Pr 3} & \multicolumn{1}{c}{Pr 4} \\
+    \toprule
+    $T^*_i$ (in days) 		& 24.61 & 4.60 & 94.24 & 42.15 \\
+    \bottomrule
+    \end{tabular}%
+\end{center}
+
+It should be clear that integer multiples of these numbers will rarely match each other. Therefore, it would be fair to say that we pay $A$ each time we place an order for any of the four products. Then, the extra cost per year would be 
+\begin{align*}
+A \sum_{i=1}^4 \frac{1}{T^*_i} = 200 \cdot (14.832+79.372+3.872+8.660) = 21347.635
+\end{align*}
+Note that $\frac{1}{T^*_i}$ is the number of order we place for product $i$ over a year.
+
+The rest of the costs, i.e. individual holding and ordering costs, sum up to $\sum_{i=1}^4 F_i(Q^*_i)=3805.36$. We observe that the fixed transportation costs are much higher than the individual inventory costs. Therefore, we can conclude that there is quite some room for improvement by means of aligning individual orders.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Let's assume that we place an order every $T$ units of time for all products (this is often referred to as the basic period and/or the review period). Note that the $T$ is the same for all products. Write an expression for the total costs. 
+
+
+\begin{solution}
+Because we place an order every $T$ periods, the order quantities should be $Q_i = T D_i$. Therefore, the average inventory level for product $i$ is $\frac{Q_i}{2}=\frac{T D_i}{2}$, and the number of orders per year for each product is $\frac{1}{T}$. Based on these, we can write the total cost as
+\begin{align*}
+\frac{A}{T} + \sum_{i=1}^N \left(\frac{h_i T D_i}{2} + \frac{a_i}{T}\right).
+\end{align*}
+where $N$ is the number of products.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Assume we place an order every $T$ units of time for all products, compute the total costs for $T=\{1,2,\ldots,30\}$ days. Find out which $T$ gives the minimum cost?
+
+
+\begin{solution}
+We first convert days into yearly scale to and then apply the cost expression we obtained in the previous exercise. Then we obtain the following.
+
+\begin{center}
+    \begin{tabular}{r|rrrr|rr}
+    \multicolumn{1}{c}{$T$ (days)} & \multicolumn{1}{c}{$T$ (years)} & \multicolumn{1}{c}{Total cost} &       & \multicolumn{1}{c}{$T$ (days)} & \multicolumn{1}{c}{$T$ (years)} & \multicolumn{1}{c}{Total cost} \\
+    \toprule
+    1     & 0.0027397 & 129775.14 &       & 16    & 0.0438356 & 11300.63 \\
+    2     & 0.0054795 & 65187.77 &       & 17    & 0.0465753 & 11024.39 \\
+    3     & 0.0082192 & 43792.08 &       & 18    & 0.0493151 & 10801.08 \\
+    4     & 0.0109589 & 33194.30 &       & 19    & 0.0520548 & 10622.34 \\
+    5     & 0.0136986 & 26915.68 &       & 20    & 0.0547945 & 10481.49 \\
+    6     & 0.0164384 & 22796.66 &       & 21    & 0.0575342 & 10373.11 \\
+    7     & 0.0191781 & 19911.67 &       & 22    & 0.060274 & 10292.79 \\
+    8     & 0.0219178 & 17797.97 &       & 23    & 0.0630137 & 10236.85 \\
+    9     & 0.0246575 & 16198.46 &       & 24    & 0.0657534 & 10202.25 \\
+    10    & 0.0273973 & 14958.87 &       & \textbf{25}    & \textbf{0.0684932} & \textbf{10186.42} \\
+    11    & 0.030137 & 13981.05 &       & 26    & 0.0712329 & 10187.22 \\
+    12    & 0.0328767 & 13199.56 &       & 27    & 0.0739726 & 10202.77 \\
+    13    & 0.0356164 & 12569.09 &       & 28    & 0.0767123 & 10231.51 \\
+    14    & 0.0383562 & 12057.27 &       & 29    & 0.0794521 & 10272.08 \\
+    15    & 0.0410959 & 11640.39 &       & 30    & 0.0821918 & 10323.28 \\
+    \bottomrule
+    \end{tabular}%
+\end{center}
+
+It appears that ordering every 25 days is the best option.
+\end{solution}
+\end{exercise}
+
+
+\begin{exercise}
+Let us consider an alternative policy where we place a joint order every $T$ periods, but order each individual product every $m_i T$ periods. Could this policy be a better option as compared to the previous policy?
+
+
+\begin{solution}
+It indeed could. It could give more flexibility in setting a suitable order frequency for different products while ``keeping the joint order frequency constant'', i.e. we still place an order every $T$ periods while skipping some of the products each time.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Write an expression for the total costs assuming that we use this alternative policy.
+
+
+\begin{solution}
+We place a joint order every $T$ periods. Thus, we pay $\frac{A}{T}$ for the joint orders. As for the individual orders; because  we place an individual order for product $i$ every $m_i T$ periods, the order quantities should be $Q_i = m_i T D_i$. Therefore, for product $i$, the average inventory level is $\frac{Q_i}{2}=\frac{m_i T D_i}{2}$ and the number of orders per year is $\frac{1}{m_i T}$. Based on these, we can write the total cost as
+\begin{align*}
+\frac{A}{T} + \sum_{i=1}^N \left(\frac{h_i m_i T D_i}{2} + \frac{a_i}{m_i T}\right).
+\end{align*}
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Let us consider the following policy: We order Products 1 and 2 every $25$ days and Products 3 and 4 every $50$ days. What would be the total cost per year? How does this cost compare against ordering all four products every 25 days?
+
+
+\begin{solution}
+Here, we have $T=25$ days ($\frac{25}{365}$ years) and $m=\{1,1,2,2\}$. If we plug these into our cost expression we obtain
+
+\begin{align*}
+& = \frac{A}{T} + \sum_{i=1}^N \left(\frac{h_i m_i T D_i}{2} + \frac{a_i}{m_i T}\right) \\
+& = \frac{200\cdot 365}{25} 
++ \left(\frac{3   \cdot 1 \cdot 25 \cdot 2200}{2 \cdot 365} + \frac{15 \cdot 365}{1 \cdot 25} \right) 
++ \left(\frac{30  \cdot 1 \cdot 25 \cdot 4200}{2 \cdot 365} + \frac{10 \cdot 365}{1 \cdot 25} \right) \\
+& \hspace{3cm} 
++ \left(\frac{15  \cdot 2 \cdot 25 \cdot 100 }{2 \cdot 365} + \frac{50 \cdot 365}{2 \cdot 25} \right) 
++ \left(\frac{300 \cdot 2 \cdot 25 \cdot 40  }{2 \cdot 365} + \frac{80 \cdot 365}{2 \cdot 25} \right) = 9699.753.
+\end{align*}
+This seems to be much better than the policy of ordering ``all'' products every 25 days. 
+\end{solution}
+\end{exercise}
+
+
+\begin{exercise}
+We have observed that having flexibility in individual order frequencies for different products may provide cost advantages. But finding the best order frequencies even in a periodic review setting is still difficult, as one may need to try and evaluate a large number of possible values for each $m_i$. Is there a way of simplifying this by reducing the number of $m_i$ values that we evaluate?
+
+
+\begin{solution}
+It is possible to use the so-called ``power-of-two'' approach. Here, one evaluates not all possible integers for $m_i$, but just powers of two. That is $m_i$ can only be $2^0=1$, $2^1=2$, $2^2=4$, $2^3=5$, and so on. Here, we define $m_i=2^{n_i}$. For instance, if $m_i=4$ we place an order for the $i$th product every $2^{n_i}T$ periods. Then, we only need to decide on $n_i$. Because the powers of two grow very rapidly, the number of values to be evaluated is very small.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Making use of a power-of-two approach seems promising. But, how can we be sure that power-of-two approach yields ``good'' results?
+
+
+\begin{solution}
+It has been theoretically shown that selecting the ``time between orders'' using a power-of-two approach and fixing the order quantity accordingly would yield a policy that is at most \%6 worse than the optimal order quantity, and in practical cases the difference is even smaller than this. 
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Write an expression for the total costs assuming that we use the power-of-two policy.
+
+
+\begin{solution}
+It is almost the same as the previous case. We place a joint order every $T$ periods. Thus, we pay $\frac{A}{T}$ for the joint orders. As for the individual orders; because  we place an individual order for product $i$ every $2^{n_i} T$ periods, the order quantities should be $Q_i = 2^{n_i} T D_i$. Therefore, for product $i$, the average inventory level is $\frac{Q_i}{2}=\frac{2^{n_i} T D_i}{2}$ and the number of orders per year is $\frac{1}{2^{n_i} T}$. Based on these, we can write the total cost as
+\begin{align*}
+\frac{A}{T} + \sum_{i=1}^N \left(\frac{h_i 2^{n_i} T D_i}{2} + \frac{a_i}{2^{n_i} T}\right).
+\end{align*}
+\end{solution}
+\end{exercise}
+
+
+\begin{exercise}
+The cost expression of the power-of-two policy is a function of $T$ and $n_i$ values for each product. How can one find the optimal values of these parameters?
+
+
+\begin{solution}
+To begin with, we assume that we know $T$ and concentrate in optimizing $n_i$ for each product. Let's have a closer look at the cost expression:
+\begin{align*}
+\frac{A}{T} + \sum_{i=1}^N \left(\frac{h_i 2^{n_i} T D_i}{2} + \frac{a_i}{2^{n_i} T}\right)
+\end{align*}
+An important observation here is that the costs related to different products are independent of each other. That is, once can easily compute 
+\begin{align*}
+\frac{h_i 2^{n_i} T D_i}{2} + \frac{a_i}{2^{n_i} T}
+\end{align*}
+for any given $n_i$. 
+
+We know that there is only a handful of reasonable values for $n_i$. For instance, if $T$ is a week, then even $n_i=8$ would be more than three years. Therefore, we can simply make a table of the above expression for different $n_i$ for all products. Let us assume that $T$ is indeed a week. Then we obtain the following table for our example. 
+
+\begin{center}
+    \begin{tabular}{rrr|rrrr}
+    \multicolumn{1}{c}{$n$} & \multicolumn{1}{c}{Days} & \multicolumn{1}{l}{Years} & \multicolumn{1}{c}{Pr 1} & \multicolumn{1}{c}{Pr 2} & \multicolumn{1}{c}{Pr 3} & \multicolumn{1}{c}{Pr 4} \\
+    \toprule
+    0     & 7     & 0.0191781 & 845.43 & \textbf{1729.65} & 2621.53 & 4286.50 \\
+    1     & 14    & 0.0383562 & 517.65 & 2677.15 & 1332.34 & 2315.85 \\
+    2     & 28    & 0.0767123 & \textbf{448.69} & 4963.23 & 709.32 & 1503.13 \\
+    3     & 56    & 0.1534247 & 604.07 & 9730.93 & 440.96 & \textbf{1441.98} \\
+    4     & 112   & 0.3068493 & 1061.49 & 19364.10 & \textbf{393.08} & 2101.81 \\
+    5     & 224   & 0.6136986 & 2049.65 & 38679.31 & 541.75 & 3812.55 \\
+    6     & 448   & 1.2273973 & 4062.63 & 77334.17 & 961.28 & 7429.56 \\
+    7     & 896   & 2.4547945 & 8106.93 & 154656.13 & 1861.46 & 14761.36 \\
+    8     & 1792  & 4.909589 & 16204.70 & 309306.15 & 3692.38 & 29473.83 \\
+    \bottomrule
+    \end{tabular}
+\end{center}
+
+Let us look at each column of this table one by one, and find the row where lowest cost appears. We observe that the optimal power-of-two ``time between orders'' for these products are $n=\{2,1,4,3\}$. Therefore, to minimize costs, we should order the first product every four weeks, the second product every week, the third product every sixteen weeks, and the fourth product every eight weeks. This policy would yield the following cost
+\begin{align*}
+\frac{A}{T} + \sum_{i=1}^4 \left(\frac{h_i 2^{n_i} T D_i}{2} + \frac{a_i}{2^{n_i} T}\right) 
+= \frac{200\cdot 365}{7} + 448.69 + 1729.65 + 393.08 + 1441.98 = 14441.97
+\end{align*}
+
+The optimization procedure is relatively simple so far. However, the cost we obtained here is much worse than the one that we obtained earlier, i.e. the policy $T=\{25,25,50,50\}$ gives a cost of 9699.753. 
+
+This is due to the basic period $T$. That is, building our policy on a weekly basis was not a good idea. We next concentrate on finding a better value for $T$. This is not so difficult as we can replicate the same analysis with different $T$ values. Here we start from 1 day and keep on increasing $T$ as long as we observe a decrease in total cost. It turns out that we stop at $T=21$ days. The table we obtain for 21 days is below. 
+
+\begin{center}
+    \begin{tabular}{rrr|rrrr}
+    \multicolumn{1}{c}{$n$} & \multicolumn{1}{c}{Days} & \multicolumn{1}{l}{Years} & \multicolumn{1}{c}{Pr 1} & \multicolumn{1}{c}{Pr 2} & \multicolumn{1}{c}{Pr 3} & \multicolumn{1}{c}{Pr 4} \\
+    \toprule
+    0     & 21    & 0.0575342 & \textbf{450.58} & \textbf{3798.47} & 912.20 & 1735.68 \\
+    1     & 42    & 0.1150685 & 510.08 & 7336.22 & 520.83 & \textbf{1385.65} \\
+    2     & 84    & 0.230137 & 824.63 & 14542.08 & \textbf{389.86} & 1728.44 \\
+    3     & 168   & 0.460274 & 1551.49 & 29018.99 & 453.84 & 2935.45 \\
+    4     & 336   & 0.9205479 & 3054.10 & 58005.38 & 744.73 & 5610.19 \\
+    5     & 672   & 1.8410959 & 6083.76 & 115994.47 & 1407.98 & 11090.03 \\
+    \bottomrule
+    \end{tabular}
+\end{center}
+
+ We observe that the optimal power-of-two ``time between orders'' for these products are $n=\{0,0,2,1\}$. This policy would yield the following cost
+ \begin{align*}
+\frac{A}{T} + \sum_{i=1}^N \left(\frac{h_i 2^{n_i} T D_i}{2} + \frac{a_i}{2^{n_i} T}\right) 
+= \frac{200\cdot 365}{21} + 450.58 + 3798.47 + 389.86 + 1385.65 = 9500.75.
+\end{align*}
+\end{solution}
+\end{exercise}
+Note that this is lower than any other policy that we have seen before. 
+
+
+\begin{exercise}
+We have so far assumed that fixed transportation costs as well as the individual ordering costs are known. In many cases, companies do not have a clue on what those costs might be. Is there a rule of thumb that can be used in such cases?
+
+
+\begin{solution}
+In such cases there is not much to do apart from making use of expert opinions. Nevertheless, inventory problems are too difficult to put up with by any expert. Therefore, it is important to find a way to use expert opinions in a simple yet effective fashion. 
+
+A viable option here is to ask experts what would be a reasonable order frequency over all products (rather than e.g. detailed ordering and transportation costs). If it is believed that $F$ is a reasonable order frequency (i.e. $1/F$ orders per year), then we would not like to deviate from that, and keep the frequency of individual orders below that frequency. This would lead to the following optimization problem:
+\begin{align*}
+\min \quad
+	& \frac{1}{2} \sum_{i=1}^N h_i Q_i \\
+\text{subject to} \quad
+	& \frac{1}{N} \sum_{i=1}^N \frac{D_i}{Q_i} \leq F
+\end{align*}
+
+Here, we want to find the minimum total holding cost (see $1/2 \sum_{i=1}^N h_i Q_i$) while making sure that the average order frequency is below $F$ (see $1/N \sum_{i=1}^N D_i/Q_i \leq F$). Once such an $A$ is found, we can plug that in into the EOQ formula and obtain order quantities right away.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+How can we find the minimum total holding cost while making sure that the average order frequency is below a given order frequency $F$? 
+
+
+\begin{solution}
+This is a mathematical optimization problem which sounds rather nasty. However, solving it boils down to ``finding an $A$ such that $F(A)=1/N \sum_{i=1}^N D_i/Q_i=F$ where $Q_i=\sqrt{\frac{2AD_i}{h_i}}$''. Therefore, it can be solved by simply checking different values of $A$. 
+\end{solution}
+\end{exercise}
+
+In what follows we consider the example from FP. Here, there are four different products with the following data 
+\begin{align*}
+D=\{1000,1000,100,100\}, h=\{100,10,100,10\}
+\end{align*}
+and individual and joint fixed costs are not known.
+
+\begin{exercise}
+Assume that we want on average 12 orders per year. What should be the order quantity for each product?
+
+
+\begin{solution}
+Let us compute 
+\begin{align*}
+F_i(A)=\frac{D_i}{\sqrt{\frac{2AD_i}{h_i}}} \text{ and } F(A)=\frac{1}{N} \sum_{i=1}^N F_i
+\end{align*}
+for $A=10,20,\ldots,100$. Then, we compare $F(A)$ with $F=12$. We obtain the following table.
+
+\begin{center}
+    \begin{tabular}{rrrrrr}
+\multicolumn{1}{c}{$A$} & \multicolumn{1}{c}{$F_1(A)$} & \multicolumn{1}{c}{$F_2(A)$} & \multicolumn{1}{c}{$F_3(A)$} & \multicolumn{1}{c}{$F_4(A)$} & \multicolumn{1}{c}{$F(A)$} \\
+    \toprule
+    10    & 70.710678 & 22.36068 & 22.36068 & 7.0710678 & 30.625776 \\
+    20    & 50    & 15.811388 & 15.811388 & 5     & 21.655694 \\
+    30    & 40.824829 & 12.909944 & 12.909944 & 4.0824829 & 17.6818 \\
+    40    & 35.355339 & 11.18034 & 11.18034 & 3.5355339 & 15.312888 \\
+    50    & 31.622777 & 10    & 10    & 3.1622777 & 13.696264 \\
+    60    & 28.867513 & 9.1287093 & 9.1287093 & 2.8867513 & 12.502921 \\
+    70    & 26.726124 & 8.4515425 & 8.4515425 & 2.6726124 & 11.575455 \\
+    80    & 25    & 7.9056942 & 7.9056942 & 2.5   & 10.827847 \\
+    90    & 23.570226 & 7.4535599 & 7.4535599 & 2.3570226 & 10.208592 \\
+    100   & 22.36068 & 7.0710678 & 7.0710678 & 2.236068 & 9.6847208 \\
+    \bottomrule
+    \end{tabular}
+\end{center}
+
+It looks like $A$ should be somewhere in between 60 (12.50 orders) and 70 (11.57 orders) to provide an average order frequency of 12. If we repeat our search this time in between 60 and 70, in intervals of 1 units, we find that $A$ should be somewhere in between 65 (12.01 orders) and 66 (11.92 orders). If we continue this search, we find out that $A\approx 65.13$, and $F_1(A)=27.707$, $F_2(A)=8.762$, $F_3(A)=8.762$, and $F_4(A)=2.771$. These immediately translate into $Q_1=36.092$, $Q_2=114.132$, $Q_3=11.413$, and $Q_4=36.092$.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Would it be possible to use the average order frequency framework in connection with the power-of-two approach so as to align orders of different products?
+
+
+\begin{solution}
+The power-of-two approach is simply a restriction which calls for order intervals to be power-of-two multiples of a review period $T$. This can easily be embedded into the order frequency framework. The only prerequisite is to have a review period $T$. Then, one can first compute the order intervals of individual products as $1/F_i(A)$, round them to the nearest power-of-two and compute a revised order quantity accordingly. 
+\end{solution}
+\end{exercise}
+
+
+\begin{exercise}
+Let us consider our example once again and assume that we want on average 12 orders per year. What should be the order quantities for each product if we use a power-of-two approach with a review period of a day and of a week? 
+
+
+\begin{solution}
+We know from the previous exercise that the optimal order frequencies that would result in on average 12 orders per year are $F_1(A)=27.707$, $F_2(A)=8.762$, $F_3(A)=8.762$, and $F_4(A)=2.771$. Therefore, the order intervals are; $T_1=13.173$, $T_2=41.658$, $T_3=41.658$, $T_4=131.734$ (all in days). 
+
+Let's say we use a review period of a day. Then the order intervals can be rounded as $\hat{T}_1=1\cdot 2^4=16$, $\hat{T}_2=1\cdot 2^5=32$, $\hat{T}_3=1\cdot 2^5=32$, and $\hat{T}_4=1\cdot 2^7=128$ (all in days). The order quantities are then $\hat{Q}_1=43.835$, $\hat{Q}_2=87.671$, $\hat{Q}_3=8.767$, and $\hat{Q}_4=35.068$.
+
+Let's say we use a review period of a week. Then the order intervals can be rounded as $\hat{T}_1=7\cdot 2^1=14$, $\hat{T}_2=7\cdot 2^3=56$, $\hat{T}_3=7\cdot 2^3=56$, and $\hat{T}_4=7\cdot 2^4=112$ (all in days). The order quantities are then $\hat{Q}_1=38.356$, $\hat{Q}_2=153.425$, $\hat{Q}_3=15.342$, and $\hat{Q}_4=30.685$.
+
+It is important to note that rounding order intervals to the nearest power-of-two, might change the individual order frequencies as well as the average frequency. If the discrepancy between the resulting average order frequency and the desired one is high, then we may need to manually adjust the frequencies and quantities.
+\end{solution}
+\end{exercise}
+
+We shall now discuss how we can use the idea of periodic review in inventory systems with stochastic demands. In deterministic systems, when we know the review period, we can immediately set the order intervals of individual products as integer multiples of the review period and thereof we can compute the order quantities. In stochastic systems, however, even when we know the review period, we still need to decide which inventory policy we use for each product. In order to avoid confusion (with order intervals); we use $R$ to denote the review period in the following.
+
+\begin{exercise}
+What are the sequence of events in each review period in a periodic review inventory system?
+
+
+\begin{solution}
+At the beginning of each review period, say every $R$ periods of time, we observe the current inventory level (inventory on-hand or backorders) and position (inventory level plus the pipeline inventory). Then, based on this information and the inventory control policy in place, we decide whether to order and if so how much to order. Finally, we let the inventory system run over $R$ periods (we do not interfere with the system during this time). Over the review period, inventory level may increase if a replenishment order arrives that was ordered $L$ (lead-time) periods in advance and decrease as demands realize over time. 
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+What is the effect of using periodic review on the safety stocks?
+
+
+\begin{solution}
+In continuous review systems, we have the possibility to interfere the system whenever demands realized. In periodic review system, however, we have less flexibility as we only interfere with the system at the start of each review interval. As such, it is intuitive that we hold more safety stock.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+What are the advantages and disadvantages of periodic review systems as compared to the continuous review systems?
+
+
+\begin{solution}
+\begin{description}
+\item[Advantages:] 
+\begin{enumerate}
+\item Inventories are reviewed less frequently. This leads to a reduction in the overhead costs as compared to perpetual review and control of the system.
+\item It inherently allows for joint ordering of products, therefore makes it easier to manage systems especially with a large variety of products. 
+\item It increases the efficiency of transportation planning (which is often not addressed in the context of inventory management).
+\item It is common that suppliers make deliveries on a daily or weekly basis. It is natural to use a periodic review approach in such environments -- as continuous review is simply not possible.
+\end{enumerate}
+\item[Disadvantages:]
+\begin{enumerate}
+\item The inventory control is less responsive to demand realizations. For instance, one needs to wait until the next review period even if the inventory on-hand drops down to zero early in the current review period (simply because inventory is not reviewed). 
+\item It requires larger safety stocks and therefore increases inventory related costs.
+\end{enumerate}
+\end{description}
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+How can we compute the safety stocks in a periodic review system?
+
+
+\begin{solution}
+The safety stock is a function of the amount of time that the system is exposed to uncertainty. A continuous review system is exposed to uncertainty during the lead time $L$. That is why a replenishment order is placed at time $t$ in a continuous review system if the inventory position $IP_t$ hits to a level that is just sufficient to cover (under some service level) the demand during lead time, i.e. the interval $[t,t+L)$. 
+
+A periodic review system, on the other hand, is exposed to uncertainty for $R+L$ periods of time. That is because the inventory position (not the inventory level) that is reached at the beginning of a review period, should be sufficient to cover not only a whole review period, but also the lead time of the next order. Therefore, one should place a replenishment order at time $t$ in a periodic review system right before the inventory position $IP_t$ drops below a level that is just sufficient to cover (under some service level) the demand during the review period and the lead time, i.e. the interval $[t,t+R+L)$. 
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+What are the most common inventory control policies that are used in periodic review systems?
+
+
+\begin{solution}
+There are two policies that definitely worth mentioning: $(R,S)$ policy and $(R,s,S)$ policy. For both policies, $R$ is the review period. 
+
+In an $(R,S)$ policy; at the beginning of every review period an order is placed to increase the inventory position up to the level $S$. This policy is also referred to as the periodic review base-stock policy -- the analogy is apparent. Here, for a given review period $R$, one should find an $S$ which is sufficient to cover (under some service level) the demand during the review period and the lead time. The value of $R$ here is critical as it is determines the ordering frequency and therefore the fixed ordering costs per unit time.
+
+In an $(R,s,S)$ policy; at the beginning of every review period an order is placed to increase the inventory position up to the level $S$ if the current inventory position is below $s$. Note that the $(R,s,S)$ policy practically becomes an $(R,S)$ policy if $s$ is very small negative number. Therefore, it provides more flexibility as compared to the $(R,S)$ policy and yields a better cost performance. Here, for a given review period $R$, one should find and $s$ which is sufficient to cover (under some service level) the demand during the review period and the lead time. It is mathematically involved to optimize the value of $S$. However, a practical heuristic could be to use EOQ formula on the average demand and obtain an order quantity $Q$, and to set $S=s+Q$.
+\end{solution}
+\end{exercise}

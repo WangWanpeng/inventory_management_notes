@@ -1,175 +1,408 @@
+\section{(Q,r) Model}
+\label{sec:q-r-model}
 
-\subsection{$(Q,r)$ Model}
+\Opensolutionfile{ans}
 
-\subsubsection{Computing the service level}
+The $(Q,r)$ policy is a generalization of the basestock policy to deal with systems that involve ordering costs besided inventory and backlogging costs. 
 
-The service level is
-\begin{equation}
-  \label{eq:5}
-  \begin{split}
-   S(Q,r) 
-   &= \frac1Q \sum_{i=r}^{r+Q-1} S(i) \\
-   &= \frac1Q \sum_{i=r}^{r+Q-1} G(i),
-  \end{split}
+\subsection{Simulation}
+
+We develop a number of recursions by which we  simulate an inventory system under a $(Q,r)$-rule. The reader should notice that the rules share a similarity to the those of the base-stock policy, but there are subtle differences. 
+
+First we deal with the dynamics of the inventory position $\IP_i$ at the end of period $i$. When $\IP_{i-1}\leq r$, we place at the start of period $i$ a number $n_i$ of batches, each of size $Q$, such that $\IP_{i-1} + n_i Q > r$. Then, letting  $n_i=0$ if $\IP_i \geq r+1$, define the order quantity as 
+\begin{equation}\label{eq:20}
+Q_i = n_i Q \1{\IP_{i-1}\leq r}
 \end{equation}
-where $S(i)$ is the service level of the basestock model with reorder
-level $i$, i.e. $S(i)=G(i)$ is given by \eqref{eq:13}.  To verify that
-the summation should start at $r$, and not at $r+1$ (as I have found
-somewhere), we can take $Q=1$, as then the $(Q,r)$ model reduces to
-the basestock model. The above formula then gives $S(1,r)= G(r)$, and
-this is the same formula as found for the basestock model, i.e.,
-\eqref{eq:13}.
+
+\begin{exercise}
+  Show that the basestock policy is a $(Q,r)$ policy with $Q=1$. 
+\end{exercise}
 
 
-Factory Physics mentions also the following formula:
-\begin{equation}
-  \label{eq:1}
+Combining the expression for $Q_i$ with $\IP_{i-1}$ we arrive at the recursion
+\begin{equation}\label{eq:6}
+  \IP_{i} = \IP_{i-1} + Q_{i} - D_i.
+\end{equation}
+
+
+\begin{exercise}
+  What is the largest value of $n_i$ if $Q$ is larger than the largest possible demand, i.e,. $Q\geq D_i$ for all $i$?
+  \begin{solution}
+    In such case $n_i\leq 1$: suppose $\IP_{i-1} > r$ and $\IP_i \leq r$, then 
+    \begin{equation*}
+\IP_i > r-D_i \geq r - Q.
+    \end{equation*}
+Thus, by ordering $Q$, $\IP_{i+1} > r$ again.
+  \end{solution}
+\end{exercise}
+
+
+\begin{exercise}
+The inventory position at the start of period $i$ is equal to $\IP_{i-1} + Q_i$.   Explain that 
+\begin{equation*}
+  r+1 \leq \IP_{i-1}+Q_i \leq r + Q.
+\end{equation*}
+\begin{solution}
+  If $\IP_{i-1} \leq r$, we order the number $n_i$ of batches $Q$ such that $r+1\leq \IP_{i-1} + n_i Q \leq r+Q$. 
+\end{solution}
+\end{exercise}
+
+Similar to the basestock model, replenishments arrive $L$ period later. Hence, the inventory level satisfies~\eqref{eq:b5}, i.e., 
+\begin{equation}\label{eq:1}
+  \IL_{i} = \IL_{i-1} + Q_{i-L} - D_i.
+\end{equation}
+
+\begin{exercise}
+How do the recursions for the $(Q,r)$-policy differ from those of the basestock policy?
+  \begin{solution} Only the ordering triggering rules for $Q_i$ differ. Compare~\eqref{eq:11} and \eqref{eq:20}.
+  \end{solution}
+\end{exercise}
+
+
+It can be seen from the above that
+
+\begin{exercise}
+Finally, show that
+  \begin{equation}\label{eq:7}
+    \IL_i = \IP_i - \sum_{j=i-L+1}^i Q_j.
+  \end{equation}
+Thus, noting that $\sum_{j=i-L+1}^i Q_j$ is the amount of outstanding orders in period $i$, we see that $\IL_i$ is the inventory position $\IP_i$ at the end of the period minus all outstanding orders.
+\begin{solution}
+  If we   subtract~\eqref{eq:21} from \eqref{eq:8} we get 
+  \begin{align*}
+    \IP_i - \IL_i 
+&= \IP_{i-1} + Q_{i} - \IL_{i-1} - Q_{i-L} \\
+&= \IP_{i-2} - \IL_{i-2} + \sum_{j=i-1}^i Q_{j} - \sum_{j=i-L-1}^{i-L} Q_{j} \\
+&= \IP_{0} - \IL_{0} + \sum_{j=1}^i Q_{j} - \sum_{j=1}^{i-L} Q_{j} &\text{as }Q_j=0, j\leq 0\\
+&= \sum_{j=1}^i Q_{j} - \sum_{j=1}^{i-L} Q_{j} &\text{as }\IP_0 = \IL_0\\
+&= \sum_{j=i-L+1}^i Q_{j}.
+  \end{align*}
+\end{solution}
+\end{exercise}
+
+
+
+It can be seen from the above that
+  \begin{equation}\label{eq:7}
+    \IL_i = \IP_i - \sum_{j=i-L+1}^i Q_j.
+  \end{equation}
+Thus, noting that $\sum_{j=i-L+1}^i Q_j$ is the amount of outstanding orders in period $i$, we see that $\IL_i$ is the inventory position $\IP_i$ at the end of the period minus all outstanding orders.
+
+\begin{exercise}
+  Subtract \eqref{eq:6} and \eqref{eq:1} to show \eqref{eq:7}.
+\begin{solution}
+  If we   subtract \eqref{eq:6} from \eqref{eq:1} we get 
+  \begin{align*}
+    \IP_i - \IL_i 
+&= \IP_{i-1} + Q_{i} - \IL_{i-1} - Q_{i-L} \\
+&= \IP_{i-2} - \IL_{i-2} + \sum_{j=i-1}^i Q_{j} - \sum_{j=i-L-1}^{i-L} Q_{j} \\
+&= \IP_{0} - \IL_{0} + \sum_{j=1}^i Q_{j} - \sum_{j=1}^{i-L} Q_{j} &\text{as }Q_j=0, j\leq 0\\
+&= \sum_{j=1}^i Q_{j} - \sum_{j=1}^{i-L} Q_{j} &\text{as }\IP_0 = \IL_0\\
+&= \sum_{j=i-L+1}^i Q_{j}.
+  \end{align*}
+\end{solution}
+\end{exercise}
+
+
+\begin{exercise}
+  Show how~\eqref{eq:7} reduces to \eqref{eq:b2} for the basestock model.
+  \begin{solution}
+For the basestock policy
+    \begin{align*}
+      \IL_i &= r+1 - D[i-L, i] & \text{by \eqref{eq:b2}} \\
+&= r+1 -D_i - D[i-L, i-1] \\
+&= \IP_i - D[i-L, i-1] & \text{ by \eqref{eq:9}}.
+    \end{align*}
+But, also,     for the basestock policy we have, by~\eqref{eq:22b}, that 
+\begin{align*}
+\sum_{i=i-L+1}^i Q_j 
+&= \sum_{i=i-L+1}^i D_{j-1} \\ 
+&= \sum_{i=i-L}^{i-1} D_{j} \\ 
+&=D[i-L, i-1].
+\end{align*}
+  \end{solution}
+\end{exercise}
+
+\begin{exercise}
+  Explain that if $Q>1$, in general,
+  \begin{align*}
+    \P{Q_i= k} \neq \P{D_i = k}.
+  \end{align*}
+Hence, the distribution of $\sum_{j=i-L}^i Q_j$ is not the same as $D[i-L, i]$. 
+\begin{solution}
+It can happen that during a period just one customer arrives, hence  $\P{D_i=1}>0$. However, $\P{Q_i=1}=0$ since we never order in single units. 
+\end{solution}
+\end{exercise}
+
+As we will see, for the  analysis  of the $(Q,r)$-policy, \eqref{eq:7} is much less useful than~\eqref{eq:15}. 
+
+The performance measures for the $(Q,r)$-model are identical to those of the basestock model. The cost should include also the ordering costs. 
+
+\begin{exercise}
+  Explain that the average costs becomes
+  \begin{equation*}
+    \frac A  n \sum_{i=1}^n \1{Q_i > 0} + h I + b B.
+  \end{equation*}
+  \begin{solution}
+    The second and third term correspond to the average holding and backlogging cost. For the first, observe that $\sum_{i=1}^n \1{Q_i>0}$ counts the number of times an order is placed during the simulation with a duration of $n$  periods. 
+  \end{solution}
+\end{exercise}
+
+\begin{comment}
+If you were to plot the inventory positions as a set of points, see Figure~\ref{fig:qr_demand} then
+\begin{itemize}
+\item $\IP_t$ becomes  the point $(t-1+\epsilon, \IP_t)$, 
+\item $IP_t'$ becomes the point $(t-\epsilon, IP_t')$
+\item $D_t$  becomes the point $(t-1/2, D_t)$
+\item $Q_t$  becomes the point $(t, Q_t)$.
+\end{itemize}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tabular}[h]{cc}
+\input{progs/qr_start_end_figures}\\
+\input{progs/qr_level_figures}\\
+  \end{tabular}
+  \caption{Upper panel: Behavior of $\IP_t$ and $\IP_t'$ as functions of time. Lower panel: a graph of the inventory level $\IL_t$. Observe in the lower panel that the replenishments arrive $L=3$ periods later.}
+\label{fig:qr_demand}
+\end{figure}
+\end{comment}
+
+\begin{comment}
+  \begin{enumerate}
+  \item   Exercises on systems with loss
+  \item graphical `proof' of insensitivity of cost on Q and r around the minimum.
+  \end{enumerate}
+\end{comment}
+
+\subsection{Analytic Results}
+
+For  the ready rate, i.e., $S_r(Q,r) = \P{\IL_i > 0}$ as a function of the policy parameters $Q$ and $r$ we find that
+\begin{align}\label{eq:5}
+   S(Q,r) = \frac1Q \sum_{k=r}^{r+Q-1} S_r(k) = \frac1Q \sum_{k=r}^{r+Q-1} F(k) 
+\end{align}
+where $S_r(i)=F(i)$ is the ready rate  of the basestock model with reorder
+level $k$, and $F(k)$ is given by~\eqref{eq:16}. 
+
+\begin{exercise}[\faRocket]
+Derive
+% (This is a technical exercise, you do not have to solve it if you are not interested in probability theory.)
+\begin{solution}
+
+\begin{align*}
+  \P{\IL_i > 0} 
+&= \P{\IP_{i-L} - D[i-L+1, i] >0} \\
+&= \sum_{k}\P{\IP_{i-L} - D[i-L+1, i] >0\given \ldots} \\
+\end{align*}
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+  What result do you get if the order quantity $Q=1$? 
+  \begin{solution}
+\begin{align*}
+   S_r(1,r) = \frac11 \sum_{i=r}^{r+1-1} F(i) = S_r(r).
+\end{align*}
+This is the same formula as found for the basestock model.
+  \end{solution}
+\end{exercise}
+
+\begin{exercise}
+  For the demand of Exercise~\ref{q:basestock}, compute $S_r(2,1)$, i.e., $S_r(Q, r)$ for $Q=2$ and $r=1$. 
+
+\begin{solution}
+With $Q=2$ and $r=1$,
+  \begin{align*}
+      S(2,1)
+&= \frac{1}Q\sum_{k=r}^{r+Q-1} F(k) \\
+&= \frac{1}2\sum_{k=1}^{1+2-1} F(k) \\
+&=  \frac 12 (F(1) + F(2) ) \\
+&= \frac12\left(\frac{11}{30} + \frac{37}{60}\right) \\
+&=\frac{59}{120}.
+  \end{align*}
+
+Here is the python code to compute the numbers. You don't have to memorize the code, but implementing in code helps to check the numbers.
+  \begin{pyconsole}
+from fractions import Fraction
+p = [ Fraction(1,6),
+      Fraction(1,5),
+      Fraction(1,4),
+      Fraction(1,8),
+      Fraction(11,120),
+      Fraction(1,6)
+      ]
+
+F = np.cumsum(p)
+F
+
+def S(Q,r):
+    res = sum(F[i] for i in range(r, r+Q))
+    return res/Q
+
+S(2,1)
+  \end{pyconsole}
+\end{solution}
+\end{exercise}
+
+
+
+%\lstinputlisting[language=Python]{progs/basestock.py}
+
+\begin{exercise}[\faRocket]
+Show that 
+\begin{equation}\label{eq:18}
    S(Q,r) = 1- \frac1Q [B(r-1) - B(r+Q-1)],
 \end{equation}
-where $B(r)$ can be computed according to \eqref{eq:12}.  I find
-expression \eqref{eq:5} conceptually more important than \eqref{eq:1}. 
-
-\begin{remark}
+where $B(r)$ is the expected number of backorders of the basestock model, i.e., it is given by \eqref{eq:12}. 
+\begin{solution}
+tbd
   
-It
-appears that in Eq. 2.70 of FP, edition 3, are is off by one. To see
+It appears that Eq. 2.70 of FP, edition 3, is off by one. To see
 this, we prove that \eqref{eq:1} is indeed the same as \eqref{eq:5}. It
 follows from \eqref{eq:1} and \eqref{eq:5} that
-\begin{equation*}
-  \begin{split}
+\begin{align*}
    B(r-1) - B(r+Q-1) 
    &= Q - Q S(Q,r) \\
    &= Q - \sum_{i=r}^{r+Q-1} S(i) \\
    &= \sum_{i=r}^{r+Q-1}(1- S(i)) \\
    &= \sum_{i=r}^{r+Q-1}(1- G(i)),
-  \end{split}
-\end{equation*}
+\end{align*}
 since $\sum_{i=r}^{r+Q-1} 1 = Q$. From \eqref{eq:13} we see that $S(i)
 = G(i)$. With \eqref{eq:18} this becomes
-\begin{equation*}
-  \begin{split}
+\begin{align*}
     B(r-1) - B(r+Q-1)
     &= \sum_{i=r}^{r+Q-1}(1- G(i))\\
     &= \sum_{i=r}^{r+Q-1} \bar G(i)\\
     &= \sum_{i=r}^{\infty} \bar G(i) -\sum_{i=r+Q}^\infty \bar G(i).
-  \end{split}
-\end{equation*}
+\end{align*}
 From \eqref{eq:19} it follows that $B(r-1)=\sum_{i=r}^{\infty} \bar
 G(i)$, and likewise for $B(r-1+Q)$. We are done.
-\end{remark}
+\end{solution}
+\end{exercise}
 
-\subsubsection{Computing  backorders}
+\begin{exercise}
+  Check that the result of~\eqref{eq:5} and \eqref{eq:18} agree for the data of Exercise~\ref{q:basestock}. 
+  \begin{solution}
+Here is the code and some intermediate numbers so that you can check your computations.
 
-The expected number of back-orders is 
+    \begin{pyconsole}
+def B(r):
+    return sum((i-r-1)*p[i] for i in range(r+1, len(p)))
+   
+r = 1
+Q = 2
+   
+B(r-1)
+B(r+Q-1)
+1-(B(r-1)-B(r+Q-1))/Q
+    \end{pyconsole}
+  \end{solution}
+\end{exercise}
+
+Conceptually, \eqref{eq:5} is more important than \eqref{eq:18}; however, \eqref{eq:18}  provides for a nice approximation.
+
+\begin{exercise}
+tbd:  Make an exercise to discuss this claim.
+\end{exercise}
+
+\begin{exercise}
+Show that the expected number of back-orders is  given by
 \begin{equation}
   \label{eq:14}
-   B(Q,r) = \frac1Q \sum_{i=r}^{r+Q-1} B(i),
+   B(Q,r) = \frac1Q \sum_{k=r}^{r+Q-1} B(k),
 \end{equation}
-where $B(i)$ is defined in \eqref{eq:12}. To convince ourselves
-that the summation has to start at $r$, observe that for
-$Q=1$, we get \eqref{eq:12} of the basestock model.
+where $B(i)$ is defined in \eqref{eq:12}. (This is technical)
+\begin{solution}
+tbd.
+\end{solution}
+\end{exercise}
 
 
-\subsubsection{Expected Inventory Level}
+\begin{exercise}
+  Take the data from Exercise~\ref{q:basestock}. Suppose $r=1$ and $Q=2$. What is $B(Q,r)$?
+\begin{solution}
+Use~\eqref{eq:14} and the results of Exercise~\ref{q:basestock_B}
+  \begin{align*}
+      B(2,1)
+&= \frac1Q \sum_{k=r}^{r+Q-1} B(k) \\
+&= \frac12 \sum_{k=1}^{2} B(k) \\
+&= \frac12 (B(1) + B(2)) \\
+&= \frac12 \left(\frac{97}{120} + \frac{17}{40}\right) = \frac{37}{60}.
+\end{align*}
 
-The expected inventory level can be found as follows. Let $I(r)$
-be the long-run time average inventory level, i.e., \eqref{eq:6}. Then,
+\begin{pyconsole}
+def BB(Q,r):
+    res = sum(B(k) for k in range(r, r+Q))
+    return res/Q
 
-\begin{equation}\label{eq:2}
-  \begin{split}
+BB(2,1)
+\end{pyconsole}
+\end{solution}
+\end{exercise}
+
+
+\begin{exercise}[\faRocket]
+Show that  the expected inventory level satifies
+\begin{align}\label{eq:2}
+   I(Q,r)
+   = \frac1Q\sum_{k=r}^{r+Q-1} I(k)
+   = \frac{Q+1}2 + r - \theta + B(Q,r), 
+\end{align}
+where $I(k)$ is the average inventory level of the basestock model with reorder level $k$, i.e.,  \eqref{eq:14}.
+\begin{solution}
+tbd
+
+\begin{align*}
    I(Q,r)
    &= \frac1Q\sum_{i=r}^{r+Q-1} I(i) \\
    &= \frac1Q\sum_{i=r}^{r+Q-1} (i+1 - \theta + B(r)) \\
    &= \frac1Q\sum_{i=r}^{r+Q-1} (i + 1)  - \theta + \frac1Q\sum_{i=r}^{r+Q-1} B(r) \\
    &= \frac{Q+1}2 + r - \theta + B(Q,r), 
-  \end{split}
-\end{equation}
-where we use \eqref{eq:14}. What do you get when $Q=1$?
+\end{align*}
 
-Formulas to skip (in edition 3): 2.38, 2.41, 2.42, 2.43.
-
-\begin{question}
-  Take the data from Exercise~\ref{q:basestock}. Suppose $r=1$ and $Q=2$. What is $S(Q,r)$?
-\end{question}
-\begin{solution}
-  Use~\eqref{eq:5}.
-  \begin{equation*}
-    \begin{split}
-      S(2,1)
-&= \frac{1}Q\sum_{i=r}^{r+Q-1} G(i) \\
-&= \frac{1}Q\sum_{i=r}^{r+Q-1} \P{X\leq i} \\
-&= \frac{1}Q\sum_{i=1}^{1+2-1} \P{X\leq i} \\
-&= \frac 12 \sum_{i=1}^{2} \P{X\leq i} \\
-&=  \frac 12 (\P{X\leq 1} + P{X\leq 2}) \\
-&= \frac12(11/30 + 37/60) = 59/120.
-    \end{split}
-  \end{equation*}
 \end{solution}
-
-\begin{question}
-  Take the data from Exercise~\ref{q:basestock}. Suppose $r=1$ and $Q=2$. What is $B(Q,r)$?
-\end{question}
-\begin{solution}
-Use~\eqref{eq:14} and the results of Exercise~\ref{q:basestock_B}
-  \begin{equation*}
-    \begin{split}
-      B(2,1)
-&= \frac1Q \sum_{i=r}^{r+Q-1} B(i) \\
-&= \frac12 \sum_{i=1}^{2} B(i) \\
-&= \frac12 (B(1) + B(2)) \\
-&= \frac12 \left(\frac{97}{120} + \frac{17}{40}\right) = \frac{37}{60}.
-\end{split}
-\end{equation*}
-\end{solution}
+\end{exercise}
 
 
-\begin{question}
+
+
+\begin{exercise}
   Take the data from Exercise~\ref{q:basestock}. Suppose $r=1$ and $Q=2$. What is $I(Q,r)$?
-\end{question}
+
 \begin{solution}
-  Use~\eqref{eq:2} and the previous exercise and the result of Exercise~\ref{q:basestock_theta}.
+  Use~\eqref{eq:2} and the previous exercise and the result of Exercise~\ref{q:basestock}.
 
   \begin{equation*}
     I(2,1)  = \frac{2+1}2 + r - \frac{91}{40}+ \frac{37}{60} = \frac{101}{120}.
   \end{equation*}
+
+Lets check it with the computer.
+\begin{pyconsole}
+theta = sum(i*p[i] for i in range(6))
+theta
+
+def I(Q,r):
+    return Fraction(Q+1,2) + r - theta + BB(Q,r)
+
+I(2,1)
+\end{pyconsole}
 \end{solution}
+\end{exercise}
+
+Formulas to skip (in edition 3): 2.38, 2.41, 2.42, 2.43.
+
+\Closesolutionfile{ans}
+\opt{solutionfiles}{
+\subsection{Solutions}
+\input{ans}
+}
 
 
-\subsubsection{Simulation of the (Q,r) inventory model}
-
-Consider a periodic-time model so that the inventory position $\IP_t$ is the inventory position as the \emph{start} of period $t$ and $\IP_t'$
-is the inventory position at the \emph{end} of period $t$. Then the sequence
-$\{\IP_t\}$ must satisfy the recursion:
-\begin{align*}
-  \IP_{t-1}' &= \IP_{t-1} - D_t, \\
-  \IP_t &= \IP_{t-1}' + Q \1{\IP_{t-1}'\leq r}.
-\end{align*}
-To see this, observe that under the $(Q,r)$ policy the inventory
-position is always kept above level $r$. Thus, if the inventory
-position at the end of period $i-1$ minus the demand $D_t$ during
-period $t$ is less than $r+1$, we need to place a replenishment
-reorder of size $Q$.  Note that we assume here that $D_i\leq Q$ always.
-
-When the leadtime $L$ is one period or more, the replenishments do not
-arrive right away but $L$ periods later. The consequences of the
-inventory level are that
-\begin{equation}
-  \IL_t = \IL_{t-1} - D_t + Q\1{\IP_{t-1-L}'\leq r}.
-\end{equation}
-Compare~\eqref{eq:21} of the basestock model.
-
-The performance measures are the same as for the basestock model discussed in Section~\ref{sec:simul-basest-invent}.
-
-
-\subsubsection{Example Code}
-\label{sec:qr_example-code}
-
-Here is the code by which we computed the answers to the exercises. We include it for the interested student; feel free to skip it otherwise.
-
-\lstinputlisting[language=Python]{basestock.py}
-
-
+\clearpage
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "notes_all"
+%%% TeX-master: "inventory_notes"
 %%% End:
+
+
+

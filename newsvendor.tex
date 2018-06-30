@@ -1,397 +1,1834 @@
-\subsection{News boy/vendor model}
+\newcommand{\Q}{S}
 
-We use the notation of Factory Physics (FP). Note that the formulas in
-FP are in terms of integrals rather than with summations. We find this
-unsatisfactory since it is easy to evaluate summations in excel (or an
-other programming environment), and carrying out integration is often
-much more difficult. For this reason we derive  results of FP in terms
-of summations. 
+\section{Newsvendor Models}
+\label{sec:newsvendor-models}
 
 
-We develop the newsvendor in stages.  Suppose that a shop sells some
-perishable item with a life time of one day. It has to decide one day
-ahead, or the morning before the shop opens, on the number of items to
-order/make/prepare. The costs are
+%\input{nw_functions.tex}\nvf{to do}
+
+\Opensolutionfile{ans}
+
+Perhaps the most well-known stochastic inventory model is the \recall{newsvendor} or \recall{newsboy} model.  In this model there is a  newsvendor who buys newspapers early in the morning, before observing the demand, and then tries to sell these papers during the day. 
+The product here is perishable as newspapers often not have much value the day after they are printed. %Therefore, the newsvendor should plan his operations on a daily basis. 
+Clearly,  the newsvendor's problem is to match the supply to the demand on a daily basis while maximizing the expected profit or minimizing the expected cost. Interestingly, this problem is much more general than its name might indicate; it applies in familiar settings such as bread selling, but it also pops up  in quite unexpected situations such as bed reservations in hospitals. 
+
+
+In the next sections we first analyze the newsvendor model for deterministic demand. Then we generalize to stochastic demand.
+% and consider a number of extensions that are relevant in practical applications. These extensions also clearly illustrate the effect of demand uncertainty in inventory decisions. 
+Finally, we consider a newsvendor problem with two periods. This is not only a relevant problem for, for instance, supermarkets that bake bread twice a day, once to match the morning demand and part of the afternoon demand, the second time to meet the afternoon demand. It is also the simplest extension to inventory systems with a long horizon, that is, systems in which items can be kept for much longer time. 
+
+
+\subsection{Newsvendor policy, main characteristics}
+\label{sec:policy-parameters}
+
+In more general terms, the newsvendor  inventory system behaves as follows. Right before the start of a period, the vendor places an order for items at the cost of $c$ per item. These items are received right after the start of the period, but before any demand arrives. Items sell at a price $p$ per item. Finally any items remaining at the end of the period can be salvaged at price $s$. The problem is to determine the optimal inventory level at which to start the period. 
+
+It is important to observe that in this model we interpret the starting inventory level as an \recall{order-up-to level}, and not as an order quantity. At this point, this may seem a strange: since we start afresh every period, placing an order up to level $S$, say, comes down to ordering an amount $Q=S$. However, as we will see in the analysis of multi-period problems in which unsold items carry over from one period to another, it is much easier to think in terms of order-up-to levels: these levels typically remain constant, while the order quantities depend on the order-up-level and the number of items unsold at the end of the period. Thus, to show the relation between all these models, we chose to formulate the one-period newsvendor inventory problem also in terms of  order-up-to policies.  As a consequence,  our aim is to  determine the optimal order-up-to levels for each period. 
+
+Before we start the analysis of the inventory system, let us make a list of the relevant cost and policy parameters: 
 \begin{align*}
-  p_b &= 5, \text{i.e., Buying price of one item} \\
-  p_s &= 10,  \text{i.e., Selling  price of one item} \\
-  p_e &= 3, \text{i.e, Salvage (end) value of one item} \\
-  c_o &= \text{i.e., Overage cost, Cost of having  one  item over at the end of the day} \\
-  c_s &= \text{i.e., Shortage cost, Cost of being   one  item short during the day} \\
+  c &= \text{Buying price of one item,} \\
+  p &= \text{Selling  price of one item,} \\
+  s &= \text{Salvage (end) value of one item}, \\
+  h &= \text{Overage cost of one item at the end of a period},\\
+  b &= \text{Shortage cost of one item at the end of a period}, \\
+  S &= \text{Order-up-to level, received at the start of a period}.
 \end{align*}
-Cost for overage or underage are linear.  Let $X$ (a random variable)
-be the number of units sold during a particular period, and let $Q$
-denote the number of units ordered.  I assume that
-$g_i = \P\{ X = i\}$ is given.
+Observe that, costs for \recall{overage}, i.e., inventory unsold at the end of the period, or \recall{underage}, i.e., lost sales, are linear.  
 
-
-\begin{question}
-  Can you express $c_o$ and $c_s$ in terms of the other cost parameters?
+We next discuss some properties of these parameters.
+\begin{exercise}
+  In the models below we assume that each item unsold at the end of the period can be salvaged  at a price $s$ per item. Can $s$ also be negative?
   \begin{solution}
-    $c_o = p_b-p_e$ and $c_s = p_s-p_b$. 
+    Yes, when there is a cost associated with disposing any unsold items. 
   \end{solution}
-\end{question}
+\end{exercise}
 
-
-\begin{question}
-Suppose the daily demand is $X\in \{0,1\}$ and $g(0) = \P(X=0)=1/2 = g(1)$. What would be the best number of items $Q$ to make? 
+\begin{exercise}
+  Why is it reasonable to require that $p > c > s$? 
 \begin{solution}
-  The profit of the choice $Q=0$ is 0. Now consider $Q=1$. What is the profit?  We pay for one unit, and sell it perhaps. If we don't sell it, we get the salvage value, if we sell it, we get the sales price. Thus, the profit is
-  \begin{equation*}
-    -p_b 1 + p_s\cdot 1/2 + p_e\cdot 1/2. 
-  \end{equation*}
+We must have $p>c>s$ because if $p\leq c$ we would not buy anything as there would be no way of making profit, and if $c<s$ we would buy as much as possible as it would lead to more profit. 
 \end{solution}
-\end{question}
+\end{exercise}
 
-\begin{question}
-Suppose the daily demand is $X\in \{0,1\}$ and $g(0) = \P(X=0)=1/3 = 1- g(1)$. What would be the best number of items $Q$ to make? 
+\begin{exercise}
+Explain that 
+\begin{align}\label{eq:133}
+h&=c-s, & b&=p-c.
+\end{align}
+Are both parameters positive?
 \begin{solution}
-If $Q=1$ we make as a profit:
-  \begin{equation*}
-    -p_b 1 + p_s\cdot 2/3 + p_e\cdot 1/3 = -5 + 20/3 + 1> 0
-  \end{equation*}
-So, ordering $Q$ leads to a higher profit than ordering $Q=0$.
+In case of an overage; an item that is bought for $c$ was not sold and therefore salvaged at a price of $s$. The loss due to this item is therefore $h=c-s$. In case of a shortage; a unit of demand is not satisfied leading to a loss of $p$ from profit, but as no item was bought in the first place this loss is reduced by $c$. The net loss is thus $b=p-c$. Observe that both $h$ and $b$ are positive if $p>c>s$.
 \end{solution}
-\end{question}
+\end{exercise}
 
 
-\begin{question}
-  What are the general terms that make up the profit function $Z(Q)$ if you were to order $Q$? 
-  \begin{solution}
-If you would order an amount $Q$, the profit consist of three terms: 
-  \begin{itemize}
-  \item expected number sold
-  \item expected number left over
-  \item order size
-  \end{itemize}
-  For the expected number of items sold, if the demand $X$ on a day
-  turns out to be smaller than $Q$, we sell $X$; if $X>Q$ we only sell
-  $Q$. Therefore, the expected sales is
-  \begin{equation*}
-    \E(\min\{Q,X\}). 
-  \end{equation*}
-The expected number of items over is $Q$ minus the expected sales: 
-  \begin{equation*}
-    Q-\E(\min\{Q,X\}) = 
-    \E(Q-\min\{Q,X\})
-  \end{equation*}
-  where the second equation follows from the observation that the
-  expected value of a constant is the constant itself, i.e.,
-  $Q=\E(Q)$.  Thus, the total profit of buying $Q$ items must be
-\begin{equation*}
-Z(Q)=  -p_bQ+p_s\E(\min\{Q,X\}) + p_e\E(Q-\min\{Q,X\}).
-\end{equation*}
-  \end{solution}
-\end{question}
 
-\begin{question}
-  Write $\E(X)$, i.e., the expected demand in terms of a summation.
-  \begin{solution}
-Recall that $\E(X)$ is just a short-hand for
-    \begin{equation*}
-      \E(X) = \sum_{i=0}^\infty i g(i).
-    \end{equation*}
-  \end{solution}
-\end{question}
+\subsection{Newsvendor problem with deterministic demand}
 
-\begin{question}
-  Can you write $\E(\min\{X,Q\}$ in terms of probabilities $g(i) = \P(X=i)$?
-  \begin{solution}
-From the previous question,
-\begin{equation*}
-  \E(\min\{(X,Q\})) = \sum_{i=0}^\infty \min(i,Q)g(i) = \sum_{i=0}^Q i g(i) + \sum_{i=Q+1}^\infty Q g(i).
-\end{equation*}
-Observe that $\sum_{i=Q+1}^\infty g(i)=\P(X\geq Q+1)$, thus we can simplify the above to
-\begin{equation*}
-  \E(\min\{(X,Q\})) = \sum_{i=0}^Q i g(i) + Q\P(X\geq Q+1).
-\end{equation*}
-  \end{solution}
-\end{question}
+Here we will derive, with a number of steps,  a function that shows how the cost per period depends on the number of items the newsboy determines to order. Then, by making a graph of this function, we can find the optimal order quantity, which is the order quantity that  minimizes the cost.\footnote{We expect that the reader checks Appendix~\ref{sec:appendix} at this point. We will use this material heavily henceforth.}
 
-\begin{question}
-  Suppose for our example that the daily demand is $X\in \{0,1,2\}$
-  and $g(0) = \P(X=0)=1/4$, $g(1)=1/3$, $g(2)=5/12$. What would be the
-  best number of items $Q$ to make?
+Let us assume that the newsvendor buys $Q$ items, in other words, right after the start of the period the inventory level contains $Q$ items. Suppose that demand turns out to be $d$ items. 
+
+\begin{exercise}
+Motive that $\min\{Q,d\}$ is the number of items sold.
 \begin{solution}
-  Now we need to consider three different $Q$'s, $Q=0, 1,$ or $2$.
-  Suppose that $Q=1$, then
-\begin{equation*}
-    \E(\min\{Q,X\}). =   \E(\min\{1,X\}). =   0\P(X=0) + 1\P(X=1)+1\P(X=2) = 1\cdot 1/3+1\cdot 5/12=9/12=3/4.
-\end{equation*}
-The expected number of items over is $Q$ minus the expected sales: 
-  \begin{equation*}
-    \E(Q-\min\{Q,X\}) = 1-3/4=1/4
-  \end{equation*}
-Thus,  for the example, the total profit is
-\begin{equation*}
-  -5\cdot1 + 10\cdot3/4+3\cdot1/4
-\end{equation*}
-is the expected profit per day of buying $Q=1$ at the start of the day. 
-
-Once you implement this in excel, it is easy to experiment with
-different values of $Q$ and see what is the best choice for $Q$. 
+If $d<Q$, we only sell $d$. If $d\geq Q$, we cannot sell more than we have. Thus, we can only sell the minimum of the two.
 \end{solution}
-\end{question}
+\end{exercise}
 
 
-\begin{question}
-If the demand can be quite big, e.g., $X\in\{0,1,\ldots, 1000\}$, what is the slope of $Z(Q)$ for $Q$ small? What is the slope if $Q$ is big, i.e., near 1000? Assume that the demand distribution is something reasonable.
+\begin{exercise}
+Explain that the number of items salvaged is $Q-\min\{Q,d\} = (Q-d)^+$.
 \begin{solution}
-  If $Q=1$ it is very unlikely that the item will not be sold. In fact, we are nearly sure it will be sold, hence, the slope of $Z$ for small $Q$ must be $p_s$. If $Q$ is very large, we are pretty sure the `last item' will not be sold, hence, the slope must be $-p_e$. 
+$Q$ is the amount ordered, and $\min\{Q, d\}$ is the amount sold. Hence the difference is the amount remaining (unsold) at the end of the period. 
 \end{solution}
-\end{question}
+\end{exercise}
 
-\begin{question}
-  Suppose there would be a setup cost which you have to pay to order any positive amount $Q>1$. What is then the profit? 
-  \begin{solution}
-    This is a no-brainer. If the setup cost is $s$, then just subtract
-    $s$ from the profit function $Z(Q)$.
-  \end{solution}
-\end{question}
-
-\begin{question}
-Suppose we would set a certain service level, what is the profit under such a service level? Before we tackle this, what type of service level can we consider? 
+\begin{exercise}
+Use the previous exercise to show that the number of items salvaged can be rewritten 
+follows
+\begin{align*}
+(Q-d)^+.
+\end{align*}
 \begin{solution}
-  Cycle service level $P_1$, i.e., the probability that there are more
-  items than demand, i.e., the fraction of periods/days that the shop
-  does not run out of stock:
-\begin{equation*}
-P(X\leq Q) \geq P_1.
-\end{equation*}
-
-Another interesting service level is the fraction of demand that is met, i.e., the fill rate must be higher than some level $P_2$:
-\begin{equation*}
-\E(\min\{Q, X\})/ \E(X) \geq P_2
-\end{equation*}
-Realize that $\E(\min\{Q, X\})$ is the expected sales, while $\E(X)$ is the expected demand. The average amount of demand met is the sales divided by the demand.
+We need to check that $Q-\min\{Q,d\} = (Q-d)^+$. Testing it with some numbers: if $Q=5$ and $d=2$, it checks, if $Q=5$ and $d=7$. it also checks. In general, it follows from Exercise~\ref{ex:6} 
 \end{solution}
-\end{question}
-
-\begin{question}
-  Now we can consider the profit under setting a certain performance level. How would you compute this?
-  \begin{solution}
-    If we want to focus on fill rate, first determine $Q$ such that
-    $\E(\min\{Q, X\})/ \E(X) \geq P_2$, where $P_2=90\%$ or so. Call
-    this $Q_2$. Then compute $Z(Q_2)$ to get the profit. 
-
-    If we want to focus on cycle service level rate, first determine
-    $Q$ such that $\P(X\leq Q) \geq P_1$, where $P_1=80\%$ or so. Call
-    this quantity $Q_1$. Compute now $Z(Q_1$ to get the profit.
-  \end{solution}
-\end{question}
-
-We next  discuss a few expressions that simplify the implementation of the profit function in excel.
-
-\begin{question}
-  Explain that $\E( \max\{Q-X, 0\})$ is another expression for the expected number of items over.
-  \begin{solution}
-    If $Q>X$, we have $Q-X$ over, if $Q\leq X$ we don't have items over. 
-  \end{solution}
-\end{question}
-
-\begin{question}
-  Write $\E (\max\{Q-X, 0\}) $ as a summation, so that you can implement this in excel.
-  \begin{solution}
-\begin{equation*}
-  \begin{split}
-  \E( \max\{Q-X, 0\} )
-  &= \sum_{i=0}^\infty \max\{Q-i,0\}\P\{X=i\}\\
-  &= \sum_{i=0}^\infty \max\{Q-i,0\}g_i\\
-  &= \sum_{i=0}^Q (Q-i) g_i \\
-  &= (Q-0) g_0 + (Q-1)g_1+ \cdots (Q-(Q-1))g_{Q-1} + (Q-Q)g_Q\\
-  &= (Q-0) g_0 + (Q-1)g_1+ \cdots (Q-(Q-1))g_{Q-1} + 0 g_Q\\
-  &= \sum_{i=0}^{Q-1} (Q-i) g_i.
-  \end{split}
-\end{equation*}
-  \end{solution}
-\end{question}
+\end{exercise}
 
 
-\begin{question}
-  Why is $ \E( \max\{X-Q, 0\})$ the expected number of items short?
-  \begin{solution}
-    If there is a shortage of items, it must be that $X>Q$. The amount short is $X-Q$.
-  \end{solution}
-\end{question}
 
-\begin{question}
-  Write $\E (\max\{X-Q, 0\}) $ as a summation.
-  \begin{solution}
-\begin{equation*}
-\begin{split}
-     \E (\max\{X-Q, 0\} )
-   &= \sum_{i=0}^\infty \max\{i-Q,0\}g_i\\
-   &= \sum_{i=Q}^\infty (i-Q) g_i \\
-   &= \sum_{i=Q+1}^\infty (i-Q) g_i.
-\end{split}
-\end{equation*}
+\begin{exercise}
+Conclude that  the newsvendor's profit is given by
+\begin{align*}
+P(Q) = -c Q + p\min\{Q,d\} + s(Q-d)^+.
+\end{align*}
+\begin{solution}
+  It costs $c Q$ to buy the items, hence a profit of $-c Q$. The number of sold items bring in a profit of $p\min\{Q, d\}$, the items salvaged bring in a profit of $s(Q-d)^+$. Adding these three components leads to the result.
 \end{solution}
-\end{question}
+\end{exercise}
+
+\begin{exercise}
+Show that $P(Q)$ can also be written in the following useful format:
+\begin{align}\label{eq:27}
+P(Q) 
+%&= (p-c)Q - (p-s)(Q-d)^+ \\
+&= b Q - (b+h)(Q-d)^+.
+\end{align}
+\begin{solution}
+  \begin{align*}
+P(Q) 
+&= -c Q + p\min\{Q,d\} + s(Q-d)^+.\\
+&= (p-c)Q - p(Q-\min\{Q,d\}) + s(Q-d)^+.\\
+&= (p-c)Q - p(Q-d)^+ + s(Q-d)^+.\\
+&= (p-c)Q - (p-s)(Q-d)^+.
+  \end{align*}
+\end{solution}
+\end{exercise}
 
 
-\begin{question}
-  Let $Q=3$ and $g_1=g_2\ldots=g_5 = 1/5$. Compute $\theta = \E(X)$, i.e., the expected demand, the expected lost sales and the expected number over.
+We started by formulating the newsvendor problem as a `profit maximization' problem, but we can also formulate it as a `cost minimization' model. 
+
+\begin{exercise}
+Motivate (intuitively) that  the newsvendor's cost is given by 
+\begin{align}\label{eq:23}
+L(Q) = h(Q-d)^+ + b(d-Q)^+.
+\end{align}
+\begin{solution}
+The number over at the end of the period is $(Q-d)^+$, the number short is $(d-Q)^+$. Adding these two costs gives the result.  
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Show that the profit and the cost are related through
+\begin{equation}\label{eq:24}
+P(Q) = (p-c)d - L(Q) = b d - L(Q),
+\end{equation}
+and  interpret this result.
+\begin{solution}
+    Here we go:
+    \begin{align*}
+L(Q) 
+&= h(Q-d)^+ + b(d-Q)^+ \\
+&= (c-s)(Q-d)^+ (p-c)(d-Q)^+ \\
+&= c((Q-d)^+ - (Q-d)^-) -s (Q-d)^+ + p(d-\min\{d,Q\}) \\
+&= c(Q-d) -s (Q-d)^+ + p(d-\min\{Q,d\}) \\
+&= cQ -s (Q-d)^+ - p \min\{Q,d\} + (p-c)d \\
+&= -P(Q) + (p-c)d.
+    \end{align*}
+This tells us that the profit function is equal to $(p-c)d$ minus the cost function. Notice that, $(p-c)d$ stands for the maximum possible profit from sales, that is, we cannot sell more than the demand, and each unit sold gives a profit of $p-c$. Note that This it is independent of the newsvendor's buying quantity. As such, the profit  function becomes the maximum possible profit minus the cost.
+  \end{solution}
+\end{exercise}
+
+
+
+\begin{exercise}
+Why does a  cost minimization lead to the same optimal order quantity $Q^*$ as a profit maximization?
+\begin{solution}
+We know that $P(Q) = (p-c) d - L(Q)$. Here, $(p-c) d$ is a constant that is not affected by the order quantity. Therefore, if $Q^*$ is the order quantity that minimizes $L(Q^*)$, it is also the order quantity that maximizes $P(Q)$. 
+\end{solution}
+\end{exercise}
+
+
+\begin{exercise}\label{ex:nw_det}
+Let $d=20$, $h=1$€ and $b=10$€. Implement $L(Q)$ in excel and plot the cost function for different values of $Q$. 
+% Above is the euro symbol, ready to copy.
+\begin{solution}
+%   \begin{comment}
+% \begin{tikzpicture}
+% \scriptsize
+% \def\avg{20}
+% \def\h{1}
+% \def\p{10}
+% \begin{axis}[
+% 	legend style={nodes=right},
+% 	axis lines=middle,
+% 	ymin=0,	
+%     x label style={at={(axis description cs:0.5,-0.1)},anchor=north},
+%     y label style={at={(axis description cs:-0.1,.5)},rotate=90,anchor=south},
+% xlabel={$Q$},
+% ylabel={Cost},
+% ]
+% \addplot [color=blue,thick,domain=0:2*\avg] {Ldeter(\x,\avg,\h,\p)};
+% \addlegendentry{$\h(Q - \avg)^+ + \p(Q - \avg)^-$}
+% \end{axis}
+% \end{tikzpicture}
+%   \end{comment}
+
+Here is the graph.
+\begin{pycode}[news]
+def L(x):
+    return 10*np.maximum(20-x, 0) + np.maximum(x-20,0)
+
+x = np.arange(0, 40, 1)
+
+plt.figure(figsize=(5, 4))
+plt.plot(x, L(x), label="$L(Q)$")
+plt.xlabel("$Q$")
+plt.ylabel("Cost")
+plt.legend()
+filename = "figures/Ldeter.pdf"
+plt.savefig(filename)
+plt.close()
+\end{pycode}
+
+\centering
+\includegraphics{figures/Ldeter.pdf}
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+What is the newsvendor's best order quantity $Q^*$ for the situation of the previous exercise? 
+\begin{solution}
+The optimal quantity is obviously 20, a we know that the demand is 20 units anyway. 
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+What would be the cost if this $Q^*$ is ordered? 
+\begin{solution}
+The newsvendor's cost will be zero for $Q=20$. 
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+How would the cost be affected if the vendor were to buy one unit less or one unit more than $Q^*$?
+\begin{solution}
+Having a unit more will exactly increase the cost by €1 and a unit less by €10. 
+\end{solution}
+\end{exercise}
+
+\begin{exercise} Just to practice with the formulas, 
+let the newsvendor's selling price be €15 in the previous exercise. Write down the profit and cost functions for $Q=7$ and $Q=26$ and compare the results.
+\begin{solution}
+Noting that $h=c-s=1$ and $b=p-c=10$, and as $p=15$; we have that $c=5$ and $s=4$. Thus, we obtain the profit function
+\begin{align*}
+P(Q) 
+&= (p-c)Q - (p-s)(Q-d)^+ \\
+&= 10 Q - 11 (Q-20)^+, & d=20.
+%\min\{Q,d\} + s(Q-\min\{Q,d\}) = -5\cdot Q + 15\cdot\min\{Q,20\} + 4\cdot(Q-\min\{Q,20\})
+\end{align*}
+For the cost function
+\begin{align*}
+L(Q) = h(Q-d)^+ + b(d-Q)^+ = 1\cdot (Q-20)^+ + 10\cdot(20-Q)^+.
+\end{align*}
+
+Then; for $Q=7$ we obtain profit $10*7 - 11*0 =70$ and cost \$130, and for $Q=26$ we have $10*26-11*6 = 194$ for profit and $1*6 + 10*0 = 6$ for cost. Indeed, in botch cases, profit and cost functions sum up to the maximum possible profit $(p-c)d=(15-5)\cdot 20=200$.
+\end{solution}
+\end{exercise}
+
+To summarize, we have found an expression of the profit and the cost for a newsvendor who operates in an environment in which the demand is perfectly known. In the next section we make this model more realistic by modeling demand as a random variable. The above formulas will need to be modified a bit, but the reasoning behind remains the same. 
+
+\subsection{Newsvendor problem with stochastic discrete demand}
+\label{sec:stoch-discr-demand}
+
+We now investigate the newsvendor problem with stochastic demand. To that end, we replace the deterministic demand $d$ with  random demand. Let $D$ (a random variable)
+be the discrete number of units sold on a particular period and assume that
+the pmf  $f(i) = \P{ D = i}$ is given\footnote{See the appendix for the relevant background in probability theory.}. In other words, the vendor knows the probability that a certain demand occurs, not the demand itself.  Again we will work towards a cost function and make plots to find the optimal order quantity $Q^*$. 
+
+
+% Once again, the problem is to determin the optimal order size $Q^*$ that maximizes the revenue. \footnote{We use the notation of Factory Physics (FP). Note that the formulas in
+% FP are in terms of integrals rather than with summations. We find this
+% unsatisfactory since it is easy to evaluate summations in excel (or an
+% other programming environment), while carrying out integration is often
+% much more difficult.}. 
+
+\begin{exercise}
+  Make a simulation to show what to do\nvf{todo}
+\end{exercise}
+
+
+\begin{exercise}
+  Use the results of the appendix to write $\E{(Q-D)^+}$ and $\E{(D-Q)^+}$ as summations in terms of the probabilities $f(i) = \P{D=i}$. Ensure you know how to implement this in, for instance, excel.
+  \begin{solution}
+\begin{align*}
+  \E{ (Q-D)^+}
+  &= \sum_{i=0}^\infty (Q-D)^+\P{D=i}\\
+  &= \sum_{i=0}^\infty (Q-i)^+ f(i)\\
+  &= \sum_{i=0}^Q (Q-i) f(i) & (Q-i)^+=0\text{ if } i \geq Q\\
+  &= (Q-0) f(0) + (Q-1)f(1)+ \cdots + \\
+&\quad (Q-(Q-1))f(Q-1) + (Q-Q)f(Q) \\
+  &= (Q-0) f(0)+ (Q-1)f(1)+ \cdots + \\
+&\quad(Q-(Q-1))f(Q-1)\\
+  &= \sum_{i=0}^{Q-1} (Q-i) f(i) \\
+\end{align*}
+Likewise
+\begin{align*}
+  \E{ (D-Q)^+}
+  &= \sum_{i=0}^\infty (D-Q)^+\P{D=i}\\
+  &= \sum_{i=Q}^\infty (i-Q)^+ f(i)\\
+  &= \sum_{i=Q+1}^{\infty} (i-Q) f(i).
+\end{align*}
+Observe in this last summation that, formally, we have to carry out a summation to infinity. In real life, demand is always finite. Suppose that $\bar D$ is the largest possible demand. Then the above reduces to
+\begin{align*}
+  \E{ (D-Q)^+}= \sum_{i=Q+1}^{\bar D} (i-Q) f(i),
+\end{align*}
+since $f(i)=0$ for $i>M$.   In the notation below we typically write $\infty$ so that we do not have to specify $\bar D$. However, we always have in the back of our mind that the summation is finite.
+  \end{solution}
+\end{exercise}
+
+
+\begin{exercise}
+  Let $Q=3$ and  $f(1)=f(2)\ldots=f(5) = 1/5$. Compute the expected lost sales $\E{(D-Q)^+}$.
   \begin{solution}
     \begin{align*}
-      \E( X) &= \sum_{i=1}^5 i g_i = 1/5+2/5+\cdots+5/5 = 3, \\
-      \E (\max\{X-Q,0\}) &= \sum_{i=Q+1}^5 (i-Q) g_i = (4-3)/5 + (5-3)/5,\\
-      \E (\max\{Q-X,0\}) &= \sum_{i=1}^{Q-1} (Q-i) g_i = (3-1)/5 + (3-2)/5.
+      \E{(D-Q)^+} &= \sum_{i=Q+1}^5 (i-Q) f(i) = \frac{4-3}5 + \frac{5-3}5\\
     \end{align*}
   \end{solution}
-\end{question}
+\end{exercise}
 
-\begin{question}
-  Up to now we considered the profit function $Z(Q)$.  Can you
-  establish a cost function of the newsvendor problem?
+\begin{exercise}[continuation]
+ Compute now the expected number salvaged $\E{(Q-D)^+}$.
   \begin{solution}
-The expected cost resulting from ordering an amount $Q$ follows
-from combining the above formulas:
-\begin{equation*}
-     Y(Q) = c_o  \E( \max\{Q-X, 0\})  +   c_s \E( \max\{X-Q, 0\}) - c_s\E(X).
-\end{equation*}
-Note that the expected `cost' of selling $\E(X)$ of items should be subtracted from the cost. Since this term does not depend on the decision variable $Q$, it is often left out of the cost function, but formally it should be there.
+    \begin{align*}
+      \E{(Q-D)^+} &= \sum_{i=1}^{Q-1} (Q-i) f(i) = \frac{3-1}5 + \frac{3-2}5.
+    \end{align*}
   \end{solution}
-\end{question}
+\end{exercise}
 
 
-\begin{question}
-  Show that the profit is minus the the cost, i.e., $Z(Q) = -Y(Q)$.
-  \begin{solution}
-    Here we go:
-    \begin{equation*}
-      \begin{split}
-        Z(Q) 
-&=  -p_bQ+p_s\E(\min\{Q,X\}) + p_e\E(Q-\min\{Q,X\}) \\
-&=  (p_e - p_b)Q+ p_s(\E(\min\{Q,X\}) - p_e\E(\min\{Q,X\}) \\
-&=  (p_e - p_b)Q+ (p_s-p_e)(\E(\min\{Q,X\})\\
-&=  -c_oQ+ (c_o+c_s)(\E(\min\{Q,X\})\\
-&=  -c_o( Q - \E(\min\{Q,X\})) - c_s(\E(X) - \E(\min\{Q,X\}) + c_s\E(X)\\
-&=  -c_o \E(Q-\min\{Q,X\}) - c_s\E(X-\min\{Q,X\}) + c_s\E(X)\\
-&=  -c_o \E(\max\{Q-X,0\}) - c_s\E(\max\{X-Q,0\}) + c_s\E(X)\\
-&=  -Y(Q).
-      \end{split}
-    \end{equation*}
-Ensure you understand the last two steps. 
-  \end{solution}
-\end{question}
-
-\begin{question}
-Reproduce the results of the Christmas Lights Example of Factory Physics.
+\begin{exercise}
+Motivate now that when we order $Q$, the expected total cost of the newsvendor is 
+\begin{align}\label{eq:59}
+L(Q) = h\E{(Q-D)^+} + b\E{(D-Q)^+}.
+%&= h\sum_{i=0}^{Q-1} (Q-i)f(i) + b \sum_{i=Q+1}^\infty (i-Q)f(i).
+\end{align}
 \begin{solution}
-  First the data. We also use a library to handle the computations for
-  the normal distribution. 
+We can  simply apply the expectation operator to $h(Q-D)^+ + b(D-Q)^+$ to get the result.
+
+It is important to know that, in general, this expression cannot be reduced to a simple form. However, it is easy to implement in spreadsheet applications.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Suppose $c = 5$, $p=10$, $s=3$,  and that the daily demand is $D\in \{0,1\}$ with $f(0) = f(1) =1/2$. What is $L(0)$, i.e., the cost if you would choose order $Q=0$ 
+\begin{solution}
+First note that $h=c-s=5-3=2$, $b=p-c=10-5=5$. Next, $(Q-D)^+=(0-D)^+=0$, and
+\begin{align*}
+  \E{(Q-D)^-}
+&= (0-0)f(0) + (0-1)^-f(1) = 1f(1) = \frac 1 2.
+\end{align*}
+Hence, the cost is $h\cdot 0 + b \cdot 1/2 = 5/2$.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}[Continuation]  What is the cost if $Q=1$?  Hence, what is the optimal choice for $Q$?
+\begin{solution}
+\begin{align*}
+&h\E{(1-D)^+} + h\E{(1-D)^-} \\
+&= h (1-0)f(0) + h(1-1)^+f(1) + b (1-0)^-f(0) + b(1-1)^-f(1) \\
+&= 2\cdot1\cdot\frac 1 2 + 0 + 0 + 0 \\
+&=1
+\end{align*}
+This is smaller than $5/2$. Hence, $Q^*=1$, as this minimizes the cost.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}\label{ex:10}
+To understand the effect of variability in the demand we compare the graphs of the cost for the case in which the  demand  $D$ has pmf $f(6)=f(7)=\ldots=f(16)=\frac{1}{11}$ to a case in which  the demand is constant and equal to $\theta = \E D = 11$. Show that for the later case, the cost function $L'(Q) = h(Q-11)^+ + b(11-Q)^+$. Make a plot for the case $h=1$ and $b=10$. 
+  \begin{solution}
+In this exercise  the demand to be always equal to 11, hence its pmf $g(11) = 1$, and $g(i)=0$ for $i\neq 11$. But then
+\begin{align*}
+  L'(Q) 
+&=h\sum_{i=0}^\infty(Q-i)^+ g(i) + b\sum_{i=0}^{\infty}(i-Q)^+ g(i) \\
+&=h(Q-11)^+  + b(11- Q)^+,
+\end{align*}
+since there is only a probability mass at $i=11$.
+
+For the graph, see the next exercise.
+  \end{solution}
+\end{exercise}
+
+\begin{exercise}[Continuation]\label{ex:55}
+Implement $L(Q)$ in excel and plot $L(Q)$ for different values of $Q$ and compare this with the cost $L'(Q)$ for the deterministic case. What is~$Q^*$?
+\begin{solution}
+The mean demand is 11. See the Figure; $L$ is the cost for the stochastic demand, $L'$ the cost for the deterministic case.
+
+  
+% \begin{tikzpicture}
+% \scriptsize
+% \def\h{1}
+% \def\p{2}
+% \begin{axis}[
+% 	xlabel=$Q$,
+% 	legend style={nodes=right},
+% 	axis lines=middle,
+% 	ymin=0]
+% \addplot [color=red,thick,domain=0:20] {L(\x,\h,\p)};
+% \addlegendentry{$\h\ex(Q - D)^+ + \p\ex(Q - D)^-$}
+% \end{axis}
+% \end{tikzpicture}
+% \end{center}
+
+\begin{pycode}[news]
+h = 1
+b = 10
+left = 6
+right = 16
+
+def f(i):
+    if left <= i <= right:
+        return 1./(right-left+1)
+    else:
+        return 0
+
+def L(q):
+    term1 = h*sum((q-i)*f(i) for i in range(0, q))
+    term2 = b*sum((i-q)*f(i) for i in range(q, right+1))
+    return term1 + term2
+
+X = range(21)
+LL = []
+for q in X:
+    LL.append(L(q))
+
+# deterministic case
+theta = sum(i*f(i) for i in range(0, right+1))
+def Lp(x):
+    return b*max(theta-x, 0) + h*max(x-theta,0)
+
+Ldet = []
+for q in X:
+    Ldet.append(Lp(q))
+
+plt.figure(figsize=(5, 4))
+plt.plot(X, LL, label="$L(Q)$")
+plt.plot(X, Ldet, label="$L'(Q)$")
+plt.xlabel("$Q$")
+plt.ylabel("Cost")
+plt.legend()
+filename = "figures/Lexp.pdf"
+plt.savefig(filename)
+plt.close()
+\end{pycode}
+
+\begin{center}
+\includegraphics{figures/Lexp.pdf}
+\end{center}
 
 
-% \begin{minted}[mathescape, fontsize=\small, xleftmargin=0.5em]{python}
+It is apparent from the graph that the optimal order quantity $Q^*$ is 15 or 16. Note that this is considerably higher than the mean demand $\theta = 11$. 
+\end{solution}
+\end{exercise}
+ 
+
+
+\begin{exercise}[Continuation]
+To explain the left part of the figure of the previous exercise, suppose that the demand can be big, e.g., $D\in\{0,1,\ldots, 1000\}$, and $f(i) = 1/1001$. What is the slope of $L(Q)$ for $Q$ small? (BTW, why do we take $f(i)=1/1001$ and not $1/1000$?) 
+\begin{solution}
+  If $Q=1$ it is very unlikely that the item will not be sold. In fact, we are nearly sure it will be sold, hence, the slope of $L$ for small $Q$ must be $-b$, i.e., the price of selling the item minus the price to buy it.
+
+For the other question, realize that the number of integers from $0, \ldots, 1000$ is $1001$, not 1000.
+\end{solution}
+\end{exercise}
+ 
+\begin{exercise}[Continuation] To explain the right  part of the figure of Ex.\ref{ex:55}.
+what is the slope of $L(Q)$ if $Q$ is big, i.e., near 1000? 
+\begin{solution}
+If $Q$ is very large, we are pretty sure the `last item' will not be sold, hence, the slope must be $h=c-s$. 
+\end{solution}
+\end{exercise}
+
+Clearly, by computing $L(Q)$ for $Q=0, 1, \ldots, \bar D$, with $\bar D$ the largest possible demand, we can find the optimal order quantity $Q^*$. There is, however, a faster, and easier, way. As the cost function $L$ is convex, it is easy to prove (although we omit it) that 
+$Q$ can be found from the \recall{critical fraction formula}
+\begin{equation}\label{eq:255}
+Q^* = \min\left\{Q : F(Q)\geq \frac{b}{h+b}\right\},
+\end{equation}
+that is, $Q^*$ is the smallest $Q$ such that $F(Q) \geq b/(b+h)$, where $F(\cdot)$ is the distribution function of the demand; 
+
+\begin{exercise}
+Show that the critical fraction formula can also be written as
+\begin{equation*}
+Q^* = \min\left\{Q : F(Q)\geq \frac{p-c}{p-s}\right\},
+\end{equation*}
+\begin{solution}
+Use Eqs.~\eqref{eq:133} and \eqref{eq:255}.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+  Consider an example with daily demand $D\in \{0,1,2\}$, with 
+ $f(0) = \P{D=0}=1/4$, $f(1)=1/3$, $f(2)=5/12$, and $b=5$ and $h=3$. Show that $Q^*=2$.
+\begin{solution}
+First compute the distribution function $F$:
+\begin{align*}
+  F(0) &= f(0) = \frac 1 4,\\
+  F(1) &= F(0) +f(1)= \frac 1 4 + \frac 1 3 = \frac{7}{12},\\
+  F(2) &= F(1) + f(2) = \frac 7{12}  + \frac 5 {12}  = 1.
+\end{align*}
+Next, $b/(b+h)=5/(5+3)=5/8$. Clearly, $F(0) < b/(b+h)$. Next, 
+\begin{equation*}
+  F(1) - \frac b{b+h} = \frac 7 {12} - \frac 5 8 < 0.
+\end{equation*}
+As the only other sensible choice is $Q^*=2$, we use this. Of course, also $F(2)=1>5/8$. 
+\end{solution}
+\end{exercise}
+
+\begin{exercise} Show for  Exercise~\ref{ex:55} that $Q^*=15$.
+
+\begin{solution}
+ The optimal order quantity should satisfy 
+\begin{align*}
+Q^* = \min\left\{Q\mid F(Q)\geq \frac{10}{1+10}\right\}.
+\end{align*}
+
+Because $F(6)=1/11, F(7)=2/11, \ldots, F(15)=10/11, F(16)=1$, the minimum order quantity that has a cumulative probability larger than $10/11$ is indeed $15$. 
+\end{solution}
+  
+\end{exercise}
+
+\begin{exercise}[Continuation of Ex.~\ref{ex:10} and \ref{ex:55}]
+Here is a very important idea: the \recall{value of perfect information}. To explain,  suppose that, just hypothetically, that  we are able, at a large expense, to reduce the demand variability to 0. In other words, we can reduce the newsboy problem with demand variability to an entirely this deterministic case in which the demand is precisely $\theta = \E D = 11$. What would be the value of this reduction in variability? 
+
+To understand this, we compare the optimal profit for the case with demand variability to the optimal profit without variability.  Use~\eqref{eq:24} to see that the highest possible profit is $b \theta = 10*11 = 110$. Then, define the value of perfect information as
+\begin{equation*}
+1-  \frac{P(Q^*)}{b \theta} = 
+1-  \frac{b \theta - L(Q^*)}{b \theta} = 
+ \frac{L(Q^*)}{b \theta}.
+\end{equation*}
+Compute this value. What do you conclude from the fact that it is small?
+\begin{solution}
+\begin{pycode}[news]
+Qstar = 15
+value = L(Qstar)/(b*theta)
+\end{pycode}
+For the value of perfect information we get
+\begin{equation*}
+ \frac{L(Q^*)}{b \theta} = \frac{\py[news]{L(15)}}{\py[news]{b*theta}} = 
+\py[news]{"{0:.2f}".format(L(15)/(b*theta))}
+\end{equation*}
+This is pretty small! 
+
+This brings us to a very important conclusion: we can try to reduce  demand variability, for instance  by asking potential customers how much they are willing to buy, using questionnaires, and so on. Of course, this will increase the profit, but by how much? Well, from the above value of perfect of information, we see however that this is not much. Even in the best possible case, i.e., precisely knowing the demand, the profit increases by some 5\%. Now we should compare this extra profit to the cost we need to make to reduce the demand variability. The latter costs are often much higher than the profit gained, which is often small, here \emph{at most} some 5\%. Thus, in more general terms, keeping the right amount of inventory obviates the need to reduce demand variability.
+\end{solution}
+\end{exercise}
+
+
+\begin{exercise}  Thus far we have assumed that all left-overs can be salvaged. This assumption might not always be vindicated in practice. To understand the effect on the cost, we model the demand for salvage items as a random variable denoted by $W$. Now, using that  $\min\{Q-D, W\}$ is the number of  salvaged, derive that the cost function becomes
+\begin{align*}
+L(Q) 
+ &= b\E{(D-Q)^+} + (c-s) \E{(Q-D)^+} + s \E{(Q-D- W)^+}.
+% &= -(p-c)Q + (p-s)\E{(Q-D)^+} + s\E{(Q-D-W)^+}.\\
+% &= -bQ + (b+h)\E{(Q-D)^+} + s\E{(Q-D-W)^+}.\\
+\end{align*}
+\begin{solution}
+The main difference as compared to the original problem here is that we can at most salvage $W$ left-over items at a price of $s$; any overage in excess of $W$ is lost. To understand the impact of this, lets first consider the normal cost function
+\begin{align*}
+   L(Q) 
+ &= b\E{(D-Q)^+} + h \E{(Q-D)^+} \\
+ &= b\E{(D-Q)^+} + (c-s) \E{(Q-D)^+} \\
+ &= b\E{(D-Q)^+} + c\E{(Q-D)^+} - s\E{(Q-D)^+},
+ \end{align*}
+so only the third term involves salvage cost. 
+
+In the new setting, we can only salvage an amount $\E{\min\{(Q-D)^+, W\}}$ instead of $\E{(Q-D)^+}$. Using the rule $\min\{x, y\} = x - (x-y)^+$ we can rewrite this to
+\begin{align*}
+\E{\min\{(Q-D)^+, W\}} 
+&=  \E{(Q-D)^+} - \E{((Q-D)^+- W)^+} \\
+&=  \E{(Q-D)^+} - \E{(Q-D- W)^+},
+\end{align*}
+where $((Q-D)^+-W)^+=(Q-D-W)^+$ because $W\geq 0$. 
+%  sell the minimum of $$ and $W$ units at a price of $s$, and we will not be able to salvage the rest. Therefore we will lose $s\ex \left((Q-D)^+ - \min\{(Q-D)^+,W\}\right)$
+% of our expected salvage revenue.
+
+Thus, in the new setting:
+\begin{align*}
+  L(Q) 
+ &= b\E{(D-Q)^+} + c \E{(Q-D)^+} - s\E{\min\{(Q-D)^+, W\}} \\
+ &= b\E{(D-Q)^+} + c \E{(Q-D)^+} - s (\E{(Q-D)^+} - \E{(Q-D- W)^+}) \\
+ &= b\E{(D-Q)^+} + (c-s) \E{(Q-D)^+} + s \E{(Q-D- W)^+}.
+% &= b(\E{(D-Q)^+}-Q) + (c-s) \E{(Q-D)^+} + s \E{(Q-D- W)^+}\\
+ % &= -b Q + (b + c-s) \E{(Q-D)^+} + s \E{(Q-D- W)^+} \\
+ % &= -(p-c) Q + (p-s) \E{(Q-D)^+} + s \E{(Q-D- W)^+}. \\
+\end{align*}
+\end{solution}
+\end{exercise}
+
+\begin{exercise}[Continuation]
+What extra information do you need to compute $L(Q)$ for the case with random salvage? How should this information be used to compute the optimal order quantity?
+\begin{solution}
+It can be done following the same steps we have taken in approaching the original newsvendor problem. The only difference is that now we should compute the term $\E{(Q-D-W)^+}$. 
+To compute this expectation, we also need the demand distributions for the left-over  products, besides the regular demand. Let $f(x)$ denote the pmf of the regular demand, i.e. $f(x)=\P{D=x}$. Assuming that the demand for left-over items is independent of the regular demand, let $g(y)$ denote its pmf, i.e. $g(y)=\P{W=y}$. Then
+\begin{align*}
+\E{(Q-D-W)^+} & = \sum_x \sum_y (Q-x-y)^+ f(x) g(y).
+\end{align*}
+The computation is trivial (do it for a simple case) and it can easily be done in spreadsheet applications.
+\end{solution}
+\end{exercise}
+
+
+\subsection{Service Levels}
+
+We have so far used a cost-based approach towards demand satisfaction, i.e., we model the cost of loss with the parameter $b$ per lost sales. Another relevant aspect  is quantified by the concept \recall{service level}. 
+We say that the \recall{$\boldsymbol \alpha$-service level} is satisfied if the probability that all demand in a period is met from on-hand stock (i.e., no stock-out occurs) is larger than the threshold $\alpha$.  The \recall{$\boldsymbol{\beta}$-service level} is the fraction of demand satisfied from on-hand stock is larger than~$\beta$. 
+
+So, how does it work when dealing with service levels? We choose a type of service level and  a critical level which are (we think) acceptable for our customers, or for the market in which we operate. Then we need to find a $Q$ sufficiently large such that this level is met. Of course, $Q$ should not be excessive as this leads to high costs. Thus, once again, the problem is to find a reasonable $Q$. The formulas and exercises provide further insight into these concepts.
+
+Let us start with the definitions.
+\begin{exercise}
+Explain that for the $\alpha$ service level, $Q$ must be such  that
+\begin{equation}\label{eq:26}
+  F(Q) = \P{D\leq Q} \geq \alpha.
+\end{equation}
+\begin{solution}
+The $\alpha$-service level constraint is simply the probability of not stocking out. We stock-out if demand $D$ exceeds the order quantity $Q$. This occurs with frequency $\P{D> Q}$. Hence, the probability of not stocking out is $1-\P{D>Q} = \P{D\leq Q}$. 
+
+Recall that $F(x) = \P{D\leq x}$ is the probability distribution of $D$. 
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Explain that for the  $\beta$ service level we require $Q$ to be  such that
+\begin{align}\label{eq:25}
+\frac{\E{\min\{Q, D\}}}{\E{D}} \geq \beta.
+\end{align}
+Observe that the $\beta$ service level is a bit harder to compute than the $\alpha$ service level.
+
+\begin{solution}
+The $\beta$-service level is the ratio of expected demand satisfied to expected demand. Recall that the expected demand met is $\E{\min\{Q, D\}}$ and the expected demand is $\E{D}$. 
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+For the $\beta$ service level we need to be able to compute  $\E{\min\{D,Q\}}$. Show that
+\begin{equation*}
+  \E{\min\{D,Q\}} = \sum_{i=0}^Q i\/ f(i) + Q\/\P{D> Q}.
+\end{equation*}
+With this its is relatively easy to compute~\eqref{eq:25}. 
+  \begin{solution}
+\begin{align*}
+  \E{\min\{D,Q\}} 
+&= \sum_{i=0}^\infty \min(i,Q)f(i) = \sum_{i=0}^Q i f(i) + \sum_{i=Q+1}^\infty Q f(i) \\
+&= \sum_{i=0}^\infty \min(i,Q)f(i) = \sum_{i=0}^Q i f(i) + Q \sum_{i=Q+1}^\infty f(i).
+%&=.\sum_{i=0}^Q i f(i) + Q \sum_{i=Q+1}^\infty f(i)
+\end{align*}
+Observing that $\sum_{i=Q+1}^\infty f(i)=\P{D\geq Q+1}$,  we can simplify the above to
+\begin{equation*}
+  \E{\min\{D,Q\}} = \sum_{i=0}^Q i\/ f(i) + Q\/\P{D\geq Q+1}.
+\end{equation*}
+  \end{solution}
+\end{exercise}
+
+
+\begin{exercise}
+To see how to apply the above, suppose that the demand has pmf
+\begin{align*}
+ f(0)&=0.1, &f(1)&=0.05, &f(2)&=0.2, \\
+f(3) &= 0.3 & f(4) &= 0.15 & f(5)=& 0.1, &f(6)&=0.1.
+\end{align*}
+What $Q$ do you need to satisfy an $\alpha$ service level of 80\%; what for a $\beta$-level of $90\%$?
+\begin{solution}
+First we need the distribution function $F$. From the above
+$F(6)=1$, $F(5)=1-f(6) = 0.9$, $F(4)=F(5)-f(5) = 0.8$. Thus, from~\eqref{eq:26}, we see that by taking $Q=4$, we have an $\alpha$-service level of 80\%.
+
+For the $\beta$, we need $\E D$ and $\E{\min\{Q, D\}}$. As this is a bit of work, we write a computer program to carry out the work. We start with computing the basic things
+\begin{pyconsole} [news-service]
+import numpy as np
+
+f = np.array([0.1, 0.05, 0.2, 0.3, 0.15, 0.1, 0.1])
+F = f.cumsum()
+F
+G = 1 - F
+G
+ED = sum(i*p for i, p in enumerate(f))
+ED
+\end{pyconsole}
+
+Here is the function to compute the $\beta$-service level.
+\begin{pyconsole}[news-service]
+def beta(Q):
+    res = sum(i*p for i, p in enumerate(f) if i <= Q)
+    res += Q*G[Q]
+    res /= ED
+    return res
+    
+\end{pyconsole}
+And the results.
+\begin{pyconsole}[news-service]
+for Q in range(len(f)):
+    print(Q, beta(Q))
+    
+\end{pyconsole}
+To meet a $\beta$ service level of $0.9$ we need  $Q=5$, which is nearly large enough, or, if we insist $Q=6$. 
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+To gain some further intuition:  what happens to the service levels if $Q$ increases?
+  \begin{solution}
+Notice that both service level measures are increasing in the order quantity. That is, the more we order the higher the service level. In detail, for the $\alpha$ level,
+\begin{align*}
+  \P{D\leq Q+1} = \P{D\leq Q} + \P{D=Q+1} > \P{D \leq Q}.
+\end{align*}
+Thus, if $\P{D\leq Q} > \alpha$, then $\P{D\leq Q+1}$ certainly is. For the $\beta$ level, observe that $\E{\min\{Q+1, D\}} \geq \E{\min\{Q, D\}}$. 
+  \end{solution}
+\end{exercise}
+
+\begin{exercise}
+Finally, to understand how the $\alpha$ and $\beta$ service measures compare against each other, consider a case with $f(100)=\P{D=100}=1$ and $Q=99$. Conclude that the $\beta$ service level is more useful.
+\begin{solution}
+Despite these measures serve for somewhat similar purposes, they can be very different than each other. For instance, consider the case that $D=100$ always, and we order $Q=99$ units. 
+In this case, 
+\begin{align*}
+F(99) = \P{D\leq Q} = 0.
+\end{align*}
+Thus, our performance with respect to the $\alpha$ service level is terrible.
+On the other hand, we know that we will satisfy exactly 99 units of demand if we order 99 units. Therefore, the stock-out  quantity is just 1 unit. Thus, our fill rate will be 
+\begin{align*}
+\frac{\E{\min\{Q,D\}}}{\E{D}} = \frac{99}{100} = 0.99.
+\end{align*}
+The performance with respect to the $\beta$ service level is excellent.
+\end{solution}
+\end{exercise}
+
+At this point we have discussed the most important aspects of the single-period newsvendor. We have cost and profit functions by which we compute the influence of the order quantity $Q$ on both of these, and we have functions to assess the service levels. In the next two sections we show how to compute all these functions for two specific, but for practice reasonable, demand distributions. 
+
+
+\subsection{Newsvendor problem with normal demand}
+
+As in many cases the demand distribution of $D$ can be fairly well approximated by a normal distribution with mean $\mu$ equal to the average demand $\E D$ and $\sigma^2$ equal to the demand variance $\V D$. When the normal approximation holds, the computations of the $L(Q)$ and the service levels can be considerably simplified. Here we discuss how to go about in this situation. 
+
+
+We first concentrate on computing $L(Q)$ and $Q^*$ for normally distributed demand.  Then, omitting the math, 
+\begin{equation*}
+L(Q)  = h(Q-\mu) + (h+b) \sigma F_{\text{loss}}(z),
+%& = h \ex (Q-D)^+ + b \ex (Q-D)^- \\
+\end{equation*}
+where 
+%$$ and $F_{\text{loss}}$ is the 'standard normal loss function'. 
+%The standard normal loss function is defined as 
+\begin{align*}
+z&=\frac{Q-\mu}{\sigma} & F_{\text{loss}}(z) &= \phi(z)-z(1-\Phi(z))
+\end{align*}
+with $\phi(z)$ and $\Phi(z)$ are the density and distribution function, respectively, of a standard normally distributed random variable with $\mu=0$ and $\sigma=1$.\footnote{These functions are accessible in spreadsheet applications. For instance, in Excel we have 
+\begin{align*}
+\phi(z) &=\mathtt{NORMDIST(z,0,1,FALSE)}
+&
+\Phi(z) &=\mathtt{NORMSDIST(z)}.
+\end{align*}
+With this, we can compute the 'standard normal loss function as
+\begin{align*}
+F_{\text{loss}}(z) = \mathtt{=NORMDIST(z,0,1,FALSE)-z*(1-NORMSDIST(z))}.
+\end{align*}
+}
+
+
+\begin{exercise}\label{ex:nw_stoc_norm}
+Let $D$ be normally distributed with mean 20 and standard deviation 5, $h=1$ and $b=10$; and plot $L(Q)$ for different values of $Q=1,\ldots,40$.
+
+
+\begin{solution}
+See the figure.
+
+% \begin{center}
+% \begin{tikzpicture}
+% \scriptsize
+% \def\avg{20}
+% \def\std{5}
+% \def\h{1}
+% \def\p{10}
+% \begin{axis}[
+% 	xlabel=$Q$,
+% 	legend style={nodes=right},
+% 	axis lines=middle,
+% 	ymin=0, 
+%         ylabel={$L(Q)$}]
+% \addplot [color=red,thick,domain=0:2*\avg] {Lstoch(\x,\avg,\std,\h,\p)};
+% \addlegendentry{$\h\ex(Q - D)^+ + \p\ex(Q - D)^-$}
+% \end{axis}
+% \end{tikzpicture}
+% \end{center}
+
+\begin{pycode}[news]
+h = 1
+b = 10
+mu = 20
+sigma = 5 
+D = norm(loc=mu, scale=sigma) 
+
+def L(q):
+    term1 = h*quad(lambda x: (q-x)*D.pdf(x), 0, q)[0]
+    term2 = b*quad(lambda x: (x-q)*D.pdf(x), q, np.inf)[0]
+    return term1 + term2
+
+X = np.arange(0, 40, 1)
+
+Lnorm = []
+for q in X:
+    Lnorm.append(L(q))
+
+plt.figure(figsize=(5, 4))
+plt.plot(X, Lnorm, label="$L(Q)$, normal")
+plt.xlabel("$Q$")
+plt.ylabel("Cost")
+plt.legend()
+filename = "figures/Lnorm.pdf"
+plt.savefig(filename)
+plt.close()
+\end{pycode}
+
+\begin{center}
+\includegraphics{figures/Lnorm.pdf}
+\end{center}
+
+\end{solution}
+\end{exercise}
+
+
+\begin{exercise}[Continuation]
+Compare  the graphs obtained in Exercises~\ref{ex:nw_det} and~\ref{ex:nw_stoc_norm}. 
+Specifically, observe and discuss:
+\begin{enumerate}
+\item Why is the  cost for the stochastic system larger?
+\item Why are the costs around $Q=0$ and $Q=40$ nearly the same? 
+\item Why is the optimal order quantity in the stochastic case a bit larger?
+\end{enumerate}
+% Note that the deterministic problem considered in Exercise~\ref{ex:nw_det} can be perceived as a stochastic problem with normally distributed demand with mean 20 and 0 standard deviation.
+\begin{solution}
+Here is the graph.
+
+%   \begin{center}
+% \begin{tikzpicture}
+% \scriptsize
+% \def\avg{20}
+% \def\std{5}
+% \def\h{1}
+% \def\p{10}
+% \begin{axis}[
+% 	xlabel=$Q$,
+% 	legend style={nodes=right},
+% 	axis lines=middle,
+% 	ymin=0]
+% \addplot [color=blue,thick,domain=0:2*\avg] {Ldeter(\x,\avg,\h,\p)};
+% \addplot [color=red,thick,domain=0:2*\avg] {Lstoch(\x,\avg,\std,\h,\p)};
+% \addlegendentry{$\h(Q - \avg)^+ + \p(Q - \avg)^-$}
+% \addlegendentry{$\h\ex(Q - D)^+ + \p\ex(Q - D)^-$}
+% \end{axis}
+% \end{tikzpicture}
+%   \end{center}
+
+\begin{pycode}[news]
+h = 1
+b = 10
+
+def L(q, D):
+    term1 = h*quad(lambda x: (q-x)*D.pdf(x), 0, q)[0]
+    term2 = b*quad(lambda x: (x-q)*D.pdf(x), q, np.inf)[0]
+    return term1 + term2
+
+X = np.arange(0, 40, 1)
+
+D = 20
+Ldet = []
+for q in X:
+    Ldet.append(h*max(q-D, 0) + b*max(D-q, 0))
+
+mu = 20
+sigma = 5 
+D = norm(loc=mu, scale=sigma) 
+Lnorm = []
+for q in X:
+    Lnorm.append(L(q, D))
+
+plt.figure(figsize=(5, 4))
+plt.plot(X, Lnorm, label="$L(Q)$, normal")
+plt.plot(X, Ldet, label="$L(Q)$, deterministic")
+plt.xlabel("$Q$")
+plt.ylabel("Cost")
+plt.legend()
+filename = "figures/Lnorm_det.pdf"
+plt.savefig(filename)
+plt.close()
+\end{pycode}
+
+\begin{center}
+\includegraphics{figures/Lnorm_det.pdf}
+\end{center}
+
+\begin{enumerate}
+\item The stochastic cost is always larger than the deterministic one. this is due to the fact that there is always a non-zero probability of overage and shortage in the stochastic case. 
+\item For very small and very large values of order quantity cost figures coincide. This can be explained as follows. On the one hand, if order quantity is very large then, most surely, no demand will be lost. Therefore, the expected total cost will be nearly overage cost times the order quantity minus the expected demand, i.e. $\approx h(Q-\E{D})$. On the other hand, if the order quantity is very small then all demand will be lost. Therefore, the expected total cost will be nearly equal to shortage cost times the expected demand, i.e. $b \E{D}$. 
+% That's why the we have $L(0)\approx 10\cdot20=200$. This is the very same cost that would realize if demand was exactly 20 units and the order quantity was 0.
+\item It is optimal to order 20 units in the deterministic case, whereas it is a bit higher in the stochastic case. This can be attributed to the demand uncertainty and shortages being more expensive as compared to overages. 
+\end{enumerate}
+
+\end{solution}
+\end{exercise}
+
+
+
+
+\begin{exercise}[Continuation]
+Plot $L(Q)$ three times, for $\sigma=1$, $\sigma=5$ and $\sigma=10$, respectively. What do you observe?
+\begin{solution}
+In the figure below we observe that increasing standard deviation leads to further deviations from the deterministic case and larger optimal order quantities. 
+
+% \centering
+% \begin{tikzpicture}
+% \scriptsize
+% \def\avg{20}
+% \def\h{1}
+% \def\p{10}
+% \begin{axis}[
+% 	xlabel=$Q$,
+% 	legend style={nodes=right},
+% 	axis lines=middle,
+% 	ymin=0]
+
+% \addplot [color=red,thick,domain=0:2*\avg] {Lstoch(\x,\avg,1,\h,\p)};
+% \addlegendentry{$\sigma=1$}
+
+% \addplot [color=blue,thick,domain=0:2*\avg] {Lstoch(\x,\avg,5,\h,\p)};
+% \addlegendentry{$\sigma=5$}
+
+% \addplot [color=green,thick,domain=0:2*\avg] {Lstoch(\x,\avg,10,\h,\p)};
+% \addlegendentry{$\sigma=10$}
+
+% \end{axis}
+% \end{tikzpicture}
+
+\begin{pycode}[news]
+h = 1
+b = 10
+X = np.arange(0, 40, 1)
+
+D = 20
+Ldet = []
+for q in X:
+    Ldet.append(h*max(q-D, 0) + b*max(D-q, 0))
+
+def L(q, D):
+    term1 = h*quad(lambda x: (q-x)*D.pdf(x), 0, q)[0]
+    term2 = b*quad(lambda x: (x-q)*D.pdf(x), q, np.inf)[0]
+    return term1 + term2
+
+
+mu = 20
+sigma = 1
+D = norm(loc=mu, scale=sigma) 
+Lnorm1 = []
+for q in X:
+    Lnorm1.append(L(q, D))
+
+mu = 20
+sigma = 5 
+D = norm(loc=mu, scale=sigma) 
+Lnorm5 = []
+for q in X:
+    Lnorm5.append(L(q, D))
+
+mu = 20
+sigma = 10
+D = norm(loc=mu, scale=sigma) 
+Lnorm10 = []
+for q in X:
+    Lnorm10.append(L(q, D))
+
+
+plt.figure(figsize=(5, 4))
+plt.plot(X, Ldet, label="$L(Q), \sigma=0$")
+plt.plot(X, Lnorm1, label="$L(Q), \sigma=1$")
+plt.plot(X, Lnorm5, label="$L(Q), \sigma=5$")
+plt.plot(X, Lnorm10, label="$L(Q), \sigma=10$")
+plt.xlabel("$Q$")
+plt.ylabel("Cost")
+plt.legend()
+filename = "figures/Lnorm_sigma.pdf"
+plt.savefig(filename)
+plt.close()
+\end{pycode}
+
+\begin{center}
+\includegraphics{figures/Lnorm_sigma.pdf}
+\end{center}
+
+
+\end{solution}
+\end{exercise}
+
+
+For normally distributed demand the critical fraction condition~\eqref{eq:255} takes a particularly simple form. Again, omitting the math,
+\begin{equation}\label{eq:412}
+Q^* = \mu + \sigma \Phi^{-1}\left(\frac b{b+h}\right) 
+\end{equation}
+where $\Phi^{-1}$ is the inverse of the standard normal distribution.\footnote{In  spreadsheet applications,  for instance Excel, this is 
+\begin{align*}
+\Phi^{-1}(\beta)=\mathtt{=NORMSINV(b/(b+h))}.
+\end{align*}
+}
+%if the inverse distribution function of the demand exists. 
+Thus, besides plotting $L(Q)$ for many different values of $Q$ and searching for its minimizer $Q^*$, we have a simple formula to find $Q^*$. This is actually another reason to model demand as normally distribution: the computation of $Q^*$ is so easy.
+
+
+
+\begin{exercise}[Continuation with $\sigma=5$]
+%Let $D$ be normally distributed with mean 20 and standard deviation 5, $h=1$ and $b=10$. 
+What is the optimal order quantity? Verify your result by comparing it against the graph you obtained in Exercise~\ref{ex:nw_stoc_norm}. 
+
+
+
+\begin{solution}
+$b/(b+h)=10/11$. 
+\begin{align*}
+Q^* 
+& = \mu + \sigma \Phi^{-1}(b/(b+h)) \\
+& = 20 + 5\cdot \Phi^{-1}(10/11) = 20 + 5\cdot \Phi^{-1}(1.3352) = 26.676.
+\end{align*}
+\end{solution}
+\end{exercise}
+
+
+\begin{exercise}[Continuation]
+Plot the $\alpha$- and $\beta$-service levels for different values of $Q$.
+\begin{solution}
+See the figure.\nvf{todo, make python}\nvf{Explain how to read this.}
+
+\begin{pycode}[news]
+Q_range = np.arange(0, 40, 1)
+demand = norm(loc=20, scale=5)
+
+# alpha level
+alpha = demand.cdf(Q_range)
+
+# beta level 
+beta = []
+for Q in Q_range:
+    beta.append(demand.expect(lambda x: min(x, Q))/demand.mean())
+    #res = quad(lambda x: min(x, q)*demand.pdf(x), 0, np.inf)[0]
+
+
+plt.figure(figsize=(5, 4))
+plt.plot(Q_range, alpha, "o", markersize="2", label='$\\alpha$')
+plt.plot(Q_range, beta, "+", markersize="3", label='$\\beta$')
+plt.xlabel("$Q$")
+plt.legend(loc="upper left")
+#plt.show()
+#quit()
+filename = "figures/newsvendor_alpha.pdf"
+plt.savefig(filename)
+plt.close()
+\end{pycode}
+
+\begin{center}
+% \begin{tikzpicture}
+% \scriptsize
+% \def\avg{20}
+% \def\std{5}
+% \def\h{1}
+% \def\p{10}
+% \begin{axis}[
+% 	xlabel=$Q$,
+% 	legend style={nodes=right},
+% 	axis lines=middle,
+% 	ymin=0]
+% \addplot [color=blue,thick,domain=0:2*\avg] {StandNormCdf((\x-\avg)/\std)};	
+% \addplot [color=red,thick,domain=0:2*\avg] {1-((StandNormLoss((\x-\avg)/\std)*\std)/\avg)};
+% \addlegendentry{$\alpha$}
+% \addlegendentry{$\beta$}
+% \end{axis}
+% \end{tikzpicture}
+\includegraphics{figures/newsvendor_alpha.pdf}
+\end{center}
+\end{solution}
+\end{exercise}
+
+
+The term \recall{safety stock} is the extra on-hand stock to mitigate the costs due to stock-outs. 
+
+\begin{exercise}
+Explain that the term $\sigma \Phi^{-1}(b/(b+h))$ in \eqref{eq:412} corresponds to the  safety stock.
+\begin{solution}
+In $Q^* = \mu + \sigma \Phi^{-1}(b/(b+h))$, the mean $\mu$ is required to cover the mean demand. The second $\sigma \Phi^{-1}(b/(b+h))$ stands for the safety stock, as it exactly is the extra stock, on the top of the anticipated demand $\mu$, to avoid stock outs.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+How do $\sigma$ and $b$ affect the critical fraction?
+\begin{solution}
+We first observe that $\sigma \Phi^{-1}(b/(b+h))$ is increasing in the standard deviation $\sigma$ of the demand.  Second, if $b/(b+h)$ increases, $\Phi^{-1}(b/(b+h))$ also increases. Thus, we see that $b/(b+h)$ increases if the stock-out costs $b$ increase. Thus, if $b$ increases, the safety stock also increases.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Can safety stock be negative?
+
+
+\begin{solution}
+Yes. If the unit overage cost is higher than the unit shortage cost, then it could make sense to order less than the mean demand. For instance, in case of normally distributed demands, if we had $h>b$ and therefore $b/(b+h)<0.5$, then $\Phi^{-1}(b/(b+h))<0$. This would, in turn, lead to a negative safety stock. 
+\end{solution}
+\end{exercise}
+
+
+% \begin{exercise}
+% Reproduce the results of the Christmas Lights Example of Factory Physics.
+% \begin{solution}
+%   First the data. We also use a numerical library (scipy.stats) to handle the computations for
+%   the normal distribution. 
+
+% \begin{pyconsole}
 % from scipy.stats import norm
-% c_o = 5 - 2.5
-% c_s = 10 - 5
+% h = 5 - 2.5  
+% b = 10 - 5
 % mu = 10000
 % sigma = 1000
-% X = norm(loc=mu, scale=sigma) # demand
-% \end{minted}
+% D = norm(loc=mu, scale=sigma) # demand
+% \end{pyconsole}
+
+% Now the computations.
+% \begin{pyconsole}
+% critical_fractile = b / (h + b)
+% Q_star = D.ppf(critical_fractile)
+% Q_star
+% \end{pyconsole}
+
+% \end{solution}
+% \end{exercise}
 
 
-The result of the book is easy to produce. 
+% \begin{exercise}
+%   In this christmas light example, 
+% do you think that $\sigma = 1000$ is reasonable? 
+%   \begin{solution}
+%     In all honesty, I think it is way too small. I would say that
+%     $\sigma=5000$ is much more reasonable. The problem is that if you
+%     would use this larger value, i.e., $\sigma=5000$, in the normal
+%     distribution, the probability that the demand is
+%     $\P{D<0}=\Phi((D-\mu)/\sigma) < 0$ is not small anymore. However,
+%     the demand cannot be negative, hence using the normal distribution
+%     as an approximation of the demand is wrong for such cases. 
+
+%     Now this happens quite often: The problems in the books are tuned
+%     to showcase the simple methods developed in the book. However, as
+%     soon you have to do something real, the simple tricks all of a
+%     sudden don't work anymore. 
+%   \end{solution}
+% \end{exercise}
 
 
-% \begin{minted}[fontsize=\footnotesize, xleftmargin=0.5em, mathescape]{python}
-% >>> critical_fractile = c_s / (c_o + c_s)
-% >>>
-% >>> Q_star = X.ppf(critical_fractile)
-% >>> Q_star
-% 10430.727299295457
 
-% \end{minted}
+%\begin{comment}
 
-\end{solution}
-\end{question}
-
-\begin{question}
-  In this christmas light example, 
-do you think that $\sigma = 1000$ is reasonable? 
-  \begin{solution}
-    In all honesty, I think it is way too small. I would say that
-    $\sigma=5000$ is much more reasonable. The problem is that if you
-    would use this larger value, i.e., $\sigma=5000$, in the normal
-    distribution, the probability that the demand is
-    $\P(X<0)=\Phi((X-\mu)/\sigma < 0$ is not small anymore. However,
-    the demand cannot be negative, hence using the normal distribution
-    as an approximation of the demand is wrong for such cases. 
-
-    Now this happens quite often: The problems in the books are tuned
-    to showcase the simple methods developed in the book. However, as
-    soon you have to do something real, the simple tricks all of a
-    sudden don't work anymore. 
-  \end{solution}
-\end{question}
-
-
-\begin{question} A Case to  Get rich in one day. 
-
-  \begin{itemize}
-  \item You plan to sell Napoleons tomorrow just outside of the
-    Duisenberg building.
-  \item How much money can you make? 
-  \item How many Napoleons would you order today, to sell tomorrow?
-  \end{itemize}
-  Realize that this case contains a number of the problems related to
-  dealing with perishable inventory, e.g., fashion. 
-
+\begin{example}
+Here is a final example on how to apply the newsvendor problem to a concrete case.  Suppose that you plan to sell Napoleons, tomorrow  just outside of the Duisenberg building.
+  \begin{center}
    \includegraphics[scale = 1.0]{figures/mille-feuille}
+  \end{center}
+The question is how  many  Napoleons  you need to order and how much money  you expect to make. We emphatically remark that our analysis below  of this problem extends way beyond napoleons; it applies equally well to fashion, perishable food, and so on.
+  
 
-   \begin{solution}
-Here are the steps.
-  \begin{itemize}
-  \item Let's first assume that demand is normally distributed. Then
-    we know from FP that $Q$ should be such that
-    $G(Q) = c_s/(c_s+c_o)$.
-  \item We make some assumptions about the prices. Take $p_s=0.75$,
-    $p_b = 0.25$. $p_e=0$. Hence, $c_o = 0.25$, and $c_s = 0.5$.
-  \item Thus, the critical fraction is $c_s/(c_s+c_o)=0.5/0.75 = 2/3$.
-  \item Now compute $z$ with $\Phi(z)=2/3.$. Hence $z=0.43$.
-  \item We also need some idea about the demand. How to get this?
-  \item For Napoleons, we don't have yesterday's demand \ldots
-  \item Can we use demand data of similar products?  I don't know what
-    data to use. I have never tried to sell napoleons.
-  \item Can we ask our sales force?  no. We don't have a sales force. 
-  \item Last resort: make an educated guess; use powers of ten
-    trick. Under this price model, I expect to sell more 1 napoleon,
-    also more than 10, 100 might be, 1000 is too much. So, take
-    $\mu=100$ as an estimate. Since I am not sure, $\sigma=30$ seems
-    reasonable.
-  \item If $\mu = 100$ and $\sigma = 30$, then $Q=0.43\sigma + \mu \approx 112$.
-  \item Finally, what is the profit $Z(Q)$?
-\item With the above formulas you can compute $Z(Q)$,  but let's use handwaving for a quick estimate. 
-\item Note that $\min\{Q, X\} \leq X$, hence
-  $\E \min\{X, Q\} \leq \E X= \mu$. If $\E \min\{X, Q\}\approx 95$,
-  then $Z(112) \approx 95p_s - 100 p_b = 95\cdot 0.75 - 100 \cdot 0.25$.
-  Since $95\approx100$, use this to simplify yet more:
-  $Z(112) \approx 100(0.75-0.25) = 50$ Euro.
-\item There are easier ways to make money!
-  \end{itemize}
-\end{solution}
-\end{question}
+Lets first make some guesses about the prices. A selling price of $p=0.75$ is reasonable; its the same as in a supermarkt. For the buying price, take $c = 0.25$, but this just a guess, in fact, we don't know. However, we do know that supermarkets make quite a big profit on anything they sell, so taking $c=p/3$ seems an ok guess. Next, for the salvage value, we take $s=0$; we don't plan to eat more than one or two left overs. As a consequence, $h = 0.25$, and $b = 0.5$. 
 
-\begin{question}
-   Summarize the approach we took to some insight into this napoleon
-   case, even though, initially, we had no idea about what profit we
-   could make.
+To estimate  the demand we need some more work. The problem is that, for napoleons, we don't have yesterday's demand (we have never sold napoleons so we don't have this data). Can we then use demand data of similar products?  No, we  never tried to sell anything similar to napoleons. Can we ask our sales force?  No, because  we don't have a sales force.  As a last resort, then, we decide to make an educated guess. For this, we use the increadibly powerful tool of \recall{powers of ten method}\footnote{If there is anything you have to remember from this set of notes, it is this trick! Its impossible to overestimate how useful this method is.}. Under the above price model, we expect to sell more 1 napoleon and also more than 10. A hundred  is possible, thousand seems too much (If there are 5000 student on a day in the Duisenberg, one out of five needs to buy a napoleon; this is too much.) So, we take  $\mu=100$ as an estimate for the mean. Next, since we are not sure about $\mu$, lets assume $\sigma=30$. 
+
+Note that, after having computed the optimal order quantity $Q^*$ for these parameters, we can always change some of the parameters if $Q^*$ seems wrong. 
+
+\begin{pycode}[news]
+#from scipy.stats import norm
+from scipy.integrate import quad
+p = 0.75
+c = 0.25
+s =0
+critical_fractile = (p - c)/(p -s)
+D = norm(loc=100, scale=30)
+Q_star = D.ppf(critical_fractile)   
+
+E_min = quad(lambda x: min(x, Q_star)*D.pdf(x), 0, np.inf)[0]
+E_min
+P = -c * Q_star + 0.75*E_min
+\end{pycode}
+
+Using the critical fraction formula with $b/(b+h) = 0.5/0.75 = 2/3$, 
+\begin{equation*}
+  Q^* = 100 + 30 * \Phi^{-1}(2/3) = 100 + 30 * 0.43 = 112.
+\end{equation*}
+This appears reasonable.  Next, we compute the profit
+  \begin{align*}
+P(Q) 
+&= (s-c)Q + (p-s)\E{\min\{D, Q\}} \\
+&= -0.25 Q + 0.75 \E{\min\{D, Q\}} \\
+&=\py[news]{"{0:.2f}".format(P)}.
+  \end{align*}
+Hmm, less than 50 Euros for a day's work, plus the risk. Obtaining a master degree brings in more money in a safer way. 
+
+
+\begin{exercise}
+   Summarize the steps  we took to analyze the napoleon
+   case and to  obtain some reasonable estimates on profit. 
    \begin{solution}
-Conclusion.
   \begin{itemize}
-  \item Determine/estimate relation between demand (distribution) and sales price
+  \item Make reasonable guesses about buying, selling and salvage price.
+  \item Estimate a demand distribution based on the sales price
   \item Make plots of the profit $Z$ as a function of $Q$, the demand
     distribution, and the sales price.
   \item Choose a $Q$ that makes sense. The existence of an optimal $Q$
     is a \emph{delusion}.
-  \item Be aware that salesforce may predict too high demand. They get insentives to sell much, but they are not responsible for overage cost!
   \end{itemize}
-   \end{solution}
- \end{question}
 
+Be aware that sales force may predict too high demand. They get incentives to sell much, but they are not penalized for overages!
+   \end{solution}
+\end{exercise}
+\end{example}
+
+
+% \begin{remark}[\rocket] Sometimes the demand is modeled as a continuous random variable, in which case the cost  $L(Q)$ takes  the form
+% \begin{align*}
+% L(Q) & = h \E{(Q-D)^+} + b \E{(Q-D)^-} \\
+%      & = \int_0^\infty \left(h (Q-x)^+ + b (Q-x)^-\right) f(x) \d x
+% \end{align*}
+% where $f(x)$ is the \emph{probability density function} of $D$  and has the conceptual meaning
+% of $f(x)\d x=\P{X\in[x, x+\d x]}$. For most practical cases, this formula is less useful than~\eqref{eq:59}, simply because the integrals have to be carried out numerically. Nearly only  the demand is normally distributed the above is useful.  For this reason, we do not discuss this further.
+% \end{remark}
+
+\subsection{Newsvendor problem with log-normal demand (\faRocket)}
+
+\begin{exercise}
+Suppose measurements show that the demand has mean $\mu=100$ and standard deviation $\sigma=50$. Why is it a bad idea to use the normal distribution to model the demand?
+\begin{solution}
+It is well-known that normal distribution is not appropriate for modeling demands if standard deviation is large. That is because it then assigns a significant probability to negative demands. For instance, the probability of having a demand less than or equal to zero is around 16\% if it is normally distributed with the same mean and standard deviation. As a rule of thumb; it would make sense to avoid normal distribution if standard deviation is larger than one third of the demand. 
+\end{solution}
+\end{exercise}
+
+To repair this problem with the normal distribution, the log-normal distribution is an interesting alternative.  Its domain is restricted to the positive numbers, hence demand cannot be negative,  while it still possesses many (but not all) practical properties of the normal distribution. Specifically, when a random variable $D$ is normally distributed with mean $\mu$ and standard deviation $\sigma$, then $e^D$ is log-normally distributed with mean $\upsilon$ and standard deviation $\tau$ where 
+\begin{align*}
+\upsilon = \ln \mu - \ln \sqrt{1+(\sigma/\mu)^2} \quad \text{and} \quad \tau = \sqrt{\ln(1+(\sigma/\mu)^2)}
+\end{align*}
+The log-normal distribution is easily accessible in spreadsheet applications\footnote{For instance, in Excel it's probability distribution function can be obtained by
+\begin{equation*}
+F(x)=\mathtt{LOGNORMDIST(x,\upsilon,\tau)} 
+\end{equation*}
+}.
+
+
+For log-normal distributed demand it can be seen that the minimal costs are attained at
+\begin{align*}
+%L(Q) & = h(Q-\mu) + (h+b) (\mu\Phi(\tau-z) - Q\Phi(-z)) \\
+Q^* & =e^{\upsilon + \tau \Phi^{-1}(b/(b+h))},
+\end{align*}
+where, $z=(Q-\mu)/\sigma$ and $\Phi$ is the standard normal distribution function.
+
+
+\begin{exercise}
+Plot and compare the probability distribution functions of the normal and log-normal distributions for $\mu=20$ and  for different values of standard deviation $1, 5, 10, 20$.
+\begin{solution}
+See the figures below. We observe that the normal distribution function has a positive probability at zero. This is not the case for log-normal distributions. It is also possible to see that normal and log-normal distributions look alike if standard deviation is small.
+
+% \begin{figure}[htbp]
+% \begin{subfigure}[b]{0.5\textwidth}
+% \begin{center}
+% \begin{tikzpicture}[x=0.01cm,y=0.06cm]
+% \scriptsize
+% \def\avg{20} 
+% \def\std{20}
+% \pgfmathsetmacro{\logavg}{ln \avg - ln sqrt(1+(\std/\avg)*(\std/\avg))}
+% \pgfmathsetmacro{\logstd}{sqrt(ln (1+(\std/\avg)*(\std/\avg)))}
+% \begin{axis}[
+% 	xlabel=$x$,
+% 	ylabel=$F(x)$,
+% 	ymax=1.05,
+% 	legend style={at={(.65,0.1)},anchor=south west},
+% 	axis lines=middle]
+% \addplot [color=blue,smooth,thick,domain=0:2*\avg] {StandNormCdf((\x-\avg)/\std)};
+% \addplot [color=red,smooth,thick,domain=0:2*\avg] {StandNormCdf((ln \x-\logavg)/\logstd)};
+% \addlegendentry{Normal}
+% \addlegendentry{Log-normal}
+% \end{axis}
+% \end{tikzpicture}
+% \end{center}
+% \caption{$\mu=20$ and $\sigma=20$}
+% \label{fig:normlognorm20}
+% \end{subfigure}
+% ~
+% \begin{subfigure}[b]{0.5\textwidth}
+% \begin{center}
+% \begin{tikzpicture}[x=0.01cm,y=0.06cm]
+% \scriptsize
+% \def\avg{20} 
+% \def\std{10}
+% \pgfmathsetmacro{\logavg}{ln \avg - ln sqrt(1+(\std/\avg)*(\std/\avg))}
+% \pgfmathsetmacro{\logstd}{sqrt(ln (1+(\std/\avg)*(\std/\avg)))}
+% \begin{axis}[
+% 	xlabel=$x$,
+% 	ylabel=$F(x)$,
+% 	ymax=1.05,
+% 	legend style={at={(.65,0.1)},anchor=south west},
+% 	axis lines=middle]
+% \addplot [color=blue,smooth,thick,domain=0:2*\avg] {StandNormCdf((\x-\avg)/\std)};
+% \addplot [color=red,smooth,thick,domain=0:2*\avg] {StandNormCdf((ln \x-\logavg)/\logstd)};
+% \addlegendentry{Normal}
+% \addlegendentry{Log-normal}
+% \end{axis}
+% \end{tikzpicture}
+% \end{center}
+% \caption{$\mu=20$ and $\sigma=10$}
+% \label{fig:normlognorm10}
+% \end{subfigure}
+% \\
+% \begin{subfigure}[b]{0.5\textwidth}
+% \begin{center}
+% \begin{tikzpicture}[x=0.01cm,y=0.06cm]
+% \scriptsize
+% \def\avg{20} 
+% \def\std{5}
+% \pgfmathsetmacro{\logavg}{ln \avg - ln sqrt(1+(\std/\avg)*(\std/\avg))}
+% \pgfmathsetmacro{\logstd}{sqrt(ln (1+(\std/\avg)*(\std/\avg)))}
+% \begin{axis}[
+% 	xlabel=$x$,
+% 	ylabel=$F(x)$,
+% 	ymax=1.05,
+% 	legend style={at={(.65,0.1)},anchor=south west},
+% 	axis lines=middle]
+% \addplot [color=blue,smooth,thick,domain=0:2*\avg] {StandNormCdf((\x-\avg)/\std)};
+% \addplot [color=red,smooth,thick,domain=0:2*\avg] {StandNormCdf((ln \x-\logavg)/\logstd)};
+% \addlegendentry{Normal}
+% \addlegendentry{Log-normal}
+% \end{axis}
+% \end{tikzpicture}
+% \end{center}
+% \caption{$\mu=20$ and $\sigma=5$}
+% \label{fig:normlognorm5}
+% \end{subfigure}
+% ~
+% \begin{subfigure}[b]{0.5\textwidth}
+% \begin{center}
+% \begin{tikzpicture}[x=0.01cm,y=0.06cm]
+% \scriptsize
+% \def\avg{20} 
+% \def\std{1}
+% \pgfmathsetmacro{\logavg}{ln \avg - ln sqrt(1+(\std/\avg)*(\std/\avg))}
+% \pgfmathsetmacro{\logstd}{sqrt(ln (1+(\std/\avg)*(\std/\avg)))}
+% \begin{axis}[
+% 	xlabel=$x$,
+% 	ylabel=$F(x)$,
+% 	ymax=1.05,
+% 	legend style={at={(.65,0.1)},anchor=south west},
+% 	axis lines=middle]
+% \addplot [color=blue,smooth,thick,domain=0:2*\avg] {StandNormCdf((\x-\avg)/\std)};
+% \addplot [color=red,smooth,thick,domain=0:2*\avg] {StandNormCdf((ln \x-\logavg)/\logstd)};
+% \addlegendentry{Normal}
+% \addlegendentry{Log-normal}
+% \end{axis}
+% \end{tikzpicture}
+% \end{center}
+% \caption{$\mu=20$ and $\sigma=1$}
+% \label{fig:normlognorm1}
+% \end{subfigure}
+% \caption{A comparison of normal and log-normal distributions}
+% \label{fig:normlognorm}
+% \end{figure}
+
+\begin{pycode}[news]
+from scipy.stats import lognorm
+x = np.linspace(0, 40, 100)
+
+# check tijms for the conversion
+
+def plot(mu, sigma):
+    s = np.sqrt(np.log(1+sigma**2/mu**2))
+    scale = mu/(1+sigma**2/mu**2)
+
+
+    plt.figure(figsize=(2.5, 3.5))
+    plt.plot(x, norm.cdf(x, loc=mu, scale=sigma), label="Norm") 
+    plt.plot(x, lognorm.cdf(x, s=s, scale=scale), '--', label="Log")
+    plt.xlabel("$x$")
+    #plt.ylabel("pdf")
+    plt.title("$\mu={}, \sigma={}$".format(mu, sigma))
+    plt.legend()
+    filename = "figures/lognorm_{}_{}.pdf".format(mu, sigma)
+    plt.savefig(filename)
+    plt.clf()
+
+plot(mu=20, sigma=20)
+plot(mu=20, sigma=10)
+plot(mu=20, sigma=5)
+plot(mu=20, sigma=1)
+
+plt.close()
+\end{pycode}
+
+\begin{center}
+  \begin{tabular}[h]{cc}
+\includegraphics{figures/lognorm_20_20.pdf} &
+\includegraphics{figures/lognorm_20_10.pdf} \\
+\includegraphics{figures/lognorm_20_5.pdf} &
+\includegraphics{figures/lognorm_20_1.pdf} \\
+  \end{tabular}
+\end{center}
+
+
+\end{solution}
+\end{exercise}
+
+
+
+\subsection{Starting Inventories}
+\label{sec:newsvendor_starting}
+
+\nvf{clean up}
+
+\begin{exercise}
+Consider the example from Exercise~\ref{ex:costprofit}. Plot $V^\#(x)$ for different values of $x$. 
+
+
+\begin{solution}
+See Figure~\ref{fig:maxV}. \nvf{todo} We have that $V^\#(x)=cx+V(Q^*)$ for all $x<Q^*$ and $V^\#(x)=cx+V(x)$ for all $x\geq Q^*$.
+% \begin{figure}[htbp]
+% \centering
+% \begin{tikzpicture}
+% \scriptsize
+% \def\c{2}
+% \def\p{4}
+% \def\s{1}
+% \def\Q{6}
+% \begin{axis}[
+% 	xlabel=$x$,
+% 	legend style={nodes=right},
+% 	axis lines=middle]
+% \addplot [color=blue,thick,domain=0:\Q] {V(\Q,\c,\p,\s)+\c*\x};
+% \addplot [color=blue,thick,domain=\Q:20] {V(\x,\c,\p,\s)+\c*\x};
+% \addlegendentry{$V^\#(x)$}
+% \end{axis}
+% \end{tikzpicture}
+% \caption{$V^\#(x)$}
+% \label{fig:maxV}
+% \end{figure}
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+It appears that $V^\#(x)$ is increasing on $x$. That is, the more we have at the beginning of the period the better. Does it make sense? Could there be a case where it is not increasing? Illustrate through an example.
+
+
+\begin{solution}
+Yes. First, although we have more inventory, we do not actually 'pay' for those. Therefore, there are a lot of cost savings. This is captured in the term $+cx$. Second, as there is a salvage value, we can always sell left-overs (which we did not pay for in the first place). This is captured in the $s\E{(Q-D)^+}$ term of the $V(Q)$. 
+
+There can indeed be cases where having more is not better. For instance, an example appears in cases where salvage value was negative -- where we need to pay for the left-overs. Let us set $s=-1$ in the previous example. Figure~\ref{fig:maxVsc} illustrates that $V^\#(x)$ is not increasing in $x$ in this case. 
+% \begin{figure}[htbp]
+% \centering
+% \begin{tikzpicture}
+% \scriptsize
+% \def\c{2}
+% \def\p{4}
+% \def\s{-1}
+% \def\Q{6}
+% \begin{axis}[
+% 	xlabel=$x$,
+% 	legend style={nodes=right},
+% 	axis lines=middle]
+% \addplot [color=blue,thick,domain=0:\Q] {V(\Q,\c,\p,\s)+\c*\x};
+% \addplot [color=blue,thick,domain=\Q:20] {V(\x,\c,\p,\s)+\c*\x};
+% \addlegendentry{$V^\#(x)$}
+% \end{axis}
+% \end{tikzpicture}
+% \caption{$V^\#(x)$ with salvage cost}
+% \label{fig:maxVsc}
+% \end{figure}
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Suppose that the newsvendor has to pay a fixed cost $A$ to order any item at the beginning of the period. How would it change the newsvendor's problem?
+
+
+\begin{solution}
+We assume that we start the period with 0 inventories. 
+
+If we do not order. Then the expected profit will be $P(0)=0$. If we order $Q$ units, then the expected profit will be $-A+P(Q)$. The newsvendor's problem should thus be extended to capture these two cases. 
+
+It is important to see that, once the fixed ordering cost is paid, the optimal order quantity should be the same -- as the ordering quantity that maximizes $P(Q)$ should be the same as the one that maximizes $-A+P(Q)$. That is because $A$ is a scalar that is not a part of the expected profit function. As a result of this; we should place an order only if $-A+P(Q^*)>P(0)=0$. In other words, if $P(Q^*)>A$ then it is worth to place an order. 
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Assume that we have on-hand $x$ units at the beginning of the period. Should we place an order? If so how many?
+
+
+\begin{solution}
+The trade-off we discussed in the previous case is the same here. That is, once the fixed ordering cost is paid, the optimal order quantity and the optimal expected profit should be the same as in the case with no fixed ordering costs -- as $A$ is once again a scalar that is not a part of the expected profit function. However, this time we should consider the expected profit while conditioning on the number of items on hand. 
+
+That is, we should compare $-A+V^\#(x)$ with $cx+V(x)$; and we should place an order only if $-A+V^\#(x)=-A+cx+V(\max\{x,Q^*\})>cx+V(x)$. This suggests that, if $V(\max\{x,Q^*\})-V(x)>A$ then it is worth to place an order and if so then we should place an order of size $Q^*-x$.
+
+Notice the following.
+\begin{enumerate}
+\item If $x<Q^*$ the condition becomes $V(Q^*)-V(x)>A$.
+\item If $x\geq Q^*$ we have $V(x)-V(x)=0>A$, This cannot hold by definition and it immediately shows that we should not place an order if what we already have on hand is larger than the optimal order quantity of the original problem.
+\end{enumerate}
+
+Let us consider the example from Exercise~\ref{ex:costprofit}. Here, the optimal order quantity $Q^*$ is 6. We consider two cases: $x=1$ and $x=7$. In the former, we have that $x<Q^*$. Thus we should order 5 units if $V(6)-V(1)=5.7-1.7=4>A$. In the latter, we have that $x\geq Q^*$. Thus we should not order.
+\end{solution}
+\end{exercise}
+
+
+\subsection{A newsvendor model with two stages}
+
+\begin{comment}
+  
+The discussion above leads to the following characterization of the optimal order quantity. Let $Q^*$ be the optimal order quantity in the original newsvendor case with no initial inventories. The previous exercise explains that, when starting with $x<Q^*$, we still order up to $Q^*$. Thus, 
+the optimal policy of newsvendor is a so-called \emph{base-stock policy}:  it is optimal to `order up-to' the \emph{base stock level} $Q^*$ whenever the inventory level is below this level and not to order otherwise. As a consequence,  it is actually better to interpret the newsvendor policy as an `order up-to' policy than an `order quantity' policy. Practically they may seem to boil down to the same thing, but the former interpretation turns out to be more intuitive and practical since the optimal order up-to level is independent from the current inventory level whereas the order quantity most certainly is not.
+
+
+It is because the optimal ordering policy is a base-stock policy. Following a base-stock policy, if what we have on-hand is smaller than the base-stock level, we order up-to the base-stock level, and otherwise we do not order. Therefore, what we order is strictly linked to what we already have. 
+\end{comment}
+
+Let us consider a case where we have a two-period planning horizon rather than one period as we had for the original newsvendor problem. As a concrete example we take the bread inventory at a supermarket with two moments to back bread: one before the shop opens and a second at noon. Thus, there are two periods, the morning and the afternoon, and bread that is not sold in the morning acts as a starting inventory for the afternoon. Thus, rather than having just one ordering decision, i.e., the order-up-to level for bread for the entire day, we have an extra order moment to update the inventory. 
+
+
+In the analysis to follow, we assume that we are not allowed to backorder demands. That is, demands that are not satisfied in the morning are lost. Nevertheless, our derivations can easily be extended to the case where backorders are allowed.  Moreover, we assume that items at the end of the period will not be salvaged but passed on to the second period.
+
+For convenience, we use the same notation that we used for the single-period newsvendor model. However, we add a period index to the buying and selling prices as well as the demand distribution, e.g.,  $c_n$, $p_{n}$, $f_n(\cdot)$ where $n\in\{1,2\}$), as these can be different in the first and the second period. 
+
+We work in steps, one step per exercise, to the final solution, and we reason `backwards', that is we first analyze the optimal decision structure for the last period (the afternoon), and then consider what to do for the first period (the morning).
+
+\nvf{Here we see that it it much easier to think in terms of order-up-to levels, as they remain constant, than in terms of order quantities, the latter depends on the order-up-to level and the starting inventory level.}
+
+% \begin{exercise}
+% Why is the problem for the  two-period newsvendor model essentially different from two independent newsvendor models (i.e., a newsvendor problem for the morning and another for the afternoon)?
+% \begin{solution}
+% The two-period newsvendor model has two ordering moments, and the ordering decision made in the first stage has consequences for the second stage. The dynamics of the problem are as follows. Let's assume we order $Q_1$ units in the first period. The leftover inventory at the end of the first period will then be $(Q_1-D_1)^+$. We know from Section~\ref{sec:newsvendor_starting} that we would like to order up to a certain level. Hence, the  ordering quantity for the afternoon should depend on what remains from the morning, i.e., on $(Q_1-D_1)^+$.
+
+% For the second period: what has happened (i.e. shortages, costs, etc.) in the first period is no longer of our concern when we deal with the second period. This means that we can think of the second period problem completely independent from the first, apart from $(Q_1-D_1)^+$. .
+% \end{solution}
+% \end{exercise}
+
+\nvf{make simulation}
+
+\begin{exercise} Explain that 
+\begin{align*}
+\Q^*_2 = \min\left\{\Q_2 : F_2(\Q_2)\geq \frac{b_2}{b_2+h_2}\right\}.
+\end{align*}
+is the optimal inventory level $\Q_2^*$ to  start the second period.
+\begin{solution}
+This follows right away from~\eqref{eq:255} with the cost parameters for the second period. Note that  $F_2$ is the distribution function of the demand for the second period.
+\end{solution}
+\end{exercise}
+
+
+\begin{exercise}
+Explain that the  expected profit for the second period if you order $\Q_2$ items is
+\begin{align}\label{eq:28}
+P_2(\Q_2) = b_2 \Q_2 - (b_2+h_2)\E{(\Q_2-D_2)^+}.
+%-c_{2} \Q_2+ p_{2}\E{\min\{\Q_2,D_2\}} + s_{2}\E{(\Q_2-D_2)^+}.
+\end{align}
+\begin{solution}
+Just specialize the buying cost $c$ to $c_2$ and so on in~\eqref{eq:27}.
+\end{solution}
+\end{exercise}
+
+Suppose henceforth that $x$ items are left from the first period, hence can be used as starting inventory for the second period.
+  
+\begin{exercise}
+Assume we order up to $\Q_2$,  show that the profit for the second period is given by
+$c_2 x + P_2(\Q_2)$.
+\begin{solution}
+Rather than having to buy all $\Q_2$ items, we don't have to buy the $x$ items. This saves a cost $c_2 x$. 
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Explain that it is optimal to order up to $\Q_2^*$ when $x<\Q_2^*$, but when $x\geq 
+Q_2^*$ it is best not to order at all. Thus, the optimal order quantity is $Q_2^* = (S_2^* - x)^+$.  
+\begin{solution}
+If $x<\Q_2^*$, we order up to level $\Q_2^*$ because $\Q_2^*$ is the optimal amount to start the period. When $x\geq \Q_2^*$, it is better not to order. 
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Given the starting inventory level $x$, show that optimal profit \nvf{Make a $V$ for a one period problem} for the second period is
+\begin{align}\label{eq:24}
+V_2(x) & = c_2x + \max_{\Q_2\geq x} \left\{P_2(\Q_2)\right\} \notag \\
+&= c_2x +
+  \begin{cases}
+    P_2(x), &\text{ if } x\geq \Q_2^*, \\
+    P_2(S_2^*), &\text{ if } x<\Q_2^*.
+  \end{cases}
+\end{align}
+\begin{solution} Observe that
+\begin{align*}
+V_2(x) 
+&:=\max_{\Q_2\geq x} \left\{P_2(x,\Q_2)\right\} 
+= \max_{\Q_2\geq x} \left\{c_2x + P_2(\Q_2)\right\} \\
+& = c_2x + \max_{\Q_2\geq x} \left\{P_2(\Q_2)\right\}.
+\end{align*}
+Next, with the previous exercise, if $x\geq \Q_2^*$ we don't order, and the second period starts at level $x$. If, on the other hand, $x<\Q_2^*$, it is optimal to place an order such that the second period starts at level $\Q_2^*$.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+As a check, what is $V_2(0)$? 
+  \begin{solution}
+    Assuming that $\Q_2^*>0$, we get $V_2(0) = 0 + P_2(\Q_2^*)$, i.e., the optimal profit for the second period without any starting inventory. 
+  \end{solution}
+\end{exercise}
+
+The two exercises form a toy example to show how to apply the above. Let the demand $D_2$ have  pmf 
+$f_2(0)=1/4, f_2(1)=1/5, f_2(2)=11/20$, and let $c_2=3$, $p_2=4$, and $s_2=1$. 
+
+\begin{exercise}
+Compute $P_2$ for $\Q_2$ is $0, 1, 2,$ and $3$. Show that the optimal starting level $\Q^*_2 = 1$ and $P_2(\Q_2^*) = 1/4$.
+\begin{solution}
+The critical fraction is 
+\begin{equation*}
+\frac{b_2}{b_2+h_2} = \frac{1}{1+2} = \frac 1 3,
+\end{equation*}
+where $b_2 =p_2-c_2 = 4-3=1$ and $h_2 =c_2 - s_2 = 3-1=2$. 
+As $F_2(0)=f_2(0)=1/4$, and $F_2(1)=F_2(0) + f_2(1) = 1/4 + 1/5 = 9/20$, and $F_2(2)=1$ the result follows.
+
+Next, 
+\begin{align*}
+  P_2(\Q_2^*) 
+&= b_2 Q_2^* - (b_2+h_2)\E{(\Q_2^*-D_2)^+} \\
+&= 1\cdot 1 - (1+2)\E{(1-D_2)^+} & \Q_2^* = 1\\
+&=1 - 3 \sum_{i=0}^2 (1-i)^+ f_2(i) \\
+&=1 - 3 ((1-0)^+ f_2(0) + (1-1)^+ f_2(1) +(1-2)^+ f_2(2) \\
+&=1 - 3 (1\cdot 1/4 + 0 + 0 ) \\
+&=  1 - \frac 3 4 = \frac 1 4.
+\end{align*}
+Likewise 
+\begin{align*}
+  P_2(2) 
+&= 1\cdot 2 - (1+2)\E{(2-D_2)^+} \\
+&= 2 - 3 (2f_2(0) + 1 f_2(1) + 0 f_2(2))\\
+&= 2 - 3 (\frac{2}{4} + \frac 1 5)\\
+&= 2 - \frac{21}{10} = -\frac 1{10}.
+\end{align*}
+
+Lets check it with the computer.
+\begin{pyconsole}[news-two]
+f2 = [1/4, 1/5, 11/20]
+c2, p2, s2 = 3, 4, 1
+b2, h2 = p2-c2, c2-s2
+
+def P(S, f, b, h):
+    res = b*S
+    res -= (b+h)*sum(max(S-i,0)*fi for i, fi in enumerate(f))
+    return res
+    
+for S2 in range(0, 4):
+    print("{}: {}".format(S2, P(S2, f2, b2, h2)))
+
+\end{pyconsole}
+We get the same results for what we computed by hand.
+
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Now we consider three cases: $x$ can be either 0, 1, and 2. For which $x$ do we place an order, and what are $V_2(0), V_2(1)$, and $V_2(2)$? 
+\begin{solution}
+We use~\eqref{eq:24}. 
+\begin{align*}
+  V_2(0) &= P_2(\Q_2^*) = \frac 1 4,\\
+  V_2(1) &= 3\cdot 1 + P_2(\Q_2^*) = 3 + \frac 1 4 = \frac{13}{4}\\
+  V_2(2) &= 3\cdot 2 + P_2(2) = 6 - \frac 1{10} = \frac{59}{10},
+\end{align*}
+
+\begin{pyconsole}[news-two]
+def V2(x):
+    # use that the S2^* = 1
+    S2star = 1
+    res = c2*x
+    if x >= S2star:
+        res += P(x, f2, b2, h2)
+    else:
+        res += P(S2star, f2, b2, h2)
+    return res
+
+for S2 in range(0, 4):
+    print("{}: {}".format(S2, V2(S2)))
+
+\end{pyconsole}
+
+We only place an order when $x=0$. 
+\end{solution}
+\end{exercise}
+
+We now consider the joint problem of determining the first and second periods of the two-period newsvendor model.
+
+\begin{exercise}
+If we order up to $\Q_1$ for the first period, realize that $\E{(\Q_1-D_1)^+}$ are the expected number of items salvaged. Explain now that, assuming that the optimal decision is taking for the second period, the total profit $P(\Q_1)$ becomes
+\begin{align*}
+  P(\Q_1) 
+&= P_1(\Q_1) - s_1 \E{(\Q_1 - D_1)^+} + \E{V_2(\Q_1-D_1)^+},
+\end{align*}
+where $P_1(\Q_1)$ is the profit of the first period when we order $\Q_1$. 
+\begin{solution}
+For the first period we make a profit $P_1(\Q_1)$. Now the expected number remaining at the end if $\E{(\Q_1 - D_1)^+}$. Rather than salvaging these at a price $s_1$ per unit, we shift them to the next period. Thus, we need to subtract the salvage profit from these items from the first period, and use this number as the starting number of items for the second period. 
+\end{solution}
+\end{exercise}
+
+
+
+Suppose that the demand $D_1$ for the first period has pmf $f_1(0)=1/2, f_1(1)=1/3, f_2(2) = 1/6$, 
+and the demand $D_2$ is as above. Take $c_{1}=3$, $p_{1}=5$, $s_1=2$. 
+
+\begin{exercise}
+Compute the total profit $P$ for $\Q_1=1, 2,$ and $3$. Implement the computations   in a spreadsheet or some program to save you some work, and help checking.
+\begin{solution}
+Let us start with computing the profit for the first period. From, \eqref{eq:28}, From the formulas we see that we need to  $\E{(\Q_1-D_1)^+}$ twice. Thus, lets first compute this separately.
+\begin{align*}
+  \E{(1-D_1)^+} &= (1-0)f_1(0) = \frac 1 2, \\
+  \E{(2-D_1)^+} &= (2-0)f_1(0) + (2-1)f_1(1) = 1 + \frac 1 3 = \frac 4 3, \\
+  \E{(3-D_1)^+} &= (3-0)f_1(0) + (3-1)f_1(1) -(3-2) f_1(2) = \frac 3 2 + \frac 2 3 +  \frac 1 6 = \frac 7 3.
+\end{align*}
+
+
+\begin{pyconsole}[news-two]
+f1 = [1/2, 1/3, 1/6]
+c1, p1, s1 = 3, 5, 2
+b1, h1 = p1-c1, c1-s1
+
+
+for S1 in range(0, 4):
+    res = sum(max(S1-i, 0)*fi for i, fi in enumerate(f1))
+    print("{}: {}".format(S1, res))
+
+\end{pyconsole}
+  
+
+Now, as
+\begin{align*}
+  b_1 &= p_1 - c_1 = 5-3 = 2, & h_1 &= c_1 -s_1 = 3-2 = 1.
+\end{align*}
+we get 
+\begin{align*}
+P_1(\Q_1) 
+&= b_1\Q_1 - (b_1+h_1)\E{(\Q_1 - D_1)^+} \\
+&= 2\Q_1 - 3\E{(\Q_1 - D_1)^+} \\
+P_1(0) &= 0, \\
+P_1(1) &= 2 - 3\cdot \frac 1 2 = \frac 1 2, \\
+P_1(2) &= 4 - 3\cdot \frac 4 3 = 0, \\
+P_1(3) &= 6 - 3\cdot \frac 7 3 = -1, \\
+\end{align*}
+
+\begin{pyconsole}[news-two]
+for S1 in range(0, 4):
+    print("{}: {}".format(S1, P(S1, f1, b1, h1)))
+
+\end{pyconsole}
+We defined \texttt{P} above.
+  
+As a next step: 
+\begin{align*}
+\E{V_2((\Q_1-D_1)^+)} 
+&= V_2((\Q_1 - 0)^+)f_1(0) + V_2((\Q_1 - 1)^+)f_1(1) + V_2((\Q_1 - 2)^+)f_1(2)\\
+&= V_2(\Q_1)\cdot \frac 1 2 + V_2((\Q_1 - 1)^+)\cdot \frac 1 3 +  V_2(\Q_1 - 2)^+)\frac 1 6\\
+\E{V_2((1-D_1)^+)} 
+&= V_2(1)\cdot \frac 1 2 + V_2(0)\cdot \frac 1 3 +  V_2(0)\frac 1 6\\
+&= \frac{13}{4}\cdot \frac 1 2 + \frac 1 4 \cdot \frac 1 3 +  \frac 1 4 \cdot \frac 1 6\\
+&= \frac{13} 8 + \frac 3{12} = \frac{13}{8} + \frac{2}{8} \\
+&= \frac{15}{8}.
+\end{align*}
+
+\begin{pyconsole}[news-two]
+for S1 in range(0, 4):
+    res = sum(V2(max(S1-i, 0))*fi for i, fi in enumerate(f1))
+    print("{}: {}".format(S1, res))
+
+\end{pyconsole}
+  
+
+Finally,  for the total profit, lets use the machine right away.
+\begin{pyconsole}[news-two]
+def P_tot(S1):
+    res = P(S1, f1, b1, h1)
+    res -= s1*sum(max(S1-i, 0)*fi for i, fi in enumerate(f1))
+    res += sum(V2(max(S1-i, 0))*fi for i, fi in enumerate(f1))
+    return res
+    
+for S1 in range(0, 4):
+    print("{}: {}".format(S1, P_tot(S1)))
+
+\end{pyconsole}
+\end{solution}
+\end{exercise}
+
+\begin{exercise}[Continuation]
+ What is the optimal order quantity $\Q_1^*$ in the first period if we are to take the 'best' ordering decision in the second period?  
+\begin{solution}
+We need to find $\max_{\Q_1} P(\Q_1)$. To that end, we can try different $\Q_1$ values and pick the largest.  We did this in the previous exercise. It is optimal to set $\Q_1^*=1$. 
+\end{solution}
+\end{exercise}
+
+
+\begin{exercise}
+Repeat the previous exercise but this time assume that the demand in the first and the second periods with pmf $f_1 = f_2 = f$, and $f(0)=f(1)=\ldots=f(9)=\frac{1}{10}$. 
+Compute $P$ for various values of $\Q_1$, put them in a graph, and analyze and interpret this graph.
+
+\begin{solution}
+% See Figure~\ref{fig:V1}.
+% \begin{figure}[htbp]
+% \centering
+% \begin{tikzpicture}
+% \scriptsize
+% \begin{axis}[
+% 	xlabel=$Q_1$,
+% 	legend style={nodes=right},
+% 	axis lines=middle,
+% 	ymin=0]
+% \addplot+[no markers] table [y=V1, x=Q1]{data.dat};
+% \addlegendentry{$Z_1(Q_1)$}
+% \end{axis}
+% \end{tikzpicture}
+% \caption{First stage expected profit function}
+% \label{fig:V1}
+% \end{figure}
+
+The figure shows that $Z_1(Q_1)$ is concave on $Q_1$. Moreover, the profit is pretty sensitive to the order quantity $Q_1$. One reason for the sensitivity might be that we took $f(i)=1/11$, i.e., the demand is uniformly distributed. It would be interesting to consider a demand distribution with a single peak, like the normal distribution, and then see whether the profit is less sensitive to order size $Q_1$.
+\end{solution}
+\end{exercise}
+
+%\end{comment}
+
+\Closesolutionfile{ans}
+\opt{solutionfiles}{
+\subsection{Solutions}
+\input{ans}
+}
+
+
+\clearpage
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "notes_all"
+%%% TeX-master: "inventory_notes"
 %%% End:

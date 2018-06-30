@@ -1,76 +1,88 @@
+\section{Forecasting}
+\label{sec:forecast}
+
+\Opensolutionfile{ans}
+
 \textit{Recommended reading:} FP Section 13.3. FP describes various methods and concepts related to demand forecasts, e.g. regression, moving-averages, exponential smoothing, trends and seasonal patterns, measures of forecast accuracy. We expect you to be familiar with these basic methods. 
 
 Any successful inventory management practice starts with projecting the demand that will realize in the future. This section is devoted to understanding demand processes and forecasting future demands. 
 
-\subsection{The Role of Demand Forecasts}
-
-\begin{question}
-Why do we need to forecast demands?
-
-\end{question}
-
-  \begin{solution}
-    We often need to replenish inventories ahead of demand, i.e. before observing the demand. As such, projection of future demands, or in other words, forecasting, is the foundation upon which replenishment plans are made. 
-    
-    Of course, in some cases, you might have the complete demand information before it is realized. For instance, your customers may let you know in advance, say a week before, they actually demand an item. In such cases, you can safely assume that you know the demand over the next week with certainty. Thus there will be no need for forecasting -- at least not for the upcoming week. 
-  \end{solution}
-
-\begin{question}
+\begin{exercise}
 Why inventories are replenished ahead of demand?
-\end{question}
+
 
   \begin{solution}
     There is a variety of reasons. For instance, often there is an order lead time, i.e. the lag between the time that an order is placed and the time inventory is actually replenished. Another reason is that it could be preferable to place larger orders due to economies of scale, e.g. quantity discounts or fixed ordering costs. 
     
 	Let us consider an inventory system where replenishments are done on a daily basis. That is, you place an order at the end of every day, and receive it the next day in the morning. It appears that there is no lead time here. But anyway you are exposed to demand uncertainty over the day. That is, you must have enough in the morning to cover the demand over the day -- which has not yet been realized. 
   \end{solution}
+\end{exercise}
 
 
-\begin{question}
+\subsection{The Role of Demand Forecasts}
+
+\begin{exercise}
+Why do we need to forecast demands?
+
+
+
+  \begin{solution}
+    We often need to replenish inventories ahead of demand, i.e. before observing the demand. As such, projection of future demands, or in other words, forecasting, is the foundation upon which replenishment plans are made. 
+    
+    Of course, in some cases, you might have the complete demand information before it is realized. For instance, your customers may let you know in advance, say a week before, they actually demand an item. In such cases, you can safely assume that you know the demand over the next week with certainty. Thus there will be no need for forecasting -- at least not for the upcoming week. 
+  \end{solution}
+\end{exercise}
+
+
+\begin{exercise}
 What should we expect from demand forecasts?
 
-\end{question}
+
 
   \begin{solution}
 	For most products, demand is inherently uncertain. As such, exact demand values cannot be forecasted. The aim of forecasting therefore is to capture the structural properties of demand, such as its average, rather than the demand itself.  
 	
 
   \end{solution}
+\end{exercise}
 
-\begin{question}
+\begin{exercise}
 Which factors come into play in forecasting, i.e. what is the input?
 
-\end{question}
+
 
   \begin{solution}
     The input of forecasting is comprised of all type of information regarding historical demand as well as the future demand. These involve, among others, objective factors such as past demand data, trend and seasonality, prices, promotions, dependencies among different products, as well as subjective factors such as sales force surveys and expert opinions.     
   \end{solution}
+\end{exercise}
 
 
-\begin{question}
+\begin{exercise}
 What is the output of a forecast?
 
-\end{question}
+
 
   \begin{solution}
     The output of a forecast is a set of data points for future demands as well as a measure that explains to which extent actual demands will deviate from their forecasts.
   \end{solution}
+\end{exercise}
 
 
-\begin{question}
-How forecasts are used inventory management?
+\begin{exercise}
+How are forecasts used inventory management?
 
-\end{question}
+
 
   \begin{solution}
 	Inventory management is done through inventory control policies. The output of forecasts are used in designing inventory control policies and determining the parameters of these policies.
   \end{solution}
+\end{exercise}
 
 
-\begin{question}
+\begin{exercise}
 How much effort should be put into forecasting?
 
-\end{question}
+
 
   \begin{solution}
 
@@ -80,30 +92,30 @@ How much effort should be put into forecasting?
 	
 	As a rule of thumb, one should avoid overly naive forecasting approaches as well as excessively complicated ones. 
   \end{solution}
+\end{exercise}
 
 
-\begin{question}
+\begin{exercise}\nvf{Move this to the eoq section}
 Consider the EOQ problem (for the sake of simplicity neglect the unit production cost). Now assume that the demand $D$ that is used in computing the order quantity is off by a factor of $\Delta$. That is, actual demand happens to be $D(1+\Delta)$ rather than $D$. 
 \begin{enumerate}
 \item Derive an expression to illustrate the cost of using the wrong demand value as compared to the optimal cost. 
 \item Plot the cost error for $-0.5\leq \Delta\leq 0.5$ and solution on the extent of the cost error.
 \item Comment on the implications of this thought experiment with respect to the importance of forecast accuracy.
 \end{enumerate}
-\end{question}
+
 
   \begin{solution}
 \begin{enumerate}
 \item Because the order quantity is set assuming that demand is $D$, it will be $Q=\sqrt{2AD/h}$. If one were to know the real demand $D(1+\Delta)$, then the optimal order quantity would be $Q^*=\sqrt{2AD(1+\Delta)/h}$. 
 
-Observe that $Q=Q^*\sqrt{1+\Delta}$. That is, if demand is off by 20\%, then the order quantity will be off by only 9.5\%.
-
-When actual demand is $D(1+\Delta)$, the costs of using order quantities $Q^*$ and $Q^*\sqrt{1+\Delta}$ will be 
+Observe that  $Q^*=Q\sqrt{1+\Delta}$. That is, if demand is off by 20\% (i.e. $\Delta=0.2$) then the order quantity will be off by only 9.5\% (i.e. $Q^*/Q\approx 1.095$). When actual demand is $D(1+\Delta)$, the costs of using order quantities $Q^*$ and $Q$ will be 
 \begin{align*}
-C^* = AD\frac{1+\Delta}{Q^*}+ h\frac{Q^*}{2} \quad \text{ and } \quad C = AD\frac{1+\Delta}{Q^*}\frac{1}{\sqrt{1+\Delta}}+h\frac{Q^*}{2}\sqrt{1+\Delta}
+C^* = AD\frac{1+\Delta}{Q^*} + h\frac{Q^*}{2} \quad \text{ and } \quad C = AD\frac{1+\Delta}{Q}+h\frac{Q}{2}
 \end{align*}
-respectively. Because, $Q^*$ is the optimal order quantity when demand is $D(1+\Delta)$, we have $C^*/2=AD(1+\Delta)/Q^*=hQ^*/2$. Thus, 
+respectively. Because, $Q^*$ is the optimal order quantity when demand is $D(1+\Delta)$, we have $C^*/2=AD(1+\Delta)/Q^*=hQ^*/2$. Hence $C^*=hQ^*$. The error $C/C^*$ can therefore be written as
 \begin{align*}
-C & = C^*\frac{1}{2}\left(\frac{1}{\sqrt{1+\Delta}}+\sqrt{1+\Delta}\right)
+\frac{C}{C^*} 
+& = \frac{\frac{AD (1+\Delta)}{\sqrt{2AD/h}}+\frac{h\sqrt{2AD/h}}{2}}{h\sqrt{2AD/h}\sqrt{1+\Delta}} = \frac{1}{2}\left(\frac{1}{\sqrt{1+\Delta}} + \sqrt{1+\Delta}\right)
 \end{align*}
 \item See Figure~\ref{fig:costerror}. We observe that if demand is underestimated by 50\%, the cost error is 6\%; and if it is overestimated by 50\%, the cost error is 2\%. The cost penalty does not look that serious on the overall.
 
@@ -118,40 +130,44 @@ C & = C^*\frac{1}{2}\left(\frac{1}{\sqrt{1+\Delta}}+\sqrt{1+\Delta}\right)
 \end{enumerate}
     
   \end{solution}
+\end{exercise}
 
 
-\begin{question}
-Discuss which underlying assumptions of the EOQ model makes it insensitive to the demand uncertainty. 
-\end{question}
+\begin{exercise}
+Discuss which underlying assumptions of the EOQ model make it insensitive to the demand uncertainty. 
+
 
   \begin{solution}
   The EOQ model assumes that all demand can be served in time. That is because the inventory will be replenished instantaneously whenever the inventory level drops down to zero. In that sense, not using the optimal order quantity effect the trade-off between the ordering and holding costs, but not the service quality. Often in stochastic inventory control systems there is a cost associated with providing a certain quality of service. This is not reflected on the EOQ model.
   \end{solution}
+\end{exercise}
 
 \subsection{Forecasting Methods}
 
-\begin{question}
+\begin{exercise}
 What type of methods are used in forecasting?
-\end{question}
+
 
   \begin{solution}
     There are two types of forecasting methods: qualitative and quantitative methods. The former use subjective inputs such as expert opinions. These are more apt for long-term forecasts where past data are not sufficient to predict the future, e.g. where technological breakthroughs may play a significant role. The latter use objective inputs such as past data. These are more suitable for short-term forecasts where numerical measures of the past observations can explain the future with a sufficient degree of accuracy. 
    \end{solution}
+\end{exercise}
    
-\begin{question}
+\begin{exercise}
 What type of forecasting methods are used in inventory management?
 
-\end{question}
+
 
   \begin{solution}
 	In most practical cases, the number of SKU's is too large to implement SKU-specific forecasting methods. As such, often automatized forecasting procedures that work solely with past quantitative data are employed for demand forecasting in inventory management. There are two types of quantitative forecasting models: causal models and time-series models.
 
    \end{solution}
+\end{exercise}
    
-\begin{question}
+\begin{exercise}
 How do causal forecasting models work?
 
-\end{question}
+
 
   \begin{solution}
     Causal models assume that demand is a function of some other parameters (e.g. price, market size, time, and weather). Here are some examples. The demand for diapers this year is a function of last years birth rates. The demand for FC Groningen jerseys is a function of the team and individual player performances. 
@@ -169,12 +185,13 @@ Here, the challenge is to find a function (i.e. the parameters values $b_0,b_1,\
 An important drawback of using a causal model is that the values of those parameters explaining demand should be readily available. Otherwise, one needs to to forecast them before forecasting demand. For instance, if the weather is a factor effecting the demand, then one needs the forecast the weather before forecasting the demand.    
 
   \end{solution}
+\end{exercise}
 
 
-\begin{question}
+\begin{exercise}
 How do time-series forecasting models work?
 
-\end{question}
+
 
   \begin{solution}
 Time-series models assume that past demand data are almost sufficient to forecast future demands. As such, all causal factors are neglected with the rationale that such factors tend not to change in the short-term. 
@@ -183,12 +200,13 @@ If time is treated as a discrete entity (i.e. days, weeks, or months), then, ass
 
 As compared to causal models, time-series models are more commonly used in inventory management because they are very simple, do not require much data, and (often) reliable. Also, they are easy to use and integrated in many spreadsheet applications.
   \end{solution}
+\end{exercise}
 
 
-\begin{question}
+\begin{exercise}
 How exactly do time-series models forecast demand by solely using past demand data?
 
-\end{question}
+
 
   \begin{solution}
 There are two approaches towards time-series forecasting: moving-averages and exponential smoothing. The main idea behind both approaches is to put emphasis on the recent demand data when making a forecast, based on the belief that recent data better explains actual demand.
@@ -213,63 +231,69 @@ Observe that the demand level in period $t$ is simply a linear combination of th
 
 Both moving-average and exponential smoothing models are easy to implement in a spreadsheet. We suggest you to implement and play around with those models by using the examples from FP.
   \end{solution}
+\end{exercise}
 
 
-\begin{question}
+\begin{exercise}
 What is the importance of the parameters used in time-series forecasting models?
 
-\end{question}
+
 
   \begin{solution}
 It is important to see that parameter $m$ of the moving average approach and parameter $\alpha$ of the exponential smoothing approach both stand for the same purpose: to define how responsive the forecast is to recent changes in the demand. For instance, a sudden change in the demand pattern will have a more significant impact in a moving average forecast if $m$ is smaller, and in an exponential smoothing forecast if $\alpha$ is larger. Here, the main concern is to identify whether such changes are random fluctuations or actual changes in the demand pattern. 
     
       \end{solution}
+\end{exercise}
 
 
-\begin{question}
+\begin{exercise}
 How the smoothing parameter is chosen in exponential smoothing models?
 
-\end{question}
+
 
   \begin{solution}
 	It depends on the KPI's that are deemed to be important for the case on hand. A classical approach is to set smoothing parameters to minimize forecast errors. That is, the error that would have been observed so far if a particular smoothing parameter were used. 	We will elaborate on this more later on. This approach, however, focuses solely on the demand. However, one can also choose a smoothing parameter that optimizes the performance of the inventory policy that is planned to be used. This would lead to an integrated forecasting and inventory control framework.
 	
   \end{solution}
+\end{exercise}
 
 \subsection{Trends and Seasonality}
 
-\begin{question}
+\begin{exercise}
 The standard time-series forecasting models provide the same forecast for all periods in the future. Does it make any sense? 
-\end{question}
+
 
   \begin{solution}
     It depends. So far, we have not considered any reason that may lead to a persistent demand behavior over time. Therefore, it is logical that our forecasts for future demands are all equal to the current demand level $F(t)$ and do not involve any fluctuations over time.     
       \end{solution}
+\end{exercise}
 
 
-\begin{question}
+\begin{exercise}
 What factors may lead to a persistent demand behavior over time?
 
-\end{question}
+
 
   \begin{solution}
     There are virtually unlimited number of factors. But the most common ones are trends and seasonal variations. Here, trends refer to movements in demand in one direction (i.e. increasing or decreasing over time) and seasonal variations are movements in demand periodic to a calendar (e.g. peaks or bottoms on weekends, during summer time, or at Christmas).
     
     Besides these common factors, we know that all products have a life cycle. We observe low demands when a product is first introduced to the market. The demand increase as the product penetrate the market and level off once the product is mature. Towards the end of the product life cycle, demands decrease and the product die out eventually. 
       \end{solution}
+\end{exercise}
 
 
-\begin{question}
+\begin{exercise}
 Is it possible to account for trends and seasonal variations in time-series forecasting models?
-\end{question}
+
    
   \begin{solution}
    Yes. The effects of such factors can be regarded as demand components. Then the value of each of these components can be forecasted, and the demand itself can be forecasted by using these forecasts. 
      \end{solution}
+\end{exercise}
      
-\begin{question}
+\begin{exercise}
 How do we capture trends in time-series forecasting models?
-\end{question}
+
 
   \begin{solution}   
    Here, we illustrate how this can be done with an exponential smoothing model. Yet the presented ideas can easily be extended to any other model. 
@@ -285,11 +309,12 @@ Here, the level is once again a linear combination of the actual demand and its 
 The same reasoning explained here can be applied to trends that are not linear. To practice, you can try and extend this model to capture another case where demand is moving by a percentage rather than a constant in each period, e.g. every period it increases by 5\%. 
 
   \end{solution}
+\end{exercise}
   
-\begin{question}
+\begin{exercise}
 How do we capture seasonal variations in combination with trends in time-series forecasting models?
 
-\end{question}
+
 
   \begin{solution}   
    Here, we illustrate how this can be done with an exponential smoothing model. Yet the presented ideas can easily be extended to any other model. 
@@ -306,13 +331,14 @@ The novelty here is to strip the seasonality factor from the demand. This is don
 The model mentioned above is often referred to as the Winter's model. Its main assumption with respect to seasonality is that the seasonality factor moves the demand by a percentage. To practice, you can try and adapt this model to capture another case where demand is moving by a constant rather than a percentage in each season, e.g. it is 100 units more on Saturdays. 
 
   \end{solution}
+\end{exercise}
   
   
 \subsection{Intermittent Demand}
 
-\begin{question}
+\begin{exercise}
 It is often the case for some products (for instance spare parts) that for long intervals of time there is no demand. Then, for instance, if we use a moving-average model we can end up with a forecast of zero. Does it make any sense to use standard time-series forecasting techniques for such products?
-\end{question}
+
 
   \begin{solution}
   If demand data has a significant number of periods with zero demand, then the demand for the underlying product is said to be 'intermittent'. 
@@ -329,24 +355,26 @@ f(n+\tau) & = F_Z(n)/F_P(n) \quad \tau = 1,2,\ldots
    
 For more on forecasting intermittent demands, see the following seminal paper: Croston, J. D. ``Forecasting and stock control for intermittent demands'' Operational Research Quarterly (1972): 289--303.   
   \end{solution}
+\end{exercise}
 
-\begin{question}
+\begin{exercise}
 If demand is intermittent and demand periods are very rare, wouldn't it be better to neglect it?
 
-\end{question}
+
 
 
   \begin{solution}
   To some extent, yes. There are indeed results in the literature showing that a 'zero-forecast' method may lead to a better forecast error as compared to any other forecasting method in case of intermittent demands. However, in the context of inventory management, companies often need to guarantee a sufficient level of service quality to their customers. This guarantee may not be provided if the policy is not to keep any stock as a response to the zero-forecast. Put in other words, if stock-outs are costly, then you would not want to bet on a zero demand even if the odds are on your favor.
   \end{solution}
+\end{exercise}
 
 
 
 \subsection{Forecast Accuracy}
 
-\begin{question}
+\begin{exercise}
 How do we evaluate the quality of a forecast?
-\end{question}
+
 
 \begin{solution}
 The typical KPIs to measure the quality are mean absolute deviation (MAD), mean squared error/deviation (MSE), mean absolute percentage deviation (MAPE), and bias (BIAS). These are defined as follows:
@@ -363,39 +391,43 @@ It is easy to compute these measures in a spreadsheet once you have a forecastin
 
 In the context of inventory control, we should evaluate the performance of a forecasting method in view of the gains we achieve in doing better inventory management. The measures listed above solely measure the quality of the forecast itself.
   \end{solution}
+\end{exercise}
 
 
 
 \subsection{Visualizing the Data}
 
-\begin{question}
+\begin{exercise}
 How do we choose the right forecasting model?
-\end{question}
+
 
   \begin{solution}
 The first step in developing a forecast model is to plot the data. Any factor that has a significant impact on demand should be visible. Otherwise, there is no need to model any factor just for the sake of it. 
   \end{solution}
+\end{exercise}
 
 
-\begin{question} \label{plots} 
+\begin{exercise} \label{plots} 
 In Figure~\ref{fig:plots} you will find plots for four sets of time-series demand data: Series 1, 2, 3, and 4. In each of these sets, there are three data plots each of which originates from a different product. First, visually analyze these plots and solution on how data presented in different sets of plots as well as the plots within the same set differ from each other. Then, for each of these plots, discuss which time-series forecasting model better suits the underlying demand and solution on how responsive (emphasis on more recent data points) this forecasting model should be.
 
-\end{question}
+
 
   \begin{solution}
 The following are apparent from the plots regarding the four sets of time-series: (1) demand is stationary, there is no visible trend or seasonality; (2) demand has a linear trend but no seasonality; (3) demand is seasonal but it has no trend; (4) demand is seasonal and has a linear trend. It is possible to observe that within each set the demands presented in consecutive graphs have higher variances. 
 
 It is plausible to use a classical smoothing model for (1), a smoothing model with trend for (2), a smoothing model with seasonality for (3), and a smoothing model with trend and seasonality for (4). As for the responsiveness, forecasting models should be less responsive for consecutive demand data in each set, as it is more likely that the variations are random rather than being structural due to higher variances. 
   \end{solution}
+\end{exercise}
 
 
-%\begin{question} \label{inter} 
+%\begin{exercise} \label{inter} 
 %Attached you will find plots for four sets of intermittent demand data: Series 5, 6, 7, and 8. In each of these sets, there are three data plots each of which originates from a different product. First, visually analyze these plots and solution on how data presented in different sets of plots as well as the plots within the same set differ from each other. Then, for each of these plots, solution on how responsive the intermittent forecast models should be with respect to order size and inter-arrival time.
 %  \begin{solution}
 %The following are apparent: on the overall, demands in consecutive sets of graphs present higher variances with respect to inter-arrival times, whereas within each set they present higher variances with respect to order sizes. The forecast models for these demand data should be less responsive for inter-arrival times for consecutive sets of data, and for order sizes for consecutive data within each set.
 %   
 %  \end{solution}
-%\end{question}
+%\end{exercise}
+%
 
 
 
@@ -406,9 +438,9 @@ It is plausible to use a classical smoothing model for (1), a smoothing model wi
 
 
 
-%\begin{question}
+%\begin{exercise}
 %How can we measure the gains due to the forecasting method?
-%\end{question}
+%
 %
 %  \begin{solution}
 %
@@ -430,9 +462,10 @@ It is plausible to use a classical smoothing model for (1), a smoothing model wi
 %%Also, forecast accuracy diminishes as one forecasts further into the future. Thus, it could be possible to improve accuracy by updating forecasts as time progresses. 
 %   
 %  \end{solution}
+%\end{exercise}
 %
 %
-%\begin{question}
+%\begin{exercise}
 %What is the value of getting better forecasts?
 %
 %  \begin{solution}
@@ -445,7 +478,8 @@ It is plausible to use a classical smoothing model for (1), a smoothing model wi
 %%What is the value of perfect information?
 %    
 %  \end{solution}
-%\end{question}
+%\end{exercise}
+%
 %
 %
 %
@@ -460,7 +494,7 @@ It is plausible to use a classical smoothing model for (1), a smoothing model wi
 %
 %\subsection{Distribution of the demand during lead time}
 %
-%\begin{question}
+%\begin{exercise}
 %  Suppose that the average time between two demands is quite a bit smaller than the average leadtime. How to estimate the average and variance of the demand during the leadtime?
 %\begin{solution}
 %  Write $L$ for the leadtime, $N(L)$ for the number of demands that
@@ -516,7 +550,8 @@ It is plausible to use a classical smoothing model for (1), a smoothing model wi
 %anymore. It might be better to use the gamma distribution or the
 %log-normal distribution to model the demand.
 %\end{solution}
-%\end{question}
+%\end{exercise}
+%
 %
 
 
@@ -533,26 +568,28 @@ It is plausible to use a classical smoothing model for (1), a smoothing model wi
 
 %\subsection{Further Issues with Demand Forecasts}
 %
-%\begin{question}
+%\begin{exercise}
 %Is it possible to characterize the distribution of demand by using forecasting?
 %
 %  \begin{solution}
 %    TBD
 %    
 %  \end{solution}
-%\end{question}
+%\end{exercise}
 %
-%\begin{question}
+%
+%\begin{exercise}
 %Can we use past sales data for forecasting demands?
 %
 %  \begin{solution}
 %    TBD
 %    
 %  \end{solution}
-%\end{question}
+%\end{exercise}
 %
 %
-%\begin{question}
+%
+%\begin{exercise}
 %One of the main challenges in inventory management is to deal with the uncertainty in demand during lead time. How do this relate to forecasting?
 %
 %
@@ -563,27 +600,30 @@ It is plausible to use a classical smoothing model for (1), a smoothing model wi
 %%Realize that lead time can be used, in certain cases, as a control.
 %    
 %  \end{solution}
-%\end{question}
+%\end{exercise}
 %
-%\begin{question}
+%
+%\begin{exercise}
 %How can we forecast demand in presence of ad-hoc variations such as price changes, sales campaigns, product competition, or new regulations?
 %
 %  \begin{solution}
 %    TBD
 %    
 %  \end{solution}
-%\end{question}
+%\end{exercise}
 %
-%\begin{question}
+%
+%\begin{exercise}
 %How do we forecast demand for new products with no historical data?
 %
 %  \begin{solution}
 %    TBD
 %    
 %  \end{solution}
-%\end{question}
+%\end{exercise}
 %
-%\begin{question}
+%
+%\begin{exercise}
 %How do we determine the number of periods in a seasonal demand pattern? 
 %
 %  \begin{solution}
@@ -591,7 +631,8 @@ It is plausible to use a classical smoothing model for (1), a smoothing model wi
 %    % autocorrelation
 %    
 %  \end{solution}
-%\end{question}
+%\end{exercise}
+%
 
 
 \begin{landscape}
@@ -622,7 +663,7 @@ It is plausible to use a classical smoothing model for (1), a smoothing model wi
 
 
 
-%\begin{question}
+%\begin{exercise}
 %The EOQ model is based on the assumption that the fixed ordering cost is independent of the order quantity. Consider the following variant of the model where this assumption is not valid anymore. Here, if the order quantity is less than or equal to $Q^{\max}$, then the fixed ordering cost will be $A_1$, and it will be $A_2$ otherwise. 
 %
 %\begin{enumerate}
@@ -645,7 +686,8 @@ It is plausible to use a classical smoothing model for (1), a smoothing model wi
 %\includegraphics[width=.5\linewidth]{figure_2.pdf}
 %\end{center}
 %  \end{solution}
-%\end{question}
+%\end{exercise}
+%
 
 
 
@@ -950,8 +992,100 @@ It is plausible to use a classical smoothing model for (1), a smoothing model wi
 
 
 
+\subsection{From Forecasts to Demand Distributions}
+
+\begin{exercise}
+What is the added value of considering stochastic demands? What if we simply use our forecast for planning?
+
+
+\begin{solution}
+Let's begin with this: 'Forecasts are always wrong!' and 'Forecast errors are costly!'. Therefore, our models should acknowledge the fact that forecasts can be wrong. Furthermore, some forecast errors are more costly than others, e.g. over-forecast vs under-forecast. If the forecast is larger than the demand, then we have an overage cost (procurement in advance, holding, obsolescence); and if forecast is lower than the demand then we have a shortage cost (backorder cost, not meeting service quality target, loss of revenues). Often the shortage cost beat the overage cost. As a result of this, if real demand is distributed around some mean value, you order more than the mean. This is often referred to as the 'safety stock'. 
+
+To sum up, we need to integrate not only the the forecast but also the extent and the direction of the forecast error into our planning, as doing otherwise might have financial consequences. 
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+I am confused. I thought that we were forecasting to predict the demand. What forecast errors have to do with that?
+
+
+\begin{solution}
+To answer this, we need to better understand what a forecast stands for. There is no perfect forecast as demand is inherently uncertain. Therefore, it is 'very normal' to have forecast errors. The question is whether your forecast errors match the inherent uncertainty in demand. That is, whether your forecast errors  originate from the demand uncertainty or they are the result of using a bad forecasting method. If it is the former, then you can safely assume that your point forecast is the average demand and your forecast errors are variations of demand from its average. If it is the latter, then you should do your best to devise a better forecasting method.
+
+Let us illustrate this with a simple example. Assume that demand is either 0 or 1, and the inherent uncertainty of the demand comes from a coin toss. That is, demand is 1 if it is heads and it is 0 if it is tails. As a planner; you do not know that demand indeed follows a coin toss, yet you need to forecast the demand. It is easy to see that there is no forecasting method you can use to predict the demand with certainty. In fact, the 'best' you can expect from a forecasting method is to tell you that the probability of having a demand of 0 units and 1 units are both 50\%. Here, if your forecast model provides a forecast error of 0.5 (almost) half of the time and -0.5 in the other half, then you are already there. Despite the sizeable amount of forecast errors, your forecasting method is just fine. On the other hand, if your forecast errors are, for instance, increasing or decreasing over time or have a tendency to be higher every two periods, then there is something wrong with your forecast method that should be repaired.
+
+Back to the original question; forecasts help us to predict average demand and it's variability from this average. Therefore they provide us the grounds for managing inventories. 
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+How can we measure or assess the demand uncertainty?
+
+
+\begin{solution}
+The answer can be found in the 'probability theory'. We can capture the uncertainty in demand through its probability distribution.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+What is a demand distribution?
+
+
+\begin{solution}
+We should start with defining demand (over a pre-specified interval of time) as a random variable. Let this variable be $D$. Then, the (cumulative) distribution function of $D$ is given by $F(x)=\pr{D\leq x}$. That is, the probability that demand being less than or equal to some constant $x$. 
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+How can we derive a demand distribution using forecasts? 
+
+
+\begin{solution}
+There is no theoretically supported procedure for this purpose. A common approach is to approximate the variation of the demand with the variation of the forecast. To that end, first you need to make sure that the forecast indeed captures the trend and/or seasonality in the demand. This is the case if your forecast errors are relatively unbiased and do not follow a pattern over time. Then, you can approximate the mean demand with your point forecast and its deviation with the forecast errors. For instance; if your forecast errors are normally distributed over time, then you can assume that demand is normally distributed. Normal distribution is characterized by two parameters: mean and standard deviation. Then you can set the mean as your forecast and let the standard deviation be the square root of the mean squared error of your forecast. If your forecast errors are not normally distributed, then you can try and fit them to another distribution and/or use the empirical distribution (i.e. the distribution that you have observed). 
+
+Note that forecasting itself can be quite involved in many cases; for instance, where demand is auto-correlated and/or influenced by parameters that are not a part of your data. In such cases, standard time-series forecasting methods may not provide good forecasts at all. However, these issues are beyond the scope of this course. 
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+What is the difference between the demand distribution and the lead time demand distribution?
+
+
+\begin{solution}
+We construct demand distributions for demand over a given interval of time. If that interval is the lead time, then we simply have the lead time demand distribution. There are two possible ways of approaching the lead time demand distribution. First, you can start with forecasting the demand over a period and derive its distribution as usual and then use this distribution to construct the lead time demand distribution. For instance, if demand over a period is normally distributed with mean $\mu$ and standard deviation $\sigma$, then demand over $n$ periods (assuming that the demand in these periods follow the same distribution) is also normally distributed with mean $n\cdot\mu$ and standard deviation $\sqrt{n}\cdot \sigma$ (this property holds only for normal distribution). Second, you can directly start by forecasting the lead time demand rather than the period demand and derive its distribution.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+It appears that normal distribution comes in handy. How can you check whether a data set is normally distributed?
+
+
+\begin{solution}
+There are many ways. There are very practical visual approaches, such as plotting the data as a histogram and checking against the normal distribution curve and making use of a normal distribution QQ-plot. Also, there are well-known statistical tests such as Shapiro-Wilk, Kolmogorov-Smirnov, and Anderson-Darling.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Are there other distributions that are commonly used in inventory control, besides normal distribution?
+
+
+\begin{solution}
+Normal distribution often does not work with slow movers, i.e. products with infrequent demands. For instance, if a product is sold only a few times over the lead time, it would not make sense to assume demand is normally distributed. In such cases Poisson distribution can be an option. 
+
+The preference towards normal and Poisson distributions is not only due to their 'nice' mathematical characteristics but also their power in capturing real-life demand data.
+\end{solution}
+\end{exercise}
+
+
+\Closesolutionfile{ans}
+\opt{solutionfiles}{
+\subsection{Solutions}
+\input{ans}
+}
+
+\clearpage
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "notes_all"
+%%% TeX-master: "inventory_notes"
 %%% End:

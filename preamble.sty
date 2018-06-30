@@ -1,26 +1,45 @@
 \usepackage{etex}
 \usepackage{natbib}
-\usepackage{a4wide}
+%\usepackage{a4wide}
 %\usepackage{fullpage}
 \usepackage[english]{babel}
 \usepackage{pdflscape}
+\usepackage{makeidx}
+%\usepackage{showidx}
+
 
 \usepackage{graphicx}
 \usepackage{mathtools,amsthm,amssymb}
 \usepackage{mathrsfs}
 \usepackage{verbatim}	
 \usepackage{enumitem}
-\usepackage{nicefrac}
+%\usepackage{nicefrac}
 \usepackage[colorlinks=true]{hyperref}
 \usepackage{subcaption}
 
 \usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
 \usepackage{fouriernc}
-\usepackage{manfnt} %for the dangerous bend
-\usepackage{fontawesome} % for the linux hint symbol
-\newcommand{\hintsymbol}{\marginpar{\center{\faLinux}}}
-\newcommand{\tbdsymbol}{\marginpar{\center{\dbend}}}
-\newcommand{\recallsymbol}{\marginpar{\center{\bomb}}}
+% \usepackage{manfnt} %for the dangerous bend
+\usepackage{fontawesome} % for the rocket symbol
+\newcommand{\rocket}{\faRocket}
+
+% I don't know why, pythontext should appear somewhere above some
+% other packages. I don't know which ones, but at this spot it works.
+\usepackage{pythontex}
+%\begin{pythontexcustomcode}{py}
+\begin{pythontexcustomcode}{py}
+import numpy as np
+from scipy.integrate import quad
+from scipy.stats import norm, poisson
+
+import matplotlib.pyplot as plt
+plt.style.use('ggplot')
+
+from matplotlib import rc
+rc('text', usetex=True)
+rc('font', family='serif', serif='Times', size=10)
+\end{pythontexcustomcode}
 
 \usepackage{pgf}
 \usepackage{tikz}
@@ -38,94 +57,64 @@
 % \fancyfoot[C]{\thepage}
 % \setlength{\headheight}{14pt} 
 
-\usepackage{xcolor}
-\usepackage{cprotect}
-\usepackage{listings}
-\lstdefinestyle{customc}{
-  belowcaptionskip=1\baselineskip,
-  breaklines=true,
-  %frame=L,
-  %xleftmargin=\parindent,
-  language=Python,
-  showstringspaces=false,
-  basicstyle=\footnotesize\ttfamily,
-  keywordstyle=\bfseries\color{green!40!black},
-  commentstyle=\itshape\color{purple!40!black},
-  identifierstyle=\color{blue},
-  stringstyle=\color{orange},
-  morekeywords={lambda},
-  tabsize=4,
-  formfeed=newpage
-}
-\lstset{style=customc}
+%\usepackage{xcolor}
+%\usepackage{cprotect}
+% \usepackage{listings}
+% \lstdefinestyle{customc}{
+%   belowcaptionskip=1\baselineskip,
+%   breaklines=true,
+%   %frame=L,
+%   %xleftmargin=\parindent,
+%   language=Python,
+%   showstringspaces=false,
+%   basicstyle=\footnotesize\ttfamily,
+%   keywordstyle=\bfseries\color{green!40!black},
+%   commentstyle=\itshape\color{purple!40!black},
+%   identifierstyle=\color{blue},
+%   stringstyle=\color{orange},
+%   morekeywords={lambda},
+%   tabsize=4,
+%   formfeed=newpage
+% }
+% \lstset{style=customc}
 \usepackage{ctable}
 
-\usepackage{exsheets}
-\DeclareQuestionProperty{hint}
-\SetupExSheets{
-  headings = runin,
-  question/print = true,
-  solution/print = false,
-  counter-format = se.qu,
-  %counter-within = section
-}
-% Get question references ok.
-\renewcommand\thequestion{\thesection.\arabic{question}}
-\setlist[enumerate,1]{label=\alph*),ref=\thequestion\alph*)}
+\Newassociation{solution}{Solution}{ans}
+\Newassociation{sol}{Solution}{ans}
+\Newassociation{hint}{Hint}{hint}
+\renewcommand{\Hintlabel}[1]{\textbf{hint #1}}
+\renewcommand{\Solutionlabel}[1]{\textbf{#1}}
 
-% a command to print all given hints
-\NewDocumentCommand\printquestionhints{}{%
-   \ForEachQuestion
-     {%
-       \IfQuestionPropertyT{hint}{##1}{%
-         \ExSheetsHeading
-           {runin}               % headings style
-           {Hint}                % heading
-           {\QuestionNumber{##1}}% number
-           {0}                   % points -- need to be zero here
-           {0}                   % bonus points -- need to be zero here
-           {##1}%                % ID
-         \GetQuestionProperty{hint}{##1}%
-         \par
-         \medskip
-       }%
-     }%
-}
+\newenvironment*{uncomment}{}{}
+\renewenvironment{comment}{\color{red}}{}
 
-\newcommand{\hint}[1]{\hintsymbol\SetQuestionProperties{ hint = {#1}}}
 
 \theoremstyle{definition} % font type for theorems and related environments
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{remark}[theorem]{Remark}
 \newtheorem{example}[theorem]{Example}
-\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{exercise}[theorem]{Ex.}
 
 \newcommand*{\fullref}[1]{\hyperref[{#1}]{\autoref*{#1} \nameref*{#1}}} % One single link
-
-\newcommand{\tbd}{\tbdsymbol}
-\newcommand{\TBD}{\tbdsymbol}
 
 \newcommand{\B}{\mathbb{B}}
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Nn}{\mathbb{N}_{0}}
-\newcommand{\Q}{\mathbb{Q}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\Z}{\mathbb{Z}}
 
 \newcommand{\abs}[1]{\left\vert#1\right\vert}
 \newcommand{\given}{\,\middle|\,}
-%\renewcommand{\P}[1]{\,\mathsf{P}\left\{#1\right\}}
 \newcommand{\V}[1]{\,\mathsf{V}\left\{#1\right\}}
-%\newcommand{\E}[1]{\,\mathbb{E}\left\{#1\right\}}
-\newcommand{\E}[1]{\,\mathsf{E}\left\{#1\right\}}
+\newcommand{\E}[1]{\,\mathsf{E}\left[#1\right]}
 \renewcommand{\d}[1]{\,\text{d}#1}
-\newcommand{\1}[1]{\,\mathbb{1}_{#1}} % indicator
-\newcommand{\IP}{\textrm{IP}}
-\newcommand{\IL}{\textrm{IL}}
+\newcommand{\1}[1]{\,\mathbb{1}\left[#1\right]} % indicator
+\newcommand{\IP}{P}
+\newcommand{\IL}{I}
 
-\newcommand{\recall}[1]{\emph{#1}\recallsymbol}
-\newcommand{\nvf}[1]{\tbdsymbol}
+\newcommand{\recall}[1]{\textbf{#1}\index{#1}}
+\newcommand{\nvf}[1]{\marginpar{nvf: #1}}
 
 \makeatletter
 \def\integral#1#2{\def\temp@expr{#1\,\mathrm d#2}\int\integral@}
@@ -167,12 +156,16 @@
 
 \graphicspath{{figures/}}
 
-\usepackage{soul}
+%\usepackage{soul}
 
-\setlength{\parskip}{.1cm}
-\renewcommand{\baselinestretch}{1.25}
+%\setlength{\parskip}{.1cm}
+%\renewcommand{\baselinestretch}{1.25}
 
 \DeclareMathOperator*{\sto}{\operatorname{subject}\,\operatorname{to}}
-\newcommand{\pr}[1]{\,\mathsf{Pr}\left\{#1\right\}}
-\newcommand{\ex}{\mathsf{E}}
-\newcommand{\dif}{\mathsf{d}}
+%\newcommand{\pr}[1]{\,\mathsf{Pr}\left\{#1\right\}}
+%\newcommand{\ex}{\mathsf{E}}
+%\newcommand{\dif}{\,\mathsf{d}}
+%\usepackage{pgfplotstable}
+
+%\graphicspath{{progs/}}
+\makeindex
