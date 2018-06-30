@@ -2163,7 +2163,7 @@ stock becomes obsolete. What now?
  \end{itemize}
 Challenge: Can you compute the optimal order quantity in this situation? 
 
-  \begin{lstlisting}%{python}
+  \begin{pyblock}
 A = 50.
 D = 12000
 h = 0.2
@@ -2179,15 +2179,13 @@ def output(Q, p, period):
 
 output(D/24, 1.15, "2 weeks")
 #Likewise for the other cases.
-  \end{lstlisting}
+  \end{pyblock}
 
-  \begin{minted}{python}
 Yearly costs 2 weeks: 1257.50; batch price: 575.00
 Yearly costs 1 month: 700.00; batch price: 1000.00
 Yearly costs 2 months: 490.00; batch price: 1900.00
 Yearly costs 3 months: 470.00; batch price: 2700.00
 Yearly costs 6 months: 610.00; batch price: 5100.00
-  \end{minted}
 
 What are the consequences?
 

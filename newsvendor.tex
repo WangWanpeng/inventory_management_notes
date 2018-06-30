@@ -178,8 +178,8 @@ def L(x):
 x = np.arange(0, 40, 1)
 
 plt.figure(figsize=(5, 4))
-plt.plot(x, L(x), label="$L(\Q)$")
-plt.xlabel("$\Q$")
+plt.plot(x, L(x), label="$L(S)$")
+plt.xlabel("$S$")
 plt.ylabel("Loss")
 plt.legend()
 filename = "figures/Ldeter.pdf"
@@ -433,9 +433,9 @@ for q in X:
     Ldet.append(Lp(q))
 
 plt.figure(figsize=(5, 4))
-plt.plot(X, LL, label="$L(\Q)$")
-plt.plot(X, Ldet, label="$L'(\Q)$")
-plt.xlabel("$\Q$")
+plt.plot(X, LL, label="$L(S)$")
+plt.plot(X, Ldet, label="$L'(S)$")
+plt.xlabel("$S$")
 plt.ylabel("Loss")
 plt.legend()
 filename = "figures/Lexp.pdf"
@@ -530,8 +530,8 @@ To understand this, we compare the optimal profit for the case with demand varia
 Compute the value of perfect information for the data of Ex.~\ref{ex:10} and \ref{ex:55}. What do you conclude from the fact that it is small?
 \begin{solution}
 \begin{pycode}[news]
-\Qstar = 15
-value = L(\Qstar)/(b*theta)
+Sstar = 15
+value = L(Sstar)/(b*theta)
 \end{pycode}
 For the value of perfect information we get
 \begin{equation*}
@@ -570,14 +570,7 @@ In the new setting, we can only salvage an amount $\E{\min\{(\Q-D)^+, W\}}$ inst
 &=  \E{(\Q-D)^+} - \E{((\Q-D)^+- W)^+} \\
 &=  \E{(\Q-D)^+} - \E{(\Q-D- W)^+},
 \end{align*}
-where $((\Q-D)^+-W)^+=(\Q-D-W)^+$ because $W\geq 0$. 
-\begin{comment}
- sell the minimum of $\Q$ and $W$ units at a price of $s$, and we will not be able to salvage the rest. Therefore we will lose $s\E{\left((\Q-D)^+ - \min\{(\Q-D)^+,W\}\right)}$
- of our expected salvage revenue.
-  
-\end{comment}
-
-Thus, in the new setting:
+where $((\Q-D)^+-W)^+=(\Q-D-W)^+$ because $W\geq 0$.  Thus, in the new setting:
 \begin{align*}
   L(\Q) 
  &= b\E{(D-\Q)^+} + c \E{(\Q-D)^+} - s\E{\min\{(\Q-D)^+, W\}} \\
@@ -678,17 +671,17 @@ ED
 
 Here is the function to compute the $\beta$-service level.
 \begin{pyconsole}[news-service]
-def beta(\Q):
-    res = sum(i*p for i, p in enumerate(f) if i <= \Q)
-    res += \Q*G[\Q]
+def beta(S):
+    res = sum(i*p for i, p in enumerate(f) if i <= S)
+    res += S*G[S]
     res /= ED
     return res
     
 \end{pyconsole}
 And the results.
 \begin{pyconsole}[news-service]
-for \Q in range(len(f)):
-    print(\Q, beta(\Q))
+for S in range(len(f)):
+    print(S, beta(S))
     
 \end{pyconsole}
 To meet a $\beta$ service level of $0.9$ we need  $\Q=5$, which is nearly large enough, or, if we insist $\Q=6$. 
@@ -781,8 +774,8 @@ for q in X:
     Lnorm.append(L(q))
 
 plt.figure(figsize=(5, 4))
-plt.plot(X, Lnorm, label="$L(\Q)$, normal")
-plt.xlabel("$\Q$")
+plt.plot(X, Lnorm, label="$L(S)$, normal")
+plt.xlabel("$S$")
 plt.ylabel("Cost")
 plt.legend()
 filename = "figures/Lnorm.pdf"
@@ -834,9 +827,9 @@ for q in X:
     Lnorm.append(L(q, D))
 
 plt.figure(figsize=(5, 4))
-plt.plot(X, Lnorm, label="$L(\Q)$, normal")
-plt.plot(X, Ldet, label="$L(\Q)$, deterministic")
-plt.xlabel("$\Q$")
+plt.plot(X, Lnorm, label="$L(S)$, normal")
+plt.plot(X, Ldet, label="$L(S)$, deterministic")
+plt.xlabel("$S$")
 plt.ylabel("Cost")
 plt.legend()
 filename = "figures/Lnorm_det.pdf"
@@ -905,11 +898,11 @@ for q in X:
 
 
 plt.figure(figsize=(5, 4))
-plt.plot(X, Ldet, label="$L(\Q), \sigma=0$")
-plt.plot(X, Lnorm1, label="$L(\Q), \sigma=1$")
-plt.plot(X, Lnorm5, label="$L(\Q), \sigma=5$")
-plt.plot(X, Lnorm10, label="$L(\Q), \sigma=10$")
-plt.xlabel("$\Q$")
+plt.plot(X, Ldet, label="$L(S), \sigma=0$")
+plt.plot(X, Lnorm1, label="$L(S), \sigma=1$")
+plt.plot(X, Lnorm5, label="$L(S), \sigma=5$")
+plt.plot(X, Lnorm10, label="$L(S), \sigma=10$")
+plt.xlabel("$S$")
 plt.ylabel("Cost")
 plt.legend()
 filename = "figures/Lnorm_sigma.pdf"
@@ -963,22 +956,22 @@ Plot the $\alpha$- and $\beta$-service levels for different values of $\Q$.
 See the figure.\nvf{todo, make python}\nvf{Explain how to read this.}
 
 \begin{pycode}[news]
-\Q_range = np.arange(0, 40, 1)
+S_range = np.arange(0, 40, 1)
 demand = norm(loc=20, scale=5)
 
 # alpha level
-alpha = demand.cdf(\Q_range)
+alpha = demand.cdf(S_range)
 
 # beta level 
 beta = []
-for \Q in \Q_range:
-    beta.append(demand.expect(lambda x: min(x, \Q))/demand.mean())
+for S in S_range:
+    beta.append(demand.expect(lambda x: min(x, S))/demand.mean())
     #res = quad(lambda x: min(x, q)*demand.pdf(x), 0, np.inf)[0]
 
 
 plt.figure(figsize=(5, 4))
-plt.plot(\Q_range, alpha, "o", markersize="2", label='$\\alpha$')
-plt.plot(\Q_range, beta, "+", markersize="3", label='$\\beta$')
+plt.plot(S_range, alpha, "o", markersize="2", label='$\\alpha$')
+plt.plot(S_range, beta, "+", markersize="3", label='$\\beta$')
 plt.xlabel("$\Q$")
 plt.legend(loc="upper left")
 #plt.show()
@@ -1020,58 +1013,32 @@ Yes. If the unit overage cost is higher than the unit shortage cost, then it cou
 \end{solution}
 \end{exercise}
 
-\begin{comment}
-\begin{exercise}
-Reproduce the results of the Christmas Lights Example of Factory Physics.
-\begin{solution}
-  First the data. We also use a numerical library (scipy.stats) to handle the computations for
-  the normal distribution. 
+\begin{exercise} Suppose you have to manufacture Christmas lights\footnote{The exercise is adapted from \cite{hopp08:_factor_physic}} for the Christmas period. Demand that cannot be met from on-hand stock is lost, while unsold items are salvaged. Lights sell at a price  $p=10$, the production cost $c=5$, and the salvage value is $2.5$. Data from the past show that it is reasonable to model demand as normally distributed with $\mu=10 000$ and $\sigma=2 000$. What is the optimal produce-up-to level $S^*$? What happens if $\sigma = 5 000$?
 
-\begin{pyconsole}
+\begin{solution}
+Here are the numbers.
+\begin{pyconsole}[christmas]
 from scipy.stats import norm
 h = 5 - 2.5  
 b = 10 - 5
 mu = 10000
-sigma = 1000
+sigma = 2000
 D = norm(loc=mu, scale=sigma) # demand
 \end{pyconsole}
 
 Now the computations.
-\begin{pyconsole}
-critical_fractile = b / (h + b)
-\Q_star = D.ppf(critical_fractile)
-\Q_star
+\begin{pyconsole}[christmas]
+critical_fractile = b/(h+b)
+S_star = D.ppf(critical_fractile)
+S_star
 \end{pyconsole}
 
+If $\sigma$ is quite big, we cannot use this demand model any more; the probability of negative demand is too high. For this reason we need, for instance, the demand model of Section~\ref{sec:newsv-probl-with}. 
 \end{solution}
 \end{exercise}
 
-
-\begin{exercise}
-  In this christmas light example, 
-do you think that $\sigma = 1000$ is reasonable? 
-  \begin{solution}
-    In all honesty, I think it is way too small. I would say that
-    $\sigma=5000$ is much more reasonable. The problem is that if you
-    would use this larger value, i.e., $\sigma=5000$, in the normal
-    distribution, the probability that the demand is
-    $\P{D<0}=\Phi((D-\mu)/\sigma) < 0$ is not small anymore. However,
-    the demand cannot be negative, hence using the normal distribution
-    as an approximation of the demand is wrong for such cases. 
-
-    Now this happens quite often: The problems in the books are tuned
-    to showcase the simple methods developed in the book. However, as
-    soon you have to do something real, the simple tricks all of a
-    sudden don't work anymore. 
-  \end{solution}
-\end{exercise}
-
-  
-\end{comment}
-
-
 \begin{example}
-Here is a final example on how to apply the newsvendor problem to a concrete case.  Suppose that you plan to sell Napoleons, tomorrow  just outside of the Duisenberg building.
+Here is a final example on how to apply the newsvendor policy.  Suppose that you plan to sell Napoleons, tomorrow  just outside of the Duisenberg building.
   \begin{center}
    \includegraphics[scale = 1.0]{figures/mille-feuille}
   \end{center}
@@ -1080,7 +1047,7 @@ The question is how  many  Napoleons  you need to order and how much money  you 
 
 Lets first make some guesses about the prices. A selling price of $p=0.75$ is reasonable; its the same as in a supermarkt. For the buying price, take $c = 0.25$, but this just a guess, in fact, we don't know. However, we do know that supermarkets make quite a big profit on anything they sell, so taking $c=p/3$ seems an ok guess. Next, for the salvage value, we take $s=0$; we don't plan to eat more than one or two left overs. As a consequence, $h = 0.25$, and $b = 0.5$. 
 
-To estimate  the demand we need some more work. The problem is that, for napoleons, we don't have yesterday's demand (we have never sold napoleons so we don't have this data). Can we then use demand data of similar products?  No, we  never tried to sell anything similar to napoleons. Can we ask our sales force?  No, because  we don't have a sales force.  As a last resort, then, we decide to make an educated guess. For this, we use the increadibly powerful tool of \recall{powers of ten method}\footnote{If there is anything you have to remember from this set of notes, it is this trick! Its impossible to overestimate how useful this method is.}. Under the above price model, we expect to sell more 1 napoleon and also more than 10. A hundred  is possible, thousand seems too much (If there are 5000 student on a day in the Duisenberg, one out of five needs to buy a napoleon; this is too much.) So, we take  $\mu=100$ as an estimate for the mean. Next, since we are not sure about $\mu$, lets assume $\sigma=30$. 
+To estimate  the demand we need some more work. The problem is that, for napoleons, we don't have yesterday's demand (we have never sold napoleons so we don't have this data). Can we then use demand data of similar products?  No, we  never tried to sell anything similar to napoleons. Can we ask our sales force?  No, because  we don't have a sales force.  As a last resort, then, we decide to make an educated guess. For this, we use the increadibly powerful tool of \recall{powers of ten method}\footnote{If there is anything you have to remember from this set of notes, it is this trick! Its impossible to overestimate how useful this method is.}. Under the above pricing model, we expect to sell more 1 napoleon and also more than 10. A hundred  is possible, thousand seems too much (If there are 5000 student on a day in the Duisenberg, one out of five needs to buy a napoleon; this seems too much.) So, we take  $\mu=100$ as an estimate for the mean. Next, since we are not sure about $\mu$, lets assume $\sigma=30$. 
 
 Note that, after having computed the optimal order level $\Q^*$ for these parameters, we can always change some of the parameters if $\Q^*$ seems wrong. 
 
@@ -1092,11 +1059,11 @@ c = 0.25
 s =0
 critical_fractile = (p - c)/(p -s)
 D = norm(loc=100, scale=30)
-\Q_star = D.ppf(critical_fractile)   
+S_star = D.ppf(critical_fractile)   
 
-E_min = quad(lambda x: min(x, \Q_star)*D.pdf(x), 0, np.inf)[0]
+E_min = quad(lambda x: min(x, S_star)*D.pdf(x), 0, np.inf)[0]
 E_min
-P = -c * \Q_star + 0.75*E_min
+P = -c * S_star + 0.75*E_min
 \end{pycode}
 
 Using the critical fraction formula with $b/(b+h) = 0.5/0.75 = 2/3$, 
@@ -1110,7 +1077,7 @@ P(\Q)
 &= -0.25 \Q + 0.75 \E{\min\{D, \Q\}} \\
 &=\py[news]{"{0:.2f}".format(P)}.
   \end{align*}
-Hmm, less than 50 Euros for a day's work, plus the risk. Obtaining a master degree brings in more money in a safer way. 
+Hmm, less than 50 Euros for a day's work, plus the risk. Obtaining a master degree brings in more money eventually, and also in a safer way. 
 
 
 \begin{exercise}
@@ -1133,6 +1100,7 @@ Be aware that sales force may predict too high demand. They get incentives to se
 
 
 \subsection{Newsvendor problem with log-normal demand (\faRocket)}
+\label{sec:newsv-probl-with}
 
 \begin{exercise}
 Suppose measurements show that the demand has mean $\mu=100$ and standard deviation $\sigma=50$. Why is it a bad idea to use the normal distribution to model the demand?
@@ -1210,96 +1178,9 @@ plt.close()
 
 
 
-\subsection{Starting Inventories}
-\label{sec:newsvendor_starting}
-
-\nvf{clean up}
-
-\begin{exercise}
-Consider the example from Exercise~\ref{ex:costprofit}. Plot $V^\#(x)$ for different values of $x$. 
-
-
-\begin{solution}
-See Figure~\ref{fig:maxV}. \nvf{todo} We have that $V^\#(x)=cx+V(\Q^*)$ for all $x<\Q^*$ and $V^\#(x)=cx+V(x)$ for all $x\geq \Q^*$.
-\end{solution}
-\end{exercise}
-
-\begin{exercise}
-It appears that $V^\#(x)$ is increasing on $x$. That is, the more we have at the beginning of the period the better. Does it make sense? Could there be a case where it is not increasing? Illustrate through an example.
-
-
-\begin{solution}
-Yes. First, although we have more inventory, we do not actually 'pay' for those. Therefore, there are a lot of cost savings. This is captured in the term $+cx$. Second, as there is a salvage value, we can always sell left-overs (which we did not pay for in the first place). This is captured in the $s\E{(\Q-D)^+}$ term of the $V(\Q)$. 
-
-There can indeed be cases where having more is not better. For instance, an example appears in cases where salvage value was negative -- where we need to pay for the left-overs. Let us set $s=-1$ in the previous example. Figure~\ref{fig:maxVsc} illustrates that $V^\#(x)$ is not increasing in $x$ in this case. 
-% \begin{figure}[htbp]
-% \centering
-% \begin{tikzpicture}
-% \scriptsize
-% \def\c{2}
-% \def\p{4}
-% \def\s{-1}
-% \def\Q{6}
-% \begin{axis}[
-% 	xlabel=$x$,
-% 	legend style={nodes=right},
-% 	axis lines=middle]
-% \addplot [color=blue,thick,domain=0:\Q] {V(\Q,\c,\p,\s)+\c*\x};
-% \addplot [color=blue,thick,domain=\Q:20] {V(\x,\c,\p,\s)+\c*\x};
-% \addlegendentry{$V^\#(x)$}
-% \end{axis}
-% \end{tikzpicture}
-% \caption{$V^\#(x)$ with salvage cost}
-% \label{fig:maxVsc}
-% \end{figure}
-\end{solution}
-\end{exercise}
-
-\begin{exercise}
-Suppose that the newsvendor has to pay a fixed cost $A$ to order any item at the beginning of the period. How would it change the newsvendor's problem?
-
-
-\begin{solution}
-We assume that we start the period with 0 inventories. 
-
-If we do not order. Then the expected profit will be $P(0)=0$. If we order $\Q$ units, then the expected profit will be $-A+P(\Q)$. The newsvendor's problem should thus be extended to capture these two cases. 
-
-It is important to see that, once the fixed ordering cost is paid, the optimal order level should be the same -- as the ordering level that maximizes $P(\Q)$ should be the same as the one that maximizes $-A+P(\Q)$. That is because $A$ is a scalar that is not a part of the expected profit function. As a result of this; we should place an order only if $-A+P(\Q^*)>P(0)=0$. In other words, if $P(\Q^*)>A$ then it is worth to place an order. 
-\end{solution}
-\end{exercise}
-
-\begin{exercise}
-Assume that we have on-hand $x$ units at the beginning of the period. Should we place an order? If so how many?
-
-
-\begin{solution}
-The trade-off we discussed in the previous case is the same here. That is, once the fixed ordering cost is paid, the optimal order level and the optimal expected profit should be the same as in the case with no fixed ordering costs -- as $A$ is once again a scalar that is not a part of the expected profit function. However, this time we should consider the expected profit while conditioning on the number of items on hand. 
-
-That is, we should compare $-A+V^\#(x)$ with $cx+V(x)$; and we should place an order only if $-A+V^\#(x)=-A+cx+V(\max\{x,\Q^*\})>cx+V(x)$. This suggests that, if $V(\max\{x,\Q^*\})-V(x)>A$ then it is worth to place an order and if so then we should place an order of size $\Q^*-x$.
-
-Notice the following.
-\begin{enumerate}
-\item If $x<\Q^*$ the condition becomes $V(\Q^*)-V(x)>A$.
-\item If $x\geq \Q^*$ we have $V(x)-V(x)=0>A$, This cannot hold by definition and it immediately shows that we should not place an order if what we already have on hand is larger than the optimal order level of the original problem.
-\end{enumerate}
-
-Let us consider the example from Exercise~\ref{ex:costprofit}. Here, the optimal order level $\Q^*$ is 6. We consider two cases: $x=1$ and $x=7$. In the former, we have that $x<\Q^*$. Thus we should order 5 units if $V(6)-V(1)=5.7-1.7=4>A$. In the latter, we have that $x\geq \Q^*$. Thus we should not order.
-\end{solution}
-\end{exercise}
-
-
 \subsection{A newsvendor model with two stages}
 
-\begin{comment}
-  
-The discussion above leads to the following characterization of the optimal order level. Let $\Q^*$ be the optimal order level in the original newsvendor case with no initial inventories. The previous exercise explains that, when starting with $x<\Q^*$, we still order up to $\Q^*$. Thus, 
-the optimal policy of newsvendor is a so-called \emph{base-stock policy}:  it is optimal to `order up-to' the \emph{base stock level} $\Q^*$ whenever the inventory level is below this level and not to order otherwise. As a consequence,  it is actually better to interpret the newsvendor policy as an `order up-to' policy than an `order level' policy. Practically they may seem to boil down to the same thing, but the former interpretation turns out to be more intuitive and practical since the optimal order up-to level is independent from the current inventory level whereas the order level most certainly is not.
-
-
-It is because the optimal ordering policy is a base-stock policy. Following a base-stock policy, if what we have on-hand is smaller than the base-stock level, we order up-to the base-stock level, and otherwise we do not order. Therefore, what we order is strictly linked to what we already have. 
-\end{comment}
-
-Let us consider a case where we have a two-period planning horizon rather than one period as we had for the original newsvendor problem. As a concrete example we take the bread inventory at a supermarket with two moments to back bread: one before the shop opens and a second at noon. Thus, there are two periods, the morning and the afternoon, and bread that is not sold in the morning acts as a starting inventory for the afternoon. Thus, rather than having just one ordering decision, i.e., the order-up-to level for bread for the entire day, we have an extra order moment to update the inventory. 
+Let us consider a case where we have a two-period planning horizon rather than the one period for the original newsvendor problem. As a concrete example we take a bread inventory at a supermarket with two moments to bake bread: one before the shop opens and a second at noon. Thus, there are two periods, the morning and the afternoon, and bread that is not sold in the morning acts as a starting inventory for the afternoon. Thus, rather than having just one ordering decision, i.e., the order-up-to level for bread for the entire day, we have an extra order moment to update the inventory level.
 
 
 In the analysis to follow, we assume that we are not allowed to backorder demands. That is, demands that are not satisfied in the morning are lost. Nevertheless, our derivations can easily be extended to the case where backorders are allowed.  Moreover, we assume that items at the end of the period will not be salvaged but passed on to the second period.
@@ -1307,19 +1188,6 @@ In the analysis to follow, we assume that we are not allowed to backorder demand
 For convenience, we use the same notation that we used for the single-period newsvendor model. However, we add a period index to the buying and selling prices as well as the demand distribution, e.g.,  $c_n$, $p_{n}$, $f_n(\cdot)$ where $n\in\{1,2\}$), as these can be different in the first and the second period. 
 
 We work in steps, one step per exercise, to the final solution, and we reason `backwards', that is we first analyze the optimal decision structure for the last period (the afternoon), and then consider what to do for the first period (the morning).
-
-\nvf{Here we see that it it much easier to think in terms of order-up-to levels, as they remain constant, than in terms of order quantities, the latter depends on the order-up-to level and the starting inventory level.}
-
-\begin{comment}
-\begin{exercise}
-Why is the problem for the  two-period newsvendor model essentially different from two independent newsvendor models (i.e., a newsvendor problem for the morning and another for the afternoon)?
-%\begin{solution}
-The two-period newsvendor model has two ordering moments, and the ordering decision made in the first stage has consequences for the second stage. The dynamics of the problem are as follows. Let's assume we order $\Q_1$ units in the first period. The leftover inventory at the end of the first period will then be $(\Q_1-D_1)^+$. We know from Section~\ref{sec:newsvendor_starting} that we would like to order up to a certain level. Hence, the  ordering level for the afternoon should depend on what remains from the morning, i.e., on $(\Q_1-D_1)^+$.
-
-For the second period: what has happened (i.e. shortages, costs, etc.) in the first period is no longer of our concern when we deal with the second period. This means that we can think of the second period problem completely independent from the first, apart from $(\Q_1-D_1)^+$. .
-%\end{solution}
-\end{exercise}
-\end{comment}
 
 \nvf{make simulation}
 
@@ -1364,7 +1232,7 @@ If $x<\Q_2^*$, we order up to level $\Q_2^*$ because $\Q_2^*$ is the optimal amo
 \end{exercise}
 
 \begin{exercise}
-Given the starting inventory level $x$, show that optimal profit \nvf{Make a $V$ for a one period problem} for the second period is
+Given the starting inventory level $x$, show that optimal profit for the second period is
 \begin{align}\label{eq:24}
 V_2(x) & = c_2x + \max_{\Q_2\geq x} \left\{P_2(\Q_2)\right\} \notag \\
 &= c_2x +
@@ -1389,6 +1257,16 @@ As a check, what is $V_2(0)$?
   \begin{solution}
     Assuming that $\Q_2^*>0$, we get $V_2(0) = 0 + P_2(\Q_2^*)$, i.e., the optimal profit for the second period without any starting inventory. 
   \end{solution}
+\end{exercise}
+
+
+\begin{exercise}
+It appears that $V_2(x)$ is increasing in $x$, that is, the more we have at the beginning of the period the better. Does it make sense? Could there be a case where it is not increasing? Illustrate through an example.
+\begin{solution}
+Yes. First, although we have more inventory, we do not actually 'pay' for those. Therefore, there are a lot of cost savings, as  captured in the term $cx$. Second, as there is a salvage value, we can always sell left-overs (which we did not pay for in the first place). 
+
+There can indeed be cases where having more is not better. For instance, an example appears in cases with negative salvage value
+\end{solution}
 \end{exercise}
 
 The two exercises form a toy example to show how to apply the above. Let the demand $D_2$ have  pmf 
@@ -1586,27 +1464,35 @@ Repeat the previous exercise but this time assume that the demand in the first a
 Compute $P$ for various values of $\Q_1$, put them in a graph, and analyze and interpret this graph.
 
 \begin{solution}
-% See Figure~\ref{fig:V1}.
-% \begin{figure}[htbp]
-% \centering
-% \begin{tikzpicture}
-% \scriptsize
-% \begin{axis}[
-% 	xlabel=$\Q_1$,
-% 	legend style={nodes=right},
-% 	axis lines=middle,
-% 	ymin=0]
-% \addplot+[no markers] table [y=V1, x=\Q1]{data.dat};
-% \addlegendentry{$Z_1(\Q_1)$}
-% \end{axis}
-% \end{tikzpicture}
-% \caption{First stage expected profit function}
-% \label{fig:V1}
-% \end{figure}
 
 The figure shows that $Z_1(\Q_1)$ is concave on $\Q_1$. Moreover, the profit is pretty sensitive to the order level $\Q_1$. One reason for the sensitivity might be that we took $f(i)=1/11$, i.e., the demand is uniformly distributed. It would be interesting to consider a demand distribution with a single peak, like the normal distribution, and then see whether the profit is less sensitive to order size $\Q_1$.
 \end{solution}
 \end{exercise}
+
+As an interesting extension, suppose that the newsvendor has to pay a fixed cost $A$ to order any item at the beginning of the period. 
+\begin{exercise}
+How would it change the newsvendor's problem?
+
+
+\begin{solution}
+We assume that we start the period with 0 inventories. 
+
+If we do not order, the expected profit will be $P(0)=0$. If we order $\Q$ units, the expected profit will be $-A+P(\Q)$. T
+
+It is important to see that, once the fixed ordering cost is paid, the optimal order level should be the same: the ordering level that maximizes $P(\Q)$ also  maximizes $-A+P(\Q)$. As a result of this, if we start with an inventory level of $0$, we should place an order only if $-A+P(\Q^*)>P(0)=0$. In other words, if $P(\Q^*)>A$ then it is worth to place an order. 
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Assume that we have on-hand $x$ units at the beginning of the period. Should we place an order? 
+\begin{solution}
+The trade-off we discussed in the previous case is the same here. That is, once the fixed ordering cost is paid, the optimal order level and the optimal expected profit should be the same as in the case with no fixed ordering costs. However, this time we should consider the expected profit while conditioning on the number of items on hand. 
+
+That is, we should compare $-A+P(x)$ with $cx+V_2(x)$.
+\end{solution}
+\end{exercise}
+
+
 
 %\end{comment}
 
